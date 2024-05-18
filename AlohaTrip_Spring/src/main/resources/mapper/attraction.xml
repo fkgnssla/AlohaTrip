@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.dao.AttractionMapper">
+
+	<select id="getOne" resultType="attractionDto">
+		select content_id as contentId, content_type_id as contentTypeId, title, addr1, addr2, zipcode, tel, 
+		first_image as firstImage, first_image2 as firstImage2, readcount as readCount, sido_code as sidoCode, gugun_code as gugunCode, 
+		latitude, longitude, mlevel
+		from attraction_info
+		where content_id = #{contentId}
+	</select>
+	
+	<select id="getList" resultType="attractionDto">
+		select content_id, content_type_id, title, addr1, addr2, zipcode, tel, 
+		first_image, first_image2, readcount, sido_code, gugun_code, 
+		latitude, longitude, mlevel
+		from attraction_info
+	</select>
+	
+	<select id="getListByCodeAndKeyword" parameterType="map" resultType="attractionDto">
+		select content_id as contentId, content_type_id as contentTypeId, title, addr1, addr2, zipcode, tel, 
+		first_image, first_image2, readcount, sido_code, gugun_code, 
+		latitude, longitude, mlevel
+		from attraction_info
+		where 1=1
+		<if test="sidoCode != null">
+			and sido_code = #{sidoCode}
+		</if>
+		<if test="gugunCode != null">
+			and gugun_code = #{gugunCode}
+		</if>
+		<if test="contentId != null">
+			and content_type_id = #{contentId}
+		</if>
+		<if test="keyword != null and !keyword.equals('')">
+			and title like CONCAT('%',#{keyword},'%')
+		</if>
+		limit 100
+	</select>
+	
+
+</mapper>
