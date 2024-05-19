@@ -1,29 +1,36 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { getMemberId } from "@/util/storageUtil";
 
-// 현재 페이지의 URL에서 쿼리 문자열을 가져옴
-const queryString = window.location.search;
+const memberId = ref(null);
+onMounted(() => {
+    // 현재 페이지의 URL에서 쿼리 문자열을 가져옴
+    const queryString = window.location.search;
 
-// URLSearchParams 객체 생성
-const urlParams = new URLSearchParams(queryString);
+    // URLSearchParams 객체 생성
+    const urlParams = new URLSearchParams(queryString);
 
-//쿼리스트링 값 추출
-const accessToken = urlParams.get('accessToken');
-const refreshToken = urlParams.get('refreshToken');
-const memberId = ref(urlParams.get('memberId'));
+    //쿼리스트링 값 추출
+    const accessToken = urlParams.get('accessToken');
+    const refreshToken = urlParams.get('refreshToken');
+    memberId.value = urlParams.get('memberId');
 
-// 토큰 값 출력
-console.log('Access Token:', accessToken);
-console.log('Refresh Token:', refreshToken);
-console.log('memberId:', memberId.value);
+    // 토큰 값 출력
+    console.log('Access Token:', accessToken);
+    console.log('Refresh Token:', refreshToken);
+    console.log('memberId:', memberId.value);
 
-if(accessToken !== null && refreshToken !== null && memberId.value !== null) {
-  window.localStorage.setItem('accessToken', accessToken);
-  window.localStorage.setItem('refreshToken', refreshToken);
-  window.localStorage.setItem('memberId', memberId.value);
-}
+    if(accessToken !== null && refreshToken !== null && memberId.value !== null) {
+      window.localStorage.setItem('accessToken', accessToken);
+      window.localStorage.setItem('refreshToken', refreshToken);
+      window.localStorage.setItem('memberId', memberId.value);
+    } else {
+      memberId.value = getMemberId();
+    }
+  }
+)
 
 const router = useRouter();
 const onLogout = () => {
@@ -69,12 +76,12 @@ const onLogout = () => {
             <router-link :to="{ name: 'login' }">로그인</router-link>
           </li>
           </div>
-          <div v-if="memberId != null">
+          <div v-if="memberId !== null">
             <li class="nav-item text-end">
               <router-link :to="{ name: 'main' }">마이페이지</router-link>
             </li>
           </div>
-          <div v-if="memberId != null">
+          <div v-if="memberId !== null">
             <li class="nav-item text-end" @click="onLogout">
                 <router-link>로그아웃</router-link>
             </li>
