@@ -2,13 +2,14 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getTripInfoDetail, deleteTripInfo } from "@/api/tripInfo";
+import { getMemberId } from "@/util/storageUtil";
 
 const route = useRoute();
 const router = useRouter();
 
 // const postno = ref(route.params.postno);
 const { id } = route.params;
-
+const memberId = getMemberId();
 const tripInfo = ref({});
 
 onMounted(() => {
@@ -89,10 +90,10 @@ function onDeleteTripInfo() {
       </div>
       <hr style="border:0; height:1px; background: gray;">
       <div class="d-flex justify-content-end buttonGather">
-        <button type="button" class="btn btnUpdate" @click="moveModify">
+        <button type="button" class="btn btnUpdate" v-if="memberId == tripInfo.memberId" @click="moveModify">
           글수정
         </button>
-        <button type="button" class="btn btnDelete" @click="onDeleteTripInfo">
+        <button type="button" class="btn btnDelete" v-if="memberId == tripInfo.memberId" @click="onDeleteTripInfo">
           글삭제
         </button>
         <button type="button" class="btn btnList" @click="moveList">

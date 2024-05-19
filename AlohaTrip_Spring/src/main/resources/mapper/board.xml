@@ -9,18 +9,18 @@
 	</insert>
 
 	<select id="findById" parameterType="long" resultType="com.ssafy.dto.FindBoardDto">
-		select t.id, name, title, contents, views, likes, created_date as createdDate 
+		select t.id, t.member_id as memberId, name, title, contents, views, likes, created_date as createdDate
 		from tripInfoShare t join memberinfo m on (t.member_id = m.member_id)
 		where t.id = #{id}
 	</select>
 	
 	<select id="findAll" resultType="com.ssafy.dto.FindBoardDto">
-		select t.id, name, title, contents, views, likes, created_date as createdDate 
+		select t.id, t.member_id as memberId, name, title, contents, views, likes, created_date as createdDate
 		from tripInfoShare t join memberinfo m on (t.member_id = m.member_id)
 	</select>
 	
 	<select id="findByKeyword" parameterType="string" resultType="com.ssafy.dto.FindBoardDto">
-		select t.id, name, title, contents, views, likes, created_date as createdDate 
+		select t.id, t.member_id as memberId, name, title, contents, views, likes, created_date as createdDate
 		from tripInfoShare t join memberinfo m on (t.member_id = m.member_id)
 		where title like CONCAT('%',#{keyword},'%')
 	</select>
