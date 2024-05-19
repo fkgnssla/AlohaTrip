@@ -6,12 +6,19 @@ const props = defineProps({
 
 <template>
     <v-timeline-item dot-color="pink" size="small">
-        <div class="d-flex">
-            <strong class="me-4">{{ attraction.attractionDto.title }}</strong>
-            <div>
-                <strong>{{ attraction.attractionDto.addr1 }}</strong>
-                <div class="text-caption">
-                    {{ attraction.memo }}
+        <div class="d-flex container">
+            <div class="row">
+                <div class="col-5">
+                    <strong class="me-4">{{ attraction.attractionDto.title }}</strong>
+                </div>
+                <div class="col-6">
+                    <strong>{{ attraction.attractionDto.addr1 }}</strong>
+                    <div class="text-caption">
+                        {{ attraction.memo }}
+                    </div>
+                </div>
+                <div class="col-1">
+                    <img src="../../../assets/img/plan/trash.jpeg" class="img-fluid" @click="$emit('onDeleteRoute', attraction.planAttractionId)" />
                 </div>
             </div>
         </div>

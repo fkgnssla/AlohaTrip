@@ -260,7 +260,7 @@ const onAddRoute = (marker) => {
   border-radius: 20px;
 }
 .scroll {
-    width: 35vw;     /* 브라우저 창의 너비의 50% */
+    width: 40vw;     /* 브라우저 창의 너비의 50% */
   height: 70vh;    /* 브라우저 창의 높이의 70% */
   overflow: auto;
   float: left;
