@@ -21,7 +21,7 @@
 	</select>
 	
 	<select id="findById" parameterType="long" resultType="com.ssafy.dto.MemberDto">
-		select member_id as memberId, name, id, password, email, profile_img_src as profileImgSrc, social_id as socialId, role from memberInfo where member_id=#{memberId}
+		select member_id as memberId, name, id, password, nickname, email, profile_img_src as profileImgSrc, social_id as socialId, role from memberInfo where member_id=#{memberId}
 	</select>
 	
 	<update id="memberUpdate" parameterType="com.ssafy.dto.MemberDto">

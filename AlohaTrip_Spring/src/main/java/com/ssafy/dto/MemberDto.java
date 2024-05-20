@@ -14,6 +14,7 @@ public class MemberDto {
 	String name;
 	String id;
 	String password;
+	String nickname;
 	String email;
 	String profileImgSrc;
 	private String socialId;
