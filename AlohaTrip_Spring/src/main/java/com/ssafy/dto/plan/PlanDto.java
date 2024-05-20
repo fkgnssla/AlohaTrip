@@ -13,6 +13,7 @@ public class PlanDto {
 	int memberId;
 	int planId;	
 	String title;
+	String nickname;
 	LocalDateTime startDate;
 	LocalDateTime endDate;
 	String imgSrc;

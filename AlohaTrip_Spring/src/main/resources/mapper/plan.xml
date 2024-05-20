@@ -21,8 +21,8 @@
 
 	<!-- getPlanDtoListByPage -->
 	<select id="getPlanDtoListByPage" parameterType="map" resultType="planDto">
-        SELECT member_id as memberId, plan_id as planId, title, start_date as startDate, end_date as endDate
-        FROM plan
+        SELECT p.member_id as memberId, plan_id as planId, title, nickname, start_date as startDate, end_date as endDate
+        FROM plan p join memberInfo m on(p.member_id = m.member_id)
         LIMIT #{rowsPerPage}
         OFFSET #{offset}
     </select>

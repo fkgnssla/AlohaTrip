@@ -80,6 +80,9 @@ const onLogout = () => {
             <router-link :to="{ name: 'attraction' }">지역별 여행지</router-link>
           </li>
           <li class="nav-item text-end">
+            <router-link :to="{ name: 'planAll' }">여행 계획 둘러보기</router-link>
+          </li>
+          <li class="nav-item text-end">
             <router-link :to="{ name: 'plan' }">나만의 여행 계획</router-link>
           </li>
           <li class="nav-item text-end">

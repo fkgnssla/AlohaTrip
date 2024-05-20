@@ -13,6 +13,26 @@ function getPlanList(memberId, success, fail) {
     .catch(fail);
 }
 
+function getPlanListByPage(page, success, fail) {
+  local.get(`/plan/listAll?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`
+      }
+    })
+  .then(success)
+  .catch(fail);
+}
+
+function getTotalPage(success, fail) {
+  local.get(`/plan/totalPage`, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`
+      }
+    })
+  .then(success)
+  .catch(fail);
+}
+
 function getPlanDetail(planId, success, fail) {
     local.get(`/plan/info/${planId}`, {
         headers: {
@@ -56,5 +76,5 @@ function deletePlan(planId, success, fail) {
 
 
 export {
-    getPlanList, getPlanDetail, addRoute, deleteRoute, createPlan, deletePlan
+    getPlanList, getPlanDetail, getPlanListByPage, getTotalPage, addRoute, deleteRoute, createPlan, deletePlan
 }
