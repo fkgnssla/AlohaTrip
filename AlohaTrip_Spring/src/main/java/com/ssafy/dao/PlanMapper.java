@@ -1,6 +1,7 @@
 package com.ssafy.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +14,8 @@ import com.ssafy.dto.plan.PlanInfoDto;
 public interface PlanMapper {
 	public PlanDto getPlanDto(int planId) throws Exception;
 	public List<PlanDto> getPlanDtoList(int memberId) throws Exception;
+	public List<PlanDto> getPlanDtoListByPage(Map<String, Object> params) throws Exception;
+	public int findTotalCount() throws Exception;
 	public List<PlanAttractionDto> getPlanAttractionDtoList(int planId) throws Exception;
 	public List<PlanAttractionInfoDto> getPlanAttractionInfoDtoList(int planId) throws Exception;
 	public PlanInfoDto getPlanInfoDto(int planId) throws Exception;	

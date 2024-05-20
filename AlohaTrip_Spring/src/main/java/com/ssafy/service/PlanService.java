@@ -1,5 +1,6 @@
 package com.ssafy.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,8 +64,7 @@ public class PlanService {
 		return planMapper.getPlanAttractionDtoList(planId);
 	}
 
-	public List<PlanDto> getPlanDtoList(int memberId) throws Exception {
-		List<PlanDto> planDtoList = planMapper.getPlanDtoList(memberId);
+	public void addFirstImg(List<PlanDto> planDtoList) throws Exception {
 		for(PlanDto p : planDtoList) {
 			List<PlanAttractionDto> planAttractionDto = getPlanAttractionDtoList(p.getPlanId());
 			
@@ -77,8 +77,32 @@ public class PlanService {
 				p.setImgSrc(attractionMapper.getOne(contentId).getFirstImage());
 			}
 		}
-		
+	}
+	
+	public List<PlanDto> getPlanDtoList(int memberId) throws Exception {
+		List<PlanDto> planDtoList = planMapper.getPlanDtoList(memberId);
+		addFirstImg(planDtoList);
 		return planDtoList;
+	}
+	
+	public List<PlanDto> getPlanDtoListAll(int pageNum) throws Exception {
+		int offset = (pageNum - 1) * 12;
+		
+        Map<String, Object> params = new HashMap();
+        params.put("rowsPerPage", 12);
+        params.put("offset", offset);
+		
+		
+		List<PlanDto> planDtoList = planMapper.getPlanDtoListByPage(params);
+		addFirstImg(planDtoList);
+		return planDtoList;
+	}
+	
+	public int findTotalPage() throws Exception {
+		int totalPage = planMapper.findTotalCount();
+		
+		if(totalPage % 12 == 0) return totalPage / 12;
+		else return totalPage /12 + 1;
 	}
 
 	public int save(PlanDto planDto) throws Exception {

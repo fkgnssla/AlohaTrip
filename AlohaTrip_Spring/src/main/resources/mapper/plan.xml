@@ -19,6 +19,20 @@
         ORDER BY seq
     </select>
 
+	<!-- getPlanDtoListByPage -->
+	<select id="getPlanDtoListByPage" parameterType="map" resultType="planDto">
+        SELECT member_id as memberId, plan_id as planId, title, start_date as startDate, end_date as endDate
+        FROM plan
+        LIMIT #{rowsPerPage}
+        OFFSET #{offset}
+    </select>
+
+	<!-- findTotalCount -->
+	<select id="findTotalCount" resultType="int">
+        SELECT count(*)
+        FROM plan;
+    </select>
+
     <!-- getPlanAttractionInfoDtoList -->
     <select id="getPlanAttractionInfoDtoList" resultType="planAttractionInfoDto">
         SELECT pa.plan_attraction_id, a.content_id, a.content_type_id, a.title, a.addr1, a.addr2, a.zipcode, a.tel,

@@ -26,6 +26,19 @@ public class PlanController {
         List<PlanDto> planList = planService.getPlanDtoList(memberId != null ? memberId : -1);
         return ResponseEntity.ok(planList);
     }
+    
+    @GetMapping("/listAll")
+    public ResponseEntity<List<PlanDto>> getPlanListAll(@RequestParam int page) throws Exception {
+        List<PlanDto> planList = planService.getPlanDtoListAll(page);
+        return ResponseEntity.ok(planList);
+    }
+
+    //총 페이지 수를 반환
+    @GetMapping("/totalPage")
+    public ResponseEntity<?> findTotalPage() throws Exception {
+        int totalPage = planService.findTotalPage();
+        return ResponseEntity.ok(totalPage);
+    }
 
     @GetMapping("/info/{planId}")
     public ResponseEntity<PlanInfoDto> getPlanInfo(@PathVariable int planId) throws Exception {
