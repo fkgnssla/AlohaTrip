@@ -13,7 +13,7 @@
 	</select>
 	
 	<insert id="memberRegister" parameterType="com.ssafy.dto.MemberDto">
-		insert into memberInfo values(NULL, #{name}, #{id}, #{password}, #{email}, #{socialId}, #{role})
+		insert into memberInfo values(NULL, #{name}, #{id}, #{password}, #{email}, #{profileImgSrc}, #{socialId}, #{role})
 	</insert>
 	
 	<select id="memberLogin" parameterType="string" resultType="com.ssafy.dto.MemberDto">
@@ -21,7 +21,7 @@
 	</select>
 	
 	<select id="findById" parameterType="long" resultType="com.ssafy.dto.MemberDto">
-		select * from memberInfo where member_id=#{memberId}
+		select member_id as memberId, name, id, password, email, profile_img_src as profileImgSrc, social_id as socialId, role from memberInfo where member_id=#{memberId}
 	</select>
 	
 	<update id="memberUpdate" parameterType="com.ssafy.dto.MemberDto">

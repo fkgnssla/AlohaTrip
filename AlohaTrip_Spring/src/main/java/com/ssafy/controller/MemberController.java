@@ -110,11 +110,11 @@ public class MemberController {
 //		}
 //	}
 //
-//	@Operation(summary = "내 정보 보기", description = "자신의 정보를 조회합니다.")
-//	@GetMapping("/{memberId}")
-//	public ResponseEntity<?> findById(@PathVariable Long memberId) {
-//		return ResponseEntity.ok(memberService.findById(memberId));
-//	}
+	@Operation(summary = "내 정보 보기", description = "자신의 정보를 조회합니다.")
+	@GetMapping("/{memberId}")
+	public ResponseEntity<?> findById(@PathVariable Long memberId) {
+		return ResponseEntity.ok(memberService.findById(memberId));
+	}
 //
 //	@Operation(summary = "회원 정보 수정", description = "회원 정보를 수정합니다.")
 //	@PutMapping("/update")

@@ -47,10 +47,11 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         KakaoUserInfo kakaoUserInfo = new KakaoUserInfo(attributes, userNameAttributeName);
         String socialId = kakaoUserInfo.getSocialId();
         String name = kakaoUserInfo.getName();
+        String profileImgSrc = kakaoUserInfo.getProfileImage();
 
         // 소셜 ID 로 사용자를 조회, 없으면 socialId 와 이름으로 사용자 생성
         Optional<MemberDto> bySocialId = memberMapper.findBySocialId(socialId);
-        MemberDto member = bySocialId.orElseGet(() -> saveSocialMember(socialId, name));
+        MemberDto member = bySocialId.orElseGet(() -> saveSocialMember(socialId, name, profileImgSrc));
         System.out.println(member);
 
         return new PrincipalDetail(member, Collections.singleton(new SimpleGrantedAuthority(member.getRole())),
@@ -58,9 +59,9 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
     }
 
     // 소셜 ID로 가입된 사용자가 없으면 새로운 사용자를 만들어 저장한다
-    public MemberDto saveSocialMember(String socialId, String name) {
+    public MemberDto saveSocialMember(String socialId, String name, String profileImgSrc) {
         log.info("=== 새로운 소셜 로그인 사용자 추가 ===");
-        MemberDto newMember = MemberDto.builder().socialId(socialId).name(name).role(MemberRole.USER.getValue()).build();
+        MemberDto newMember = MemberDto.builder().socialId(socialId).name(name).profileImgSrc(profileImgSrc).role(MemberRole.USER.getValue()).build();
         memberMapper.memberRegister(newMember);
         return memberMapper.findBySocialId(newMember.getSocialId()).get();
     }

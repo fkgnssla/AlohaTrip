@@ -21,4 +21,8 @@ public class KakaoUserInfo {
     public String getName() {
         return String.valueOf(profile.get("nickname"));
     }
+    
+    public String getProfileImage() {
+        return String.valueOf(profile.get("profile_image_url"));
+    }
 }

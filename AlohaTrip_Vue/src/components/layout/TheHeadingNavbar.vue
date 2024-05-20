@@ -3,9 +3,15 @@ import { RouterLink } from "vue-router";
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import { getMemberId } from "@/util/storageUtil";
+import axios from "axios";
 
 const memberId = ref(null);
+const profileImgSrc = ref(null);
+const name = ref(null);
 onMounted(() => {
+
+    profileImgSrc.value = window.localStorage.getItem('profileImgSrc');
+    name.value = window.localStorage.getItem('name');
     // 현재 페이지의 URL에서 쿼리 문자열을 가져옴
     const queryString = window.location.search;
 
@@ -26,6 +32,14 @@ onMounted(() => {
       window.localStorage.setItem('accessToken', accessToken);
       window.localStorage.setItem('refreshToken', refreshToken);
       window.localStorage.setItem('memberId', memberId.value);
+
+      axios.get("http://localhost:8080/member/" + memberId.value)
+        .then((response) => {
+          window.localStorage.setItem('profileImgSrc', response.data.profileImgSrc)
+          window.localStorage.setItem('name', response.data.name)
+          profileImgSrc.value = window.localStorage.getItem('profileImgSrc')
+          name.value = window.localStorage.getItem('name');
+        }).catch(err => console.log(err));
     } else {
       memberId.value = getMemberId();
     }
@@ -37,6 +51,7 @@ const onLogout = () => {
   window.localStorage.removeItem('accessToken');
   window.localStorage.removeItem('refreshToken');
   window.localStorage.removeItem('memberId');
+  window.localStorage.removeItem('profileImgSrc');
 
   memberId.value = null;
   router.push({ name: "main" });
@@ -78,12 +93,23 @@ const onLogout = () => {
           </div>
           <div v-if="memberId !== null">
             <li class="nav-item text-end">
-              <router-link :to="{ name: 'main' }">마이페이지</router-link>
+              <router-link :to="{ name: 'memberForm' }">마이페이지</router-link>
             </li>
           </div>
           <div v-if="memberId !== null">
             <li class="nav-item text-end" @click="onLogout">
                 <router-link>로그아웃</router-link>
+            </li>
+          </div>
+          <div v-if="memberId !== null">
+            <li class="nav-item text-end">
+              <v-avatar>
+                <v-img
+                  alt="John"
+                  :src="profileImgSrc"
+                ></v-img>
+              </v-avatar>
+              {{ name }}님 반갑습니다!
             </li>
           </div>
         </ul>
