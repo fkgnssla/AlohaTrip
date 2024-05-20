@@ -7,7 +7,10 @@ import AttractionView from "@/views/AttractionView.vue";
 import PlanView from "@/views/PlanView.vue";
 import PlanList from "@/components/plan/PlanList.vue";
 import PlanDetail from "@/components/plan/PlanDetail.vue";
+
+import PlanAllView from "@/views/PlanAllView.vue";
 import PlanAllList from "@/components/planAll/PlanAllList.vue";
+import PlanAllDetail from "@/components/planAll/PlanAllDetail.vue";
 
 import BragOfHotPlaceView from "@/views/BragOfHotPlaceView.vue";
 import HotPlaceList from "@/components/hotPlace/HotPlaceList.vue";
@@ -70,13 +73,18 @@ const router = createRouter({
     {
       path: "/planAll",
       name: "planAll",
-      component: PlanAllList,
+      component: PlanAllView,
       redirect: { name: "planAllList" },
       children: [
         {
           path: "planAllList",
           name: "planAllList",
           component: PlanAllList,
+        },
+        {
+          path: "planAllDetail/:planId",
+          name: "planAllDetail",
+          component: PlanAllDetail,
         }
       ],
     },

@@ -7,7 +7,7 @@ import { getMemberId } from "@/util/storageUtil";
 const plans = ref([])
 const onGetPlanList = () => {
     getPlanList(
-        6,
+        getMemberId(),
         response => {
             plans.value = response.data
         },

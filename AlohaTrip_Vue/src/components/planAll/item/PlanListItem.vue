@@ -2,9 +2,15 @@
 import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 
+const router = useRouter();
 const props = defineProps({
   plan: Object,
 });
+
+const moveDetail = () => {
+  console.log("선택한 Plan 식별자: " + props.plan.planId)
+  router.push({ name: "planAllDetail", params: { planId: props.plan.planId }})
+}
 </script>
 
 <template>
@@ -22,7 +28,8 @@ const props = defineProps({
 
             <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="orange-lighten-2" text="들어가기"></v-btn>
+            
+            <v-btn color="orange-lighten-2" text="들어가기" @click="moveDetail" />
             </v-card-actions>
         </v-card>
     </div>
