@@ -13,8 +13,8 @@
 	</select>
 	
 	<insert id="memberRegister" parameterType="com.ssafy.dto.MemberDto">
-		insert into memberInfo (member_id, name, id, password, email, profile_img_src, social_id, role)
-		values(NULL, #{name}, #{id}, #{password}, #{email}, #{profileImgSrc}, #{socialId}, #{role})
+		insert into memberInfo (member_id, name, id, password, nickname, email, profile_img_src, social_id, role)
+		values(NULL, #{name}, #{id}, #{password}, #{name}, #{email}, #{profileImgSrc}, #{socialId}, #{role})
 	</insert>
 	
 	<select id="memberLogin" parameterType="string" resultType="com.ssafy.dto.MemberDto">
