@@ -3,10 +3,12 @@ import TripInfoShareListItem from "@/components/tripInfo/item/TripInfoShareListI
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { getTripInfoList, searchTripInfoList } from "@/api/tripInfo.js";
+import { getMemberId } from "@/util/storageUtil";
 
 const router = useRouter();
 const tripInfos = ref([]);
 const searchKeyword = ref("");
+const memberId = getMemberId();
 
 onMounted(() => {
   getTripInfoList(
@@ -42,7 +44,7 @@ const onSearchTripInfo = () => {
       <div class="position-absolute top-50 start-50 translate-middle">Travel Info Share</div>
     </div>
     <div class="container text-center">
-      <div class="wirteArticlBtnDiv">
+      <div class="wirteArticlBtnDiv" v-if="memberId !== null">
         <button type="button" class="btn wirteArticle position-absolute bottom-0 end-0" @click="moveCreate">
           글쓰기
         </button>
