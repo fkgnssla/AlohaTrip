@@ -44,7 +44,7 @@
                         
                     </div>
                     <div class="text-center mt-5 text-muted">
-                        Copyright &copy; SSAFY_11기_16반_김형민 
+                        Copyright &copy; SSAFY_11기_16반_김형민_최유리
                     </div>
                 </div>
             </div>

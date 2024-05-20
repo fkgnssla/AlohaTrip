@@ -7,11 +7,11 @@ import axios from "axios";
 
 const memberId = ref(null);
 const profileImgSrc = ref(null);
-const name = ref(null);
+const nickname = ref(null);
 onMounted(() => {
 
     profileImgSrc.value = window.localStorage.getItem('profileImgSrc');
-    name.value = window.localStorage.getItem('name');
+    nickname.value = window.localStorage.getItem('nickname');
     // 현재 페이지의 URL에서 쿼리 문자열을 가져옴
     const queryString = window.location.search;
 
@@ -36,9 +36,11 @@ onMounted(() => {
       axios.get("http://localhost:8080/member/" + memberId.value)
         .then((response) => {
           window.localStorage.setItem('profileImgSrc', response.data.profileImgSrc)
-          window.localStorage.setItem('name', response.data.name)
+          if(response.data.nickname === null) window.localStorage.setItem('nickname', response.data.name)
+          else window.localStorage.setItem('nickname', response.data.nickname)
+
           profileImgSrc.value = window.localStorage.getItem('profileImgSrc')
-          name.value = window.localStorage.getItem('name');
+          nickname.value = window.localStorage.getItem('nickname');
         }).catch(err => console.log(err));
     } else {
       memberId.value = getMemberId();
@@ -109,7 +111,7 @@ const onLogout = () => {
                   :src="profileImgSrc"
                 ></v-img>
               </v-avatar>
-              {{ name }}님 반갑습니다!
+              {{ nickname }}님 반갑습니다!
             </li>
           </div>
         </ul>

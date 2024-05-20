@@ -13,7 +13,8 @@
 	</select>
 	
 	<insert id="memberRegister" parameterType="com.ssafy.dto.MemberDto">
-		insert into memberInfo values(NULL, #{name}, #{id}, #{password}, #{email}, #{profileImgSrc}, #{socialId}, #{role})
+		insert into memberInfo (member_id, name, id, password, email, profile_img_src, social_id, role)
+		values(NULL, #{name}, #{id}, #{password}, #{email}, #{profileImgSrc}, #{socialId}, #{role})
 	</insert>
 	
 	<select id="memberLogin" parameterType="string" resultType="com.ssafy.dto.MemberDto">
@@ -24,8 +25,8 @@
 		select member_id as memberId, name, id, password, nickname, email, profile_img_src as profileImgSrc, social_id as socialId, role from memberInfo where member_id=#{memberId}
 	</select>
 	
-	<update id="memberUpdate" parameterType="com.ssafy.dto.MemberDto">
-		UPDATE memberInfo SET name = #{name}, id=#{id}, password=#{password}, email=#{email}, sido_code=#{sidoCode}, gugun_code=#{gugunCode} WHERE member_id=#{memberId}
+	<update id="memberUpdate" parameterType="com.ssafy.dto.UpdateMemberDto">
+		UPDATE memberInfo SET nickname = #{nickname} WHERE member_id=#{memberId}
 	</update>
 	
 	<delete id="memberWithdrawal" parameterType="int">

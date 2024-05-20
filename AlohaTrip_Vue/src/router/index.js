@@ -26,6 +26,9 @@ import TripInfoShareDetail from "@/components/tripInfo/TripInfoShareDetail.vue";
 import TripInfoShareUpdate from "@/components/tripInfo/TripInfoShareUpdate.vue";
 
 import LoginView from "@/views/LoginView.vue";
+import MemberFormView from "@/views/MemberFormView.vue";
+import MemberDetail from "@/components/member/MemberDetail.vue";
+import MemberUpdate from "@/components/member/MemberUpdate.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -119,6 +122,24 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/memberForm",
+      name: "memberForm",
+      component: MemberFormView,
+      redirect: { name: "memberDetail" },
+      children: [
+        {
+          path: "memberDetail",
+          name: "memberDetail",
+          component: MemberDetail,
+        },
+        {
+          path: "memberUpdate",
+          name: "memberUpdate",
+          component: MemberUpdate,
+        }
+      ]
+    }
   ],
 });
 

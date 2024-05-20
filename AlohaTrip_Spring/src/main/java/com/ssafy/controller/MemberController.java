@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -116,41 +118,25 @@ public class MemberController {
 		return ResponseEntity.ok(memberService.findById(memberId));
 	}
 //
-//	@Operation(summary = "회원 정보 수정", description = "회원 정보를 수정합니다.")
-//	@PutMapping("/update")
-//	public ResponseEntity<MemberDto> update(UpdateMemberDto updateMemberDto, HttpServletRequest request) {
+	@Operation(summary = "회원 정보 수정", description = "회원 정보를 수정합니다.")
+	@PutMapping("/update")
+	public ResponseEntity<MemberDto> update(@RequestBody UpdateMemberDto updateMemberDto, HttpServletRequest request, HttpServletResponse response) {
 //		String email = updateMemberDto.getEmailFront() + "@" + updateMemberDto.getEmailBack();
-//
-//		int sidoCode;
-//		if(updateMemberDto.getSido().equals("서울특별시")) {
-//			sidoCode = 1;
-//		}else {
-//			sidoCode = 31;
-//		}
-//
-//		int gugunCode = 0;
-//		try {
-//			gugunCode = memberService.getGugunNum(updateMemberDto.getGugun());
-//			String password = memberService.setPassword(updateMemberDto.getPassword(), updateMemberDto.getId());
-//
-//			MemberDto member = new MemberDto(updateMemberDto.getMemberId(), updateMemberDto.getName(), updateMemberDto.getId(), password, email,
-//					sidoCode, gugunCode);
-//			memberService.memberUpdate(member);
-//
-//			HttpSession session = request.getSession();
-//            session.setAttribute("loginUser", member);
-//            session.setAttribute("emailFront", member.getEmail().split("@")[0]);
-//            session.setAttribute("emailBack", member.getEmail().split("@")[1]);
-//            session.setAttribute("sido", updateMemberDto.getSido());
-//            session.setAttribute("gugun", updateMemberDto.getGugun());
-//
-//            return ResponseEntity.ok(member);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return new ResponseEntity("회원 수정 실패!", HttpStatus.BAD_REQUEST);
-//		}
-//
-//	}
+		System.out.println(updateMemberDto);
+		try {
+			MemberDto member = new MemberDto(updateMemberDto.getMemberId(), updateMemberDto.getName(), updateMemberDto.getId(), 
+					updateMemberDto.getPassword(), updateMemberDto.getNickname(), null, null, null, null);
+			memberService.memberUpdate(member);
+			
+//			String redirectUrl = "http://localhost:5173/memberForm/memberDetail";
+//			response.sendRedirect(redirectUrl);
+            return ResponseEntity.ok(member);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
+		}
+
+	}
 //
 //	@Operation(summary = "회원탈퇴", description = "회원 탈퇴 처리를 합니다.")
 //	@DeleteMapping("/withdrawal/{memberId}")
