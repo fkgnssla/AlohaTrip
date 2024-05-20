@@ -43,8 +43,8 @@ watch(page, (newValue, oldValue) => {
             class="d-flex align-content-start flex-wrap ms-16"
             min-height="200"
         >
-            <v-sheet v-for="plan in plans" :key="plan.planId" class="ma-12 pa-2" >
-                <PlanListItem :plan="plan" />
+            <v-sheet v-for="plan in plans" :key="plan.planId" class="ma-12 pa-2 hover-up" >
+                <PlanListItem :plan="plan"/>
             </v-sheet>
         </v-sheet>
 
@@ -55,5 +55,11 @@ watch(page, (newValue, oldValue) => {
 </template>
 
 <style scoped>
+.hover-up {
+  transition: transform 0.3s ease-in-out;
+}
 
+.hover-up:hover {
+  transform: translateY(-20px);
+}
 </style>
