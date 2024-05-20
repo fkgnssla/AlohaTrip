@@ -84,10 +84,10 @@ const router = createRouter({
       path: "/bragOfHotPlace",
       name: "bragOfHotPlace",
       component: BragOfHotPlaceView,
-      redirect: { name: "hotPlaceList" },
+      redirect: { name: "hotPlaceList", params: { page: 1 } },
       children: [
         {
-          path: "hotPlaceList",
+          path: "hotPlaceList?page=:page",
           name: "hotPlaceList",
           component: HotPlaceList,
         },
@@ -97,7 +97,7 @@ const router = createRouter({
           component: HotPlacePostCreate,
         },
         {
-          path: "hotPlaceDetail/:id",
+          path: "hotPlaceDetail?id=:id",
           name: "hotPlaceDetail",
           component: HotPlaceDetail,
         },

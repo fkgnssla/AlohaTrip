@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 const router = useRouter();
+
 const moveDetail = () => {
     console.log("클릭하였습니다!  : BestItem")
     /**

@@ -1,13 +1,31 @@
 <script setup>
-
+import HotPlaceFormItem from "@/components/hotPlace/item/HotPlaceFormItem.vue";
 </script>
 
 <template>
     <div>
-        
+        <div class="hotPlaceBanner">
+            <div class="position-absolute top-50 start-50 translate-middle">Brag of Hotplace : Write Post</div>
+        </div>
+        <div class="container text-center postWriteForm">
+            <HotPlaceFormItem type="regist"/>
+        </div>
     </div>
 </template>
 
 <style scoped>
-
+.hotPlaceBanner{
+  background-image: linear-gradient( rgba(0,0,0, 0.55), rgba(0,0,0, 0.55) ),url("@/assets/img/HotPlace/bannerImg.png");
+  background-repeat : no-repeat;
+  background-size : cover;
+  height: 200px;
+  color: #7AEBB8;
+  font-weight: bold;
+  font-size: 35px;
+  position: relative;
+}
+.postWriteForm{
+    margin-top: 60px;
+    margin-bottom: 30px;
+}
 </style>

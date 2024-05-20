@@ -1,10 +1,33 @@
 <script setup>
 import { KakaoMap, KakaoMapMarker, KakaoMapCustomOverlay  } from 'vue3-kakao-maps';
 import { ref, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { getSidoAddress, getGugunAddress } from "@/api/address" 
 import { getAttractionList } from "@/api/attraction"
 
+const route = useRoute();
+const router = useRouter();
+const { id } = route.params;
+const hotPlaceInfo = ref({});
+onMounted(() => {
+  hotPlaceDetail();
+  console.log(hotPlaceDetail)
+});
+
 var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+
+const hotPlaceDetail  = () => {
+    getHotPlaceInfoDetail(
+    id,
+    ({ data }) => {
+        tripInfo.value = data;
+    },
+    (error) => {
+        console.log(error);
+    }
+  );
+};
+
 const coordinate = ref({
   lat: 37.566826,
   lng: 126.9786567

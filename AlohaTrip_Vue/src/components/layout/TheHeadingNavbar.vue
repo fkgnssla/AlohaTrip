@@ -86,7 +86,7 @@ const onLogout = () => {
             <router-link :to="{ name: 'plan' }">나만의 여행 계획</router-link>
           </li>
           <li class="nav-item text-end">
-            <router-link :to="{ name: 'bragOfHotPlace' }">핫플 자랑하기</router-link>
+            <router-link :to="{ name: 'bragOfHotPlace'}">핫플 자랑하기</router-link>
           </li>
           <li class="nav-item text-end">
             <router-link :to="{ name: 'tripInfoShare' }">여행 정보 공유</router-link>

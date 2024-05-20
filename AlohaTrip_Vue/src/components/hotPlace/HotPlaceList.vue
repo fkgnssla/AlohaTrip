@@ -4,6 +4,58 @@ import HotPlaceListItem from "@/components/hotPlace/item/HotPlaceListItem.vue";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import {getHotPlaceInfoList} from "@/api/hotPlace.js";
+
+const router = useRouter();
+const hotPlaceList = ref([]);
+const pageNum = ref(1);
+const lastPageNum = ref(10);
+
+onMounted(() => {
+  console.log(pageNum.value);
+  getHotPlaceInfoList(
+    pageNum.value,
+    response => {
+      console.log(response.data);
+      hotPlaceList.value = response.data.hotPlaceDtoList;
+      lastPageNum.value = response.data.lastPage;
+    },
+    error => console.log(error)  
+  )
+})
+
+const movePage = (pageNumber) => {
+  console.log("버튼 테스트 중")
+  console.log(pageNumber)
+
+  if (pageNumber == "before") {
+    if (pageNum.value > 1) { 
+      pageNum.value -= 1
+    }
+  } else if (pageNumber == "after") {
+    if (pageNum.value < lastPageNum.value) { 
+      pageNum.value += 1
+    }
+  } else { 
+    pageNum.value = pageNumber
+  }
+  console.log(pageNum.value)
+  console.log(lastPageNum.value)
+  console.log("========================================")
+  getHotPlaceInfoList(
+    pageNum.value,
+    response => {
+      console.log(response.data);
+      hotPlaceList.value = response.data.hotPlaceDtoList;
+      lastPageNum.value = response.data.lastPage;
+    },
+    error => console.log(error)  
+  )
+}
+
+const moveCreate = () => {
+  router.push({ name: "hotPlacePostCreate" })
+}
 </script>
 
 <template>
@@ -21,7 +73,7 @@ import axios from "axios";
             <div v-for="index in 5">
               <div class="carousel-item active" data-bs-interval="2000*{{ index }}">
                 {{ index }}
-                <HotPlaceListBestItem />
+                <HotPlaceListBestItem/>
               </div>
             </div>
           </div>
@@ -43,7 +95,7 @@ import axios from "axios";
             검색
           </button>
         </div>
-        <button type="button" class="btn wirteArticle">
+        <button type="button" class="btn wirteArticle" @click="moveCreate">
           글쓰기
         </button>
       </div>
@@ -53,27 +105,29 @@ import axios from "axios";
             <thead>
               <tr class="text-center">
                 <th scope="col">글번호</th>
-                <th scope="col">제목</th>
+                <th scope="col">hotPlace 장소 이름</th>
                 <!--<th scope="col">작성자</th>-->
                 <th scope="col">조회수</th>
                 <th scope="col">작성일</th>
               </tr>
             </thead>
             <tbody>
-              <HotPlaceListItem v-for="index in 10"/>
+              <HotPlaceListItem  v-for="hotPlaceInfo in hotPlaceList" :hotPlaceInfo="hotPlaceInfo"/>
             </tbody>
           </table>
         </div>
       </div>
       <nav>
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#"><<</a></li>
-          <li class="page-item"><a class="page-link" href="#"><</a></li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">></a></li>
-          <li class="page-item"><a class="page-link" href="#">>></a></li>
+          <li class="page-item" @click="movePage(1)"><a class="page-link"><<</a></li>
+          <li class="page-item" @click="movePage('before')"><a class="page-link"><</a></li>
+          
+          <li class="page-item" v-for="page in lastPageNum" @click="movePage(page)">
+            <a class="page-link">{{page}}</a>
+          </li>
+          
+          <li class="page-item" @click="movePage('after')"><a class="page-link">></a></li>
+          <li class="page-item" @click="movePage(lastPageNum)"><a class="page-link" >>></a></li>
         </ul>
       </nav>
     </div>
