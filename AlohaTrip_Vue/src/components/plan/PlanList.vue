@@ -1,7 +1,7 @@
 <script setup>
 import {ref, onMounted} from "vue";
 import PlanListItem from "@/components/plan/item/PlanListItem.vue";
-import { getPlanList, createPlan, deletePlan } from "@/api/plan.js";
+import { getPlanList, createPlan, deletePlan, updatePlan } from "@/api/plan.js";
 import { getMemberId } from "@/util/storageUtil";
 
 const plans = ref([])
@@ -71,6 +71,28 @@ const onDelete = (planId) => {
         (err) => console.log(err)
     )
 }
+
+const onUpdate = (planId, planTitle, planStartDate, planEndDate) => {
+  planStartDate = planStartDate + 'T00:00:00';
+  planEndDate = planEndDate + 'T00:00:00';
+
+  const updatePlanInfo = {
+      planId: planId,
+      title: planTitle,
+      startDate: planStartDate,
+      endDate: planEndDate
+  }
+
+  console.log(JSON.stringify(updatePlanInfo));
+  updatePlan(
+    updatePlanInfo,
+    response => {
+      console.log(response)
+      onGetPlanList()
+    },
+    err => console.log(err)
+  )
+}
 </script>
 
 <template>
@@ -80,7 +102,7 @@ const onDelete = (planId) => {
                 v-for="(plan, idx) in plans" :class="{ 'active': idx === 0 }" :aria-current="idx === 0 ? 'true' : null"></button>
         </div>
         <div class="carousel-inner p-5" v-if="plans.length>0">
-            <PlanListItem v-for="(plan, idx) in plans" :plan="plan" :key="plan.planId" :flag="idx === 0" @delete-plan="onDelete" />
+            <PlanListItem v-for="(plan, idx) in plans" :plan="plan" :key="plan.planId" :flag="idx === 0" @delete-plan="onDelete" @update-plan="onUpdate" />
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -93,50 +115,50 @@ const onDelete = (planId) => {
     </div>
 
     <div>
-    <!-- 모달 토글 버튼 -->
-    <div class="text-center mt-3 mb-3">
-        <a class="btn btn-success" @click="openModal">여행 계획 만들기!</a>
-    </div>
+      <!-- 모달 토글 버튼 -->
+      <div class="text-center mt-3 mb-3">
+          <a class="btn btn-warning" @click="openModal">여행 계획 만들기!</a>
+      </div>
 
-    <!-- 모달 -->
-    <div v-if="showModal" class="modal" @click.self="closeModal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <!-- 모달 헤더 -->
-          <div class="modal-header">
-            <h5 class="modal-title">여행 계획 만들기</h5>
-            <button type="button" class="btn-close" @click="closeModal"></button>
-          </div>
-          
-          <!-- 모달 바디 -->
-          <div class="modal-body">
-            <!-- 제목 입력 -->
-            <div class="mb-3">
-              <label for="planTitle" class="form-label">제목</label>
-              <input type="text" class="form-control" id="planTitle" v-model="planTitle">
+      <!-- 모달 -->
+      <div v-if="showModal" class="modal" @click.self="closeModal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <!-- 모달 헤더 -->
+            <div class="modal-header">
+              <h5 class="modal-title">여행 계획 만들기</h5>
+              <button type="button" class="btn-close" @click="closeModal"></button>
             </div>
             
-            <!-- 날짜 선택 -->
-            <div class="mb-3">
-              <label for="planDate" class="form-label">시작 날짜</label>
-              <input type="date" class="form-control" id="planDate" v-model="planStartDate">
-            </div>
+            <!-- 모달 바디 -->
+            <div class="modal-body">
+              <!-- 제목 입력 -->
+              <div class="mb-3">
+                <label for="planTitle" class="form-label">제목</label>
+                <input type="text" class="form-control" id="planTitle" v-model="planTitle">
+              </div>
+              
+              <!-- 날짜 선택 -->
+              <div class="mb-3">
+                <label for="planDate" class="form-label">시작 날짜</label>
+                <input type="date" class="form-control" id="planDate" v-model="planStartDate">
+              </div>
 
-            <div class="mb-3">
-              <label for="planDate" class="form-label">끝날짜</label>
-              <input type="date" class="form-control" id="planDate" v-model="planEndDate">
+              <div class="mb-3">
+                <label for="planDate" class="form-label">끝날짜</label>
+                <input type="date" class="form-control" id="planDate" v-model="planEndDate">
+              </div>
             </div>
-          </div>
-          
-          <!-- 모달 푸터 -->
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="closeModal">취소</button>
-            <button type="button" class="btn btn-primary" @click="savePlan">저장</button>
+            
+            <!-- 모달 푸터 -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" @click="closeModal">취소</button>
+              <button type="button" class="btn btn-primary" @click="savePlan">저장</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped>

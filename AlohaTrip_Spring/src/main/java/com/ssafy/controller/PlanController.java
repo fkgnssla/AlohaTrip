@@ -1,9 +1,9 @@
 package com.ssafy.controller;
 
+import com.ssafy.dto.plan.UpdatePlanDto;
 import com.ssafy.model.PrincipalDetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -55,6 +55,12 @@ public class PlanController {
     public ResponseEntity<Integer> createPlan(@RequestBody PlanDto planDto) throws Exception {
         int planId = planService.save(planDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(planId);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updatePlan(@RequestBody UpdatePlanDto updatePlanDto) throws Exception {
+        planService.updatePlan(updatePlanDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("여행 계획 변경 완료!");
     }
 
     @PostMapping("/addRoute")

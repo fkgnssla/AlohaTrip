@@ -126,6 +126,11 @@
         </foreach>
     </insert>
 
+    <!-- updatePlan -->
+    <update id="updatePlan" parameterType="updatePlanDto">
+        update plan set title = #{title}, start_date = #{startDate}, end_date = #{endDate} where plan_id = #{planId}
+    </update>
+
 	<!-- deletePlan -->
     <delete id="deletePlan">
         DELETE FROM plan
