@@ -66,6 +66,14 @@ function createPlan(plan, success, fail) {
       }).then(success).catch(fail);
 }
 
+function updatePlan(plan, success, fail) {
+  local.put(`/plan/update`, JSON.stringify(plan), {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`
+      }
+    }).then(success).catch(fail);
+}
+
 function deletePlan(planId, success, fail) {
     local.delete(`/plan/delete/${planId}`, {
         headers: {
@@ -74,7 +82,15 @@ function deletePlan(planId, success, fail) {
       }).then(success).catch(fail);
 }
 
+function copyPlan(plan, success, fail) {
+  local.post(`/plan/copy`, plan, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`
+      }
+    }).then(success).catch(fail);
+}
+
 
 export {
-    getPlanList, getPlanDetail, getPlanListByPage, getTotalPage, addRoute, deleteRoute, createPlan, deletePlan
+    getPlanList, getPlanDetail, getPlanListByPage, getTotalPage, addRoute, deleteRoute, createPlan, updatePlan, deletePlan, copyPlan
 }

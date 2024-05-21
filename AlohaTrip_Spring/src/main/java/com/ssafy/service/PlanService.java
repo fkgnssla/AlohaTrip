@@ -4,19 +4,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.dto.plan.*;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.dao.AttractionMapper;
 import com.ssafy.dao.PlanMapper;
 import com.ssafy.dto.attraction.AttractionDto;
-import com.ssafy.dto.plan.PlanAttractionDto;
-import com.ssafy.dto.plan.PlanAttractionInfoDto;
-import com.ssafy.dto.plan.PlanDto;
-import com.ssafy.dto.plan.PlanInfoDto;
 import com.ssafy.util.LocationUtil;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class PlanService {
@@ -118,6 +117,33 @@ public class PlanService {
 		planId = planMapper.savePlan(planDto);
 		planMapper.savePlanAndPlanAttractions(planId, planAttractionDtos);
 		return planId;
+	}
+
+	public int updatePlan(UpdatePlanDto updatePlanDto) {
+		return planMapper.updatePlan(updatePlanDto);
+	}
+
+	public void copyPlan(Long memberId, PlanInfoDto planInfoDto) throws Exception {
+		//계획 생성
+		PlanDto planDto = new PlanDto();
+		planDto.setMemberId(memberId);
+		planDto.setTitle(planInfoDto.getTitle());
+
+		System.out.println("새로운 계획: " + planDto);
+		save(planDto);
+		System.out.println("추가된 Plan 식별자: " + planDto.getPlanId());
+
+		//루트 생성
+		List<PlanAttractionInfoDto> attractions = planInfoDto.getAttractions();
+		for (PlanAttractionInfoDto attraction : attractions) {
+			PlanAttractionDto planAttractionDto = new PlanAttractionDto();
+			planAttractionDto.setPlanId(planDto.getPlanId());
+			planAttractionDto.setContentId(attraction.getAttractionDto().getContentId());
+			planAttractionDto.setOrder(attraction.getOrder());
+			planAttractionDto.setMemo(attraction.getMemo());
+
+			save(planAttractionDto);
+		}
 	}
 
 	public void deletePlanAttraction(int planAttractionId) throws Exception {

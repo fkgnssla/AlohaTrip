@@ -79,7 +79,7 @@ const hideInfoWindow = (marker) => {
 <template>
   <main>
     <div class="travelInfoShareBanner">
-      <div class="position-absolute top-50 start-50 translate-middle">Local Attraction Information</div>
+      <div class="position-absolute top-50 start-50 translate-middle">지역별 여행지</div>
     </div>
     <div class="container" >
       <div style="height: 70px"></div>  

@@ -1,21 +1,17 @@
 package com.ssafy.dto.plan;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PlanDto {
-	Long memberId;
-	int planId;	
+public class UpdatePlanDto {
+	int planId;
 	String title;
-	String nickname;
 	LocalDateTime startDate;
 	LocalDateTime endDate;
-	String imgSrc;
-
 }
