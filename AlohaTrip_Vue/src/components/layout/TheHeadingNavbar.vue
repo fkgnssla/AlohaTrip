@@ -4,6 +4,7 @@ import { useRouter } from "vue-router";
 import { ref, onMounted } from "vue";
 import { getMemberId } from "@/util/storageUtil";
 import axios from "axios";
+import { getMember } from "@/api/member";
 
 const memberId = ref(null);
 const profileImgSrc = ref(null);
@@ -33,15 +34,18 @@ onMounted(() => {
       window.localStorage.setItem('refreshToken', refreshToken);
       window.localStorage.setItem('memberId', memberId.value);
 
-      axios.get("http://localhost:8080/member/" + memberId.value)
-        .then((response) => {
+      getMember(
+        memberId.value,
+        (response) => {
           window.localStorage.setItem('profileImgSrc', response.data.profileImgSrc)
           if(response.data.nickname === null) window.localStorage.setItem('nickname', response.data.name)
           else window.localStorage.setItem('nickname', response.data.nickname)
 
           profileImgSrc.value = window.localStorage.getItem('profileImgSrc')
           nickname.value = window.localStorage.getItem('nickname');
-        }).catch(err => console.log(err));
+        },
+        err => console.log(err)
+      )
     } else {
       memberId.value = getMemberId();
     }
