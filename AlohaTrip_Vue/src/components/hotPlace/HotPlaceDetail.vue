@@ -4,28 +4,29 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getSidoAddress, getGugunAddress } from "@/api/address" 
 import { getAttractionList } from "@/api/attraction"
+import {getHotPlaceInfoDetail, postDeletePost} from "@/api/hotPlace.js";
 
 const route = useRoute();
 const router = useRouter();
 const { id } = route.params;
-const hotPlaceInfo = ref({});
+const hotPlaceInfo = ref([]);
 onMounted(() => {
-  hotPlaceDetail();
-  console.log(hotPlaceDetail)
+    hotPlaceDetail();
 });
 
 var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
 
-const hotPlaceDetail  = () => {
+const hotPlaceDetail = async () => {
     getHotPlaceInfoDetail(
-    id,
-    ({ data }) => {
-        tripInfo.value = data;
-    },
-    (error) => {
-        console.log(error);
-    }
-  );
+        id,
+        ({ data }) => {
+            hotPlaceInfo.value = data;
+            console.log(hotPlaceInfo.value)
+        },
+        (error) => {
+            console.log(error);
+       }
+    );
 };
 
 const coordinate = ref({
@@ -42,6 +43,24 @@ function resizeMap() {
     mapContainer.style.width = '100px';
     mapContainer.style.height = '150px'; 
 }
+
+function moveUpdate() { 
+    router.push({name: 'hotPlaceUpdate', params: { id: id }});
+}
+function deletePost() { 
+    postDeletePost(
+        id,
+        (response) => {
+            if (response.status == 200) moveList();
+        },
+        (error) => {
+        console.log(error);
+        }
+    );
+}
+function moveList() {
+  router.push({name: 'bragOfHotPlace'});
+}
 </script>
 
 <template>
@@ -52,16 +71,14 @@ function resizeMap() {
         <div class="imgAndMapDiv">
             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner imgAndMapCarousel">
-                    <div v-for="index in 1">
-                        <div class="carousel-item active" data-bs-interval="2000*{{ index }}">
+                    <div>
+                        <div class="carousel-item active" data-bs-interval="2000">
                             <div class="carouselItemBlock">
-                                {{ index }}
                                 <img src="@/assets/img/HotPlace/testImg.png" class="d-block w-100" alt="...">
                             </div>
                         </div>
-                        <div class="carousel-item active" data-bs-interval="2000*{{ index }}">
+                        <div class="carousel-item active" data-bs-interval="4000">
                             <div class="carouselItemBlock">
-                                {{ index }}
                                 <img src="@/assets/img/HotPlace/testImg2.jpg" class="d-block w-100" alt="...">
                             </div>
                         </div>
@@ -89,30 +106,41 @@ function resizeMap() {
             <div class="postInfo">
                 <div class="hotPlaceAddress">
                     <div>
-                        서울특별시 강남구 테헤란로 212
+                        {{ hotPlaceInfo.address }}
                     </div>
                 </div>
                 <div class="postTitle">
-                    핫플레이스 장소 이름
+                    {{ hotPlaceInfo.hotPlaceName }}
                 </div>
                 <div class="divisionLineRow"></div>
                 <div class="writerAndCommentCount">
-                    글쓴이 | 3 Comments
+                    {{ hotPlaceInfo.writerName }} | {{ hotPlaceInfo.views }} views
                 </div>
                 <div class="visitedDate">
-                    2024.05.15
+                    <!-- {{ hotPlaceInfo.visitedDate[0] }}.{{ hotPlaceInfo.visitedDate[1] }}.{{ hotPlaceInfo.visitedDate[2] }} -->
                 </div>
                 <div class="postContents">
-                    핫플레이스 설명 입니다
+                    {{ hotPlaceInfo.contents }}
                 </div>
                 <div class="createdDate">
-                    2024.05.16 17:26:29
+                    <!-- {{ hotPlaceInfo.createdDate[0] }}.{{ hotPlaceInfo.createdDate[1] }}.{{ hotPlaceInfo.createdDate[2] }} {{ hotPlaceInfo.createdDate[3] }}:{{ hotPlaceInfo.createdDate[4] }}:{{ hotPlaceInfo.createdDate[5] }} -->
                 </div>
             </div>
             <div class="divisionLineRow"></div>
             <div class="likeDiv">
                 <img src="@/assets/img/common/heart.png" height="20px" style="margin-right: 5px;">
-                4 people like this
+                {{ hotPlaceInfo.likes }} people like this
+            </div>
+            <div class="BtnGroup" >
+                <button type="button" class="btn updateArticle" @click="moveUpdate">
+                수정
+                </button>
+                <button type="button" class="btn deleteArticle" @click="deletePost">
+                삭제
+                </button>
+                <button type="button" class="btn moveToList" @click="moveList">
+                목록 보기
+                </button>
             </div>
         </div>
     </div>
@@ -156,7 +184,7 @@ function resizeMap() {
 }
 .postInfo{
     width: 100%;
-    height: 90%;
+    height: 86%;
 }
 .hotPlaceAddress{
     color: #5ad39c;
@@ -170,7 +198,7 @@ function resizeMap() {
 .divisionLineRow{
     background-color: lightgrey;
     width: 100%;
-    height: 2px;
+    height: 1px;
     margin-bottom: 10px
 }
 .writerAndCommentCount{
@@ -183,7 +211,7 @@ function resizeMap() {
     margin-bottom: 30px;
 }
 .postContents{
-    height: 70%;
+    height: 75%;
     font-size: 23px;
 }
 .createdDate{
@@ -191,7 +219,44 @@ function resizeMap() {
     color: grey;
 }
 .likeDiv{
-    width: 100%;
     height: 5%;
+    width: 100%;
+}
+.BtnGroup{
+    width: 100%;
+    padding-top: 5%;
+}
+.updateArticle{
+    margin-left: 45%;
+    background-color: white;
+    border: 1px solid #4AD597;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    color: #4AD597;
+    font-weight: bold;
+    font-size: 17px;
+}
+.deleteArticle{
+    background-color: white;
+    border: 1px solid #4AD597;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    margin-left: 10px;
+    color: #4AD597;
+    font-weight: bold;
+    font-size: 17px;
+}
+.moveToList{
+    background-color: #4AD597;
+    border: none;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    margin-left: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
 }
 </style>

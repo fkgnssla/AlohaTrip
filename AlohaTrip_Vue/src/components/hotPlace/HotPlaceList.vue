@@ -4,15 +4,24 @@ import HotPlaceListItem from "@/components/hotPlace/item/HotPlaceListItem.vue";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
-import {getHotPlaceInfoList} from "@/api/hotPlace.js";
+import {getBestotPlaceInfoList, getHotPlaceInfoList} from "@/api/hotPlace.js";
 
 const router = useRouter();
+const bestHotPlaceList = ref([]);
 const hotPlaceList = ref([]);
 const pageNum = ref(1);
 const lastPageNum = ref(10);
 
 onMounted(() => {
   console.log(pageNum.value);
+  getBestotPlaceInfoList(
+    response => {
+      console.log(response.data);
+      bestHotPlaceList.value = response.data;
+    },
+    error => console.log(error)  
+  )
+
   getHotPlaceInfoList(
     pageNum.value,
     response => {
@@ -70,10 +79,9 @@ const moveCreate = () => {
         <div class="divisionLine"></div>
         <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner hotPlaceBestPostList">
-            <div v-for="index in 5">
-              <div class="carousel-item active" data-bs-interval="2000*{{ index }}">
-                {{ index }}
-                <HotPlaceListBestItem/>
+            <div v-for="bestHotPlaceInfo in bestHotPlaceList">
+              <div class="carousel-item active" data-bs-interval="2000">
+                <HotPlaceListBestItem :bestHotPlaceInfo="bestHotPlaceInfo"/>
               </div>
             </div>
           </div>
@@ -152,6 +160,7 @@ const moveCreate = () => {
   background-color: lightgrey;
   height: 1px;
   width: 100%;
+  margin-bottom: 50px;
 }
 .hotPlaceBestPostTitleTxt{
   color: #4AD597;

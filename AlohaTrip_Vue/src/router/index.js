@@ -67,7 +67,7 @@ const router = createRouter({
           path: "planDetail/:planId",
           name: "planDetail",
           component: PlanDetail,
-        }
+        },
       ],
     },
     {
@@ -85,7 +85,7 @@ const router = createRouter({
           path: "planAllDetail/:planId",
           name: "planAllDetail",
           component: PlanAllDetail,
-        }
+        },
       ],
     },
     {
@@ -110,7 +110,7 @@ const router = createRouter({
           component: HotPlaceDetail,
         },
         {
-          path: "hotPlaceupdate/:id",
+          path: "hotPlaceUpdate?id=:id",
           name: "hotPlaceUpdate",
           component: HotPlaceUpdate,
         },
@@ -159,9 +159,9 @@ const router = createRouter({
           path: "memberUpdate",
           name: "memberUpdate",
           component: MemberUpdate,
-        }
-      ]
-    }
+        },
+      ],
+    },
   ],
 });
 

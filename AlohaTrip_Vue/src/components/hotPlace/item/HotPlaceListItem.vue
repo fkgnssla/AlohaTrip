@@ -16,7 +16,7 @@ const moveDetail = () => {
 
 <template>
   <tr @click="moveDetail">
-    <td style="width: 15%;">{{ hotPlaceInfo.hotPlaceId }}</td>
+    <td style="width: 15%;" >{{ hotPlaceInfo.hotPlaceId }}</td>
     <td style="width: 45%;">{{ hotPlaceInfo.hotPlaceName }}</td>
     <td style="width: 15%;">{{ hotPlaceInfo.views }}</td>
     <td>{{ hotPlaceInfo.createdDate[0] }}-{{ hotPlaceInfo.createdDate[1] }}-{{ hotPlaceInfo.createdDate[2] }}</td>
@@ -26,5 +26,8 @@ const moveDetail = () => {
 <style scoped>
 a {
   text-decoration: none;
+}
+td{
+  text-align: center;
 }
 </style>

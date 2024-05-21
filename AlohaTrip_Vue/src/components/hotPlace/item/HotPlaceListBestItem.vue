@@ -1,13 +1,44 @@
 <script setup>
 import { useRouter } from "vue-router";
+import { ref, onMounted } from "vue";
 const router = useRouter();
+const props = defineProps({
+    bestHotPlaceInfo: Object
+});
+const month = ref("")
+
+onMounted(() => {
+    if (props.bestHotPlaceInfo.visitedDate[1] == 1) {
+        month.value = "Jan"
+    }
+    else if (props.bestHotPlaceInfo.visitedDate[1] == 2) {
+        month.value = "Feb"
+    }else if (props.bestHotPlaceInfo.visitedDate[1] == 3) {
+        month.value = "Mar"
+    }else if (props.bestHotPlaceInfo.visitedDate[1] == 4) {
+        month.value = "Apr"
+    }else if (props.bestHotPlaceInfo.visitedDate[1] == 5) {
+        month.value = "May"
+    }else if (props.bestHotPlaceInfo.visitedDate[1] == 6) {
+        month.value = "Jun"
+    }else if (props.bestHotPlaceInfo.visitedDate[1] == 7) {
+        month.value = "Jul"
+    }else if (props.bestHotPlaceInfo.visitedDate[1] == 8) {
+        month.value = "Aug"
+    }else if (props.bestHotPlaceInfo.visitedDate[1] == 9) {
+        month.value = "Sep"
+    }else if (props.bestHotPlaceInfo.visitedDate[1] == 10) {
+        month.value = "Oct"
+    }else if (props.bestHotPlaceInfo.visitedDate[1] == 11) {
+        month.value = "Nov"
+    }else {
+        month.value = "Dec"
+    }
+})
 
 const moveDetail = () => {
-    console.log("클릭하였습니다!  : BestItem")
-    /**
-    router.push({ name: "tripInfoShareDetail", params: { id: props.tripInfo.id }})
-    */
-    router.push({ name: "hotPlaceDetail", params: { id: "test" }})
+    console.log(props.bestHotPlaceInfo)
+    // router.push({ name: "tripInfoShareDetail", params: { id: props.bestHotPlaceInfo.hotPlaceId }})
 }
 </script>
 
@@ -18,23 +49,23 @@ const moveDetail = () => {
             </div>
             <div class="postDate">
                 <div class="postDateDay">
-                    15
+                    {{ bestHotPlaceInfo.visitedDate[2] }}
                 </div>
                 <div class="postDateDayMonthYear">
-                    Jan.2024
+                    {{ month }}.{{ bestHotPlaceInfo.visitedDate[0] }}
                 </div>
             </div>
             <div class="postInfo">
                 <div class="postTitle">
-                    test용 제목입니다
+                    {{ bestHotPlaceInfo.hotPlaceName }}
                 </div>
                 <div class="postDetailInfo">
                     <div class="postWriter">
-                        글쓴이
+                        {{ bestHotPlaceInfo.writerName }}
                     </div>
                     |
                     <div class="postCommentView">
-                        03 Commnets
+                        {{ bestHotPlaceInfo.views }} Views
                     </div>
                 </div>
             </div>

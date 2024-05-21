@@ -3,9 +3,32 @@ import { getAccessToken, getMemberId } from "@/util/storageUtil";
 
 const local = localAxios();
 
-function createHotPlaceInfo(hotPlaceInfo, success, fail) {
+function createHotPlaceInfo(formData, success, fail) {
   local
-    .post(`/bragOfHotPlace/create`, hotPlaceInfo, {
+    .post(`/bragOfHotPlace/create`, formData, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+        "Content-Type": null,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+function getHotPlaceInfoDetail(id, success, fail) {
+  local
+    .get(`/bragOfHotPlace/hotPlaceDetail?Id=${id}`, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+function getBestotPlaceInfoList(success, fail) {
+  local
+    .get(`/bragOfHotPlace/hotPlaceBestList`, {
       headers: {
         Authorization: `Bearer ${getAccessToken()}`,
       },
@@ -25,9 +48,21 @@ function getHotPlaceInfoList(pageNum, success, fail) {
     .catch(fail);
 }
 
-function getHotPlaceInfoDetail(id, success, fail) {
+function updateHotPlaceInfo(formData, success, fail) {
   local
-    .get(`/bragOfHotPlace/hotPlaceDetail/${id}`, {
+    .post(`/bragOfHotPlace/update`, formData, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`,
+        "Content-Type": null,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+function postDeletePost(Id, success, fail) {
+  local
+    .delete(`/bragOfHotPlace/delete/${Id}`, {
       headers: {
         Authorization: `Bearer ${getAccessToken()}`,
       },
@@ -36,4 +71,11 @@ function getHotPlaceInfoDetail(id, success, fail) {
     .catch(fail);
 }
 
-export { getHotPlaceInfoList, getHotPlaceInfoDetail, createHotPlaceInfo };
+export {
+  createHotPlaceInfo,
+  getHotPlaceInfoDetail,
+  getBestotPlaceInfoList,
+  getHotPlaceInfoList,
+  updateHotPlaceInfo,
+  postDeletePost,
+};
