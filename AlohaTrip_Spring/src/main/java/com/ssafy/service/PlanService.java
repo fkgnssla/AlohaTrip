@@ -120,6 +120,29 @@ public class PlanService {
 		return planId;
 	}
 
+	public void copyPlan(Long memberId, PlanInfoDto planInfoDto) throws Exception {
+		//계획 생성
+		PlanDto planDto = new PlanDto();
+		planDto.setMemberId(memberId);
+		planDto.setTitle(planInfoDto.getTitle());
+
+		System.out.println("새로운 계획: " + planDto);
+		save(planDto);
+		System.out.println("추가된 Plan 식별자: " + planDto.getPlanId());
+
+		//루트 생성
+		List<PlanAttractionInfoDto> attractions = planInfoDto.getAttractions();
+		for (PlanAttractionInfoDto attraction : attractions) {
+			PlanAttractionDto planAttractionDto = new PlanAttractionDto();
+			planAttractionDto.setPlanId(planDto.getPlanId());
+			planAttractionDto.setContentId(attraction.getAttractionDto().getContentId());
+			planAttractionDto.setOrder(attraction.getOrder());
+			planAttractionDto.setMemo(attraction.getMemo());
+
+			save(planAttractionDto);
+		}
+	}
+
 	public void deletePlanAttraction(int planAttractionId) throws Exception {
 		planMapper.deletePlanAttraction(planAttractionId);
 	}

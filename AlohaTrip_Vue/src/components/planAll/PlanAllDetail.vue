@@ -4,7 +4,7 @@ import PlanDetailItem from "@/components/planAll/item/PlanDetailItem.vue";
 import { KakaoMap, KakaoMapPolyline, KakaoMapMarker } from 'vue3-kakao-maps';
 import { useRoute, useRouter } from "vue-router";
 import { getAttractionList } from "@/api/attraction"
-import { getPlanDetail, addRoute, deleteRoute } from "@/api/plan"
+import { getPlanDetail, copyPlan } from "@/api/plan"
 
 const route = useRoute();
 const router = useRouter();
@@ -80,16 +80,30 @@ const hideInfoWindow = (marker) => {
 const movePlanList = () => {
   router.push({ name: "planAllList" });
 }
+
+const onPlanCopy = () => {
+  copyPlan(
+    planDetail.value,
+    response => {
+      console.log("계획 추가완료!");
+      alert("계획 추가완료!");
+    },
+    err => console.log(err)
+  )
+}
 </script>
 
 <template>
     <div class="container p-3">
         <div class="row">
-          <div class="col-10 my-3">
+          <div class="col-8 my-3">
             <h2>{{ planDetail.title }}</h2>
           </div>
           <div class="col-2 my-3">
-            <a href="#" class="btn btn-primary me-5" @click="movePlanList">뒤로가기</a>
+            <a href="#" class="btn btn-primary me-5" @click="onPlanCopy">내 계획에 추가하기</a>
+          </div>
+          <div class="col-2 my-3">
+            <a href="#" class="btn btn-danger me-5" @click="movePlanList">뒤로가기</a>
           </div>
         </div>
 

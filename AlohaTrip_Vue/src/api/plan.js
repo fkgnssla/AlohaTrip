@@ -74,7 +74,15 @@ function deletePlan(planId, success, fail) {
       }).then(success).catch(fail);
 }
 
+function copyPlan(plan, success, fail) {
+  local.post(`/plan/copy`, plan, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`
+      }
+    }).then(success).catch(fail);
+}
+
 
 export {
-    getPlanList, getPlanDetail, getPlanListByPage, getTotalPage, addRoute, deleteRoute, createPlan, deletePlan
+    getPlanList, getPlanDetail, getPlanListByPage, getTotalPage, addRoute, deleteRoute, createPlan, deletePlan, copyPlan
 }

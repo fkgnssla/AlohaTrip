@@ -1,8 +1,12 @@
 package com.ssafy.controller;
 
+import com.ssafy.model.PrincipalDetail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import com.ssafy.dto.plan.PlanAttractionDto;
@@ -19,6 +23,7 @@ import java.util.List;
 @RequestMapping("/plan")
 public class PlanController {
 
+    private static final Logger log = LoggerFactory.getLogger(PlanController.class);
     private final PlanService planService;
     
     @GetMapping("/list")
@@ -62,6 +67,13 @@ public class PlanController {
     public ResponseEntity<Void> deleteRoute(@PathVariable int planAttractionId) throws Exception {
         planService.deletePlanAttraction(planAttractionId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/copy")
+    public ResponseEntity<Integer> copyPlan(@RequestBody PlanInfoDto planInfoDto, @AuthenticationPrincipal PrincipalDetail principalDetail) throws Exception {
+        log.info("현재 사용자 ID: " + principalDetail.getId());
+        planService.copyPlan(principalDetail.getId(), planInfoDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(1);
     }
 
     @PostMapping("/shortenPath/{planId}")

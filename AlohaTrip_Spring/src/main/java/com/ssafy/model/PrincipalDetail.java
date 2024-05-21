@@ -38,6 +38,10 @@ public class PrincipalDetail implements UserDetails, OAuth2User {
         return info;
     }
 
+    public Long getId() {
+        return member.getMemberId();
+    }
+
     @Override
     public String getName() {
         return member.getEmail();
