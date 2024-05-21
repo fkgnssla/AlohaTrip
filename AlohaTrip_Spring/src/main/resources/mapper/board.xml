@@ -24,7 +24,11 @@
 		from tripInfoShare t join memberinfo m on (t.member_id = m.member_id)
 		where title like CONCAT('%',#{keyword},'%')
 	</select>
-	
+
+	<update id="updateViews">
+		update tripInfoShare set views = #{views} where id = #{id}
+	</update>
+
 	<update id="update" parameterType="com.ssafy.dto.BoardDto">
 		UPDATE tripInfoShare SET title = #{title}, contents=#{contents} WHERE id = #{id}
 	</update>

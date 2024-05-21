@@ -16,7 +16,9 @@ public interface BoardMapper {
 	public List<FindBoardDto> findAll();
 	
 	public List<FindBoardDto> findByKeyword(String keyword);
-	
+
+	public void updateViews(Long id, int views);
+
 	public void update(BoardDto boardDto);
 	
 	public void delete(Long id);

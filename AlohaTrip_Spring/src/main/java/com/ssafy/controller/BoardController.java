@@ -2,8 +2,10 @@ package com.ssafy.controller;
 
 import java.util.List;
 
+import com.ssafy.model.PrincipalDetail;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,8 +35,8 @@ public class BoardController {
 	}
 	
 	@GetMapping("/{boardId}")
-	public ResponseEntity<?> findById(@PathVariable long boardId) {
-		FindBoardDto boardDto = boardService.findById(boardId);
+	public ResponseEntity<?> findById(@PathVariable long boardId, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+		FindBoardDto boardDto = boardService.findById(boardId, principalDetail.getId());
 		
 		return ResponseEntity.ok(boardDto);
 	}
