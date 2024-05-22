@@ -5,11 +5,22 @@
 <mapper namespace="com.ssafy.dao.LikeMapper">
 
 	<select id="createLike" parameterType="likeDto">
-		insert into like values (null, #{memberId}, #{hotPlaceId})
+		insert into likes values (null, #{memberId}, #{hotPlaceId})
 	</select>
 	
-	<delete id="deleteLike" parameterType="likeDto">
-		delete from like where member_id = #{memberId} and hotPlace_id = #{hotPlaceId}
+	<delete id="deleteLike">
+		delete from likes where member_id = #{memberId} and hotPlace_id = #{hotPlaceId}
 	</delete>
 
+	<select id="findByMemberIdAndHotPlaceId" resultType="likeDto">
+		select like_id as likeId, member_id as memberId, hotPlace_id as hotPlaceId
+		from likes l
+		where l.member_id = #{memberId} and l.hotPlace_id = #{hotPlaceId}
+	</select>
+
+	<select id="findByHotPlaceIdCount" resultType="int">
+		select count(*)
+		from likes l
+		where l.hotPlace_id = #{hotPlaceId}
+	</select>
 </mapper>

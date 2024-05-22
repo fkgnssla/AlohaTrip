@@ -11,12 +11,12 @@ function createLike(like, success, fail) {
       }).then(success).catch(fail);
 }
 
-function deleteLike(likeId, success, fail) {
-    local.delete(`/like/delete/${likeId}`, {
+function deleteLike(hotPlaceId, success, fail) {
+    local.delete(`/like/delete/` + hotPlaceId, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`
         }
-      }).then(success).catch(fail);
+    }).then(success).catch(fail);
 }
 
 

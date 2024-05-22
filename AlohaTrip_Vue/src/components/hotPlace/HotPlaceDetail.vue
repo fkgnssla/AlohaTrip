@@ -37,6 +37,7 @@ const hotPlaceDetail = async () => {
             mapLat.value = data.lat;
             mapLng.value = data.lng;
             writerId.value = data.memberId;
+            isLike.value = data.likeFlag;
             console.log(hotPlaceInfo.value)
         },
         (error) => {
@@ -66,39 +67,29 @@ function moveList() {
 
 const clickHeart = () => {
     const like = {
-        "userId": getMemberId(),
+        "memberId": getMemberId(),
         "hotPlaceId": hotPlaceInfo.value.hotPlaceId
     }
 
-    if (isLike) {
+    if (isLike.value == true) {
         deleteLike(
-            like,
-            response => console.log(response),
+            hotPlaceInfo.value.hotPlaceId,
+            response => {
+                console.log(response)
+                hotPlaceDetail();
+            },
             err => console.log(err)
         )
     } else {
         createLike(
             like,
-            response => console.log(response),
+            response => {
+                console.log(response)
+                hotPlaceDetail();
+            },
             err => console.log(err)
         )
     }
-
-    getHotPlaceInfoDetail(
-        id,
-        ({ data }) => {
-            hotPlaceInfo.value = data;
-            markerLat.value = data.lat;
-            markerLng.value = data.lng;
-            mapLat.value = data.lat;
-            mapLng.value = data.lng;
-            writerId.value = data.memberId;
-            console.log(hotPlaceInfo.value)
-        },
-        (error) => {
-            console.log(error);
-       }
-    );
 }
 
 </script>

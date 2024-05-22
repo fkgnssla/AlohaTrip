@@ -14,7 +14,15 @@ public class LikeService {
         likeMapper.createLike(likeDto);
     }
 
-    public void deleteLike(LikeDto likeDto) {
-        likeMapper.deleteLike(likeDto);
+    public void deleteLike(Long hotPlaceId, Long memberId) {
+        likeMapper.deleteLike(hotPlaceId, memberId);
+    }
+
+    public int findByHotPlaceIdCount(Long hotPlaceId) {
+        return likeMapper.findByHotPlaceIdCount(hotPlaceId);
+    }
+
+    public LikeDto findByMemberIdAndHotPlaceId(Long memberId, Long hotPlaceId) {
+        return likeMapper.findByMemberIdAndHotPlaceId(memberId, hotPlaceId);
     }
 }

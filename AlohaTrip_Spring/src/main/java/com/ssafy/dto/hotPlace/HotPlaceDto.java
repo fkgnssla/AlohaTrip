@@ -21,6 +21,7 @@ public class HotPlaceDto {
 	public double lng;
 	public int views;
 	public int likes;
+	public boolean likeFlag;
 	public LocalDateTime createdDate;
 	public LocalDateTime visitedDate;
 	
