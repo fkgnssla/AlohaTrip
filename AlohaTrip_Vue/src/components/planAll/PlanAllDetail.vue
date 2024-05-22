@@ -5,6 +5,7 @@ import { KakaoMap, KakaoMapPolyline, KakaoMapMarker, KakaoMapCustomOverlay } fro
 import { useRoute, useRouter } from "vue-router";
 import { getAttractionList } from "@/api/attraction"
 import { getPlanDetail, copyPlan } from "@/api/plan"
+import { getMemberId } from "@/util/storageUtil"
 
 const route = useRoute();
 const router = useRouter();
@@ -123,7 +124,7 @@ const onPlanCopy = () => {
           <div class="col-8 my-3">
             <h2>{{ planDetail.title }}</h2>
           </div>
-          <div class="col-2 my-3">
+          <div class="col-2 my-3" v-show="getMemberId() !== null">
             <a href="#" class="btn btn-primary me-5" @click="onPlanCopy">내 계획에 추가하기</a>
           </div>
           <div class="col-2 my-3">

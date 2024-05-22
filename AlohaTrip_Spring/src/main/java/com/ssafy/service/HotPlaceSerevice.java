@@ -30,7 +30,7 @@ public class HotPlaceSerevice {
 	public HotPlaceDto findById(Long id, Long userId) {
 		HotPlaceDto hotPlaceDto = hotPlaceMapper.findById(id);
 		List<Long> userIdList = viewsMap.computeIfAbsent(id, k -> new ArrayList<>());
-		if (!userIdList.contains(userId)) {
+		if (userId != null && !userIdList.contains(userId)) {
 			userIdList.add(userId);
 			updateViews(id, hotPlaceDto.getViews());
 		}

@@ -99,7 +99,7 @@ public class HotPlaceController {
 	@GetMapping("/hotPlaceDetail")
 	public ResponseEntity<?> findById(@Param("Id") long Id,  @AuthenticationPrincipal PrincipalDetail principalDetail) {
 		System.out.println("bragOfHotPlace/hotPlaceDetail/${id} : " + Id);
-		HotPlaceDto hotPlace = hotPlaceService.findById(Id, principalDetail.getId());
+		HotPlaceDto hotPlace = hotPlaceService.findById(Id, principalDetail == null ? null : principalDetail.getId());
 		return ResponseEntity.ok().body(hotPlace);
 	}
 	

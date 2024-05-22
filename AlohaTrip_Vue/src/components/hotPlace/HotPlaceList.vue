@@ -4,7 +4,8 @@ import HotPlaceListItem from "@/components/hotPlace/item/HotPlaceListItem.vue";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
-import {getBestotPlaceInfoList, getHotPlaceInfoList} from "@/api/hotPlace.js";
+import { getBestotPlaceInfoList, getHotPlaceInfoList } from "@/api/hotPlace.js";
+import { getMemberId } from "@/util/storageUtil";
 
 const router = useRouter();
 const bestHotPlaceList = ref([]);
@@ -103,7 +104,7 @@ const moveCreate = () => {
             검색
           </button>
         </div>
-        <button type="button" class="btn wirteArticle" @click="moveCreate">
+        <button type="button" class="btn wirteArticle" @click="moveCreate" v-show="getMemberId() !== null">
           글쓰기
         </button>
       </div>

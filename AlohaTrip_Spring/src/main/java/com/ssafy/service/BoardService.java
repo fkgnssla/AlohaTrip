@@ -26,10 +26,9 @@ public class BoardService {
 	}
 	
 	public FindBoardDto findById(Long id, Long userId) {
-
 		FindBoardDto findBoardDto = boardMapper.findById(id);
 		List<Long> userIdList = viewsMap.computeIfAbsent(id, k -> new ArrayList<>());
-		if (!userIdList.contains(userId)) {
+		if (userId != null && !userIdList.contains(userId)) {
 			userIdList.add(userId);
 			updateViews(id, findBoardDto.getViews());
 		}

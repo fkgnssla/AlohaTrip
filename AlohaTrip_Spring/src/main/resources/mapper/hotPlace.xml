@@ -7,7 +7,7 @@
 	</insert>
 
 	<select id="findById" parameterType="long" resultType="com.ssafy.dto.hotPlace.HotPlaceDto">
-		select h.hotPlace_id as hotPlaceId, m.name as writerName, hot_place_name as HotPlaceName, address, contents, image_address as ImgAddress, lat, lng, views, likes, created_date as createdDate, visited_date as visitedDate
+		select h.hotPlace_id as hotPlaceId, m.member_id as memberId, m.name as writerName, hot_place_name as HotPlaceName, address, contents, image_address as ImgAddress, lat, lng, views, likes, created_date as createdDate, visited_date as visitedDate
 		from hotplaceinfo h join memberinfo m on (h.member_id = m.member_id)
 		where h.hotPlace_id = #{hotPlaceId}
 	</select>

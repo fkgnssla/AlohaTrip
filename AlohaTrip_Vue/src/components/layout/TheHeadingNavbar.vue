@@ -86,7 +86,7 @@ const onLogout = () => {
           <li class="nav-item text-end">
             <router-link :to="{ name: 'planAll' }">여행 계획 둘러보기</router-link>
           </li>
-          <li class="nav-item text-end">
+          <li class="nav-item text-end" v-if="memberId !== null">
             <router-link :to="{ name: 'plan' }">나만의 여행 계획</router-link>
           </li>
           <li class="nav-item text-end">

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class HotPlaceDto {
 	public Long hotPlaceId;
+	public Long memberId;
 	public String writerName;
 	public String HotPlaceName;
 	public String address;

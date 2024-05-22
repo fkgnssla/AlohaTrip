@@ -4,7 +4,8 @@ import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getSidoAddress, getGugunAddress } from "@/api/address" 
 import { getAttractionList } from "@/api/attraction"
-import {getHotPlaceInfoDetail, postDeletePost} from "@/api/hotPlace.js";
+import { getHotPlaceInfoDetail, postDeletePost } from "@/api/hotPlace.js";
+import { getMemberId } from "@/util/storageUtil"
 
 const route = useRoute();
 const router = useRouter();
@@ -14,6 +15,7 @@ const markerLat = ref('');
 const markerLng = ref('');
 const mapLat = ref(33.450701);
 const mapLng = ref(126.570667);
+const writerId = ref();
 
 onMounted(() => {
     hotPlaceDetail();
@@ -30,6 +32,7 @@ const hotPlaceDetail = async () => {
             markerLng.value = data.lng;
             mapLat.value = data.lat;
             mapLng.value = data.lng;
+            writerId.value = data.memberId;
             console.log(hotPlaceInfo.value)
         },
         (error) => {
@@ -121,10 +124,10 @@ function moveList() {
                 {{ hotPlaceInfo.likes }} people like this
             </div>
             <div class="BtnGroup" >
-                <button type="button" class="btn updateArticle" @click="moveUpdate">
+                <button type="button" class="btn updateArticle" @click="moveUpdate" v-show="writerId === getMemberId()">
                 수정
                 </button>
-                <button type="button" class="btn deleteArticle" @click="deletePost">
+                <button type="button" class="btn deleteArticle" @click="deletePost" v-show="writerId === getMemberId()">
                 삭제
                 </button>
                 <button type="button" class="btn moveToList" @click="moveList">

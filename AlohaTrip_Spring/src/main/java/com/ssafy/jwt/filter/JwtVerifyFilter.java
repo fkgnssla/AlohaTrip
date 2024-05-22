@@ -22,8 +22,9 @@ import java.util.Map;
 @Slf4j
 public class JwtVerifyFilter extends OncePerRequestFilter {
 
-    private static final String[] whitelist = {"/signUp", "/login" , "/refresh", "/", "/index.html", "/oauth2/login"
-        ,"/address/*", "/attraction/*"};
+    private static final String[] whitelist = {"/signUp", "/login" , "/refresh", "/", "/index.html"
+        ,"/address/*", "/attraction/*", "/plan/totalPage", "/plan/listAll", "/plan/info/*", "/bragOfHotPlace/hotPlaceList", "/bragOfHotPlace/hotPlaceBestList",
+        "/bragOfHotPlace/hotPlaceDetail", "/tripInfoShare", "/tripInfoShare/*"};
 
     private static void checkAuthorizationHeader(String header) {
         if(header == null) {
@@ -40,8 +41,8 @@ public class JwtVerifyFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
         System.out.println(requestURI); //삭제해야함.
 
-        return true; //나중에 삭제해야함.
-//        return PatternMatchUtils.simpleMatch(whitelist, requestURI);
+//        return true; //나중에 삭제해야함.
+        return PatternMatchUtils.simpleMatch(whitelist, requestURI);
     }
 
     @Override

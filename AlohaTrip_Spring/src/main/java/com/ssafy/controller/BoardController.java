@@ -36,7 +36,7 @@ public class BoardController {
 	
 	@GetMapping("/{boardId}")
 	public ResponseEntity<?> findById(@PathVariable long boardId, @AuthenticationPrincipal PrincipalDetail principalDetail) {
-		FindBoardDto boardDto = boardService.findById(boardId, principalDetail.getId());
+		FindBoardDto boardDto = boardService.findById(boardId, principalDetail == null ? null : principalDetail.getId());
 		
 		return ResponseEntity.ok(boardDto);
 	}
