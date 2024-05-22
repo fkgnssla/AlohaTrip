@@ -1,8 +1,11 @@
 <script setup></script>
 
 <template>
-  <div class="hotPlaceBanner">
-            <div class="position-absolute top-50 start-50 translate-middle">Main View</div>
+  <div>
+    <video width="640" height="360" autoplay muted>
+        <source src="../assets/video/seoul.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
   </div>
 </template>
 
