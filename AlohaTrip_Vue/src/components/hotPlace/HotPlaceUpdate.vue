@@ -12,7 +12,7 @@ const { id } = route.params;
         <div class="hotPlaceBanner">
             <div class="position-absolute top-50 start-50 translate-middle">Brag of Hotplace : Update Post</div>
         </div>
-        <div class="container text-center postWriteForm">
+        <div class="contents text-center postWriteForm">
             <HotPlaceFormItem type="update" :id="id"/>
         </div>
     </div>
@@ -28,6 +28,12 @@ const { id } = route.params;
   font-weight: bold;
   font-size: 35px;
   position: relative;
+}
+.contents{
+    margin-top: 100px;
+    margin-bottom: 50px;
+    height: 900px;
+    width: 100%;
 }
 .postWriteForm{
     margin-top: 60px;

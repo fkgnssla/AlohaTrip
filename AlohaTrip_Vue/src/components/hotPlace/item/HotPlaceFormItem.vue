@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRoute, useRouter } from "vue-router"
 import { getAccessToken, getMemberId } from "@/util/storageUtil";
 import { createHotPlaceInfo } from "@/api/hotPlace.js";
-import { KakaoMap, KakaoMapMarker, KakaoMapCustomOverlay } from 'vue3-kakao-maps';
+import { KakaoMap,KakaoMapMarker } from 'vue3-kakao-maps';
 import {getHotPlaceInfoDetail, updateHotPlaceInfo} from "@/api/hotPlace.js";
 
 const route = useRoute()
@@ -13,15 +13,29 @@ const props = defineProps({ type: String, id : String })
 const ImgInfo = ref("");
 const ImgChangeBoolean = ref(false);
 
-// var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-// const coordinate = ref({
-//   lat: 37.566826,
-//   lng: 126.9786567
-// });
+const map = ref();
+const message = ref('');
+const checkMarker = ref(false);
+const markerLat = ref('');
+const markerLng = ref('');
+const mapLat = ref(33.450701);
+const mapLng = ref(126.570667);
 
-// const onLoadKakaoMap = (mapRef) => {
-//   map.value = mapRef;
-// };
+const onLoadKakaoMap = (mapRef) => {
+  map.value = mapRef;
+
+  kakao.maps.event.addListener(map.value, 'click', function (mouseEvent) {
+    // 클릭한 위도, 경도 정보를 가져옵니다
+    checkMarker.value = true;
+    const latlng = mouseEvent.latLng;
+    markerLat.value = latlng.getLat()
+    markerLng.value = latlng.getLng()
+        
+    console.log(markerLat.value)
+    console.log(markerLng.value)
+
+  });
+};
 
 const hotPlaceInfo = ref({
     hotPlaceId: '1',
@@ -29,9 +43,7 @@ const hotPlaceInfo = ref({
     hotPlaceName: "",
     visitedDate : "",
     address: "",
-    contents: "",
-    lat: 0.0,
-    lng: 0.0
+    contents: ""
 })
 
 onMounted(() => {
@@ -44,7 +56,11 @@ function onSettingForm() {
         props.id,
         ({ data }) => {
             hotPlaceInfo.value = data;
-            console.log(hotPlaceInfo.value)
+            markerLat.value = data.lat;
+            markerLng.value = data.lng;
+            mapLat.value = data.lat;
+            mapLng.value = data.lng;
+            checkMarker.value = true;
         },
         (error) => {
             console.log(error);
@@ -74,8 +90,8 @@ function onCreateHotPlaceInfo() {
     formData.append('address', hotPlaceInfo.value.address)
     formData.append('ImgInfo', ImgInfo.value)
     formData.append('contents', hotPlaceInfo.value.contents)
-    formData.append('lat', hotPlaceInfo.value.lat)
-    formData.append('lng', hotPlaceInfo.value.lng)
+    formData.append('lat', markerLat.value)
+    formData.append('lng', markerLng.value)
 
     createHotPlaceInfo(
         formData,
@@ -100,8 +116,8 @@ function onUpdateHotPlaceInfo() {
         formData.append('ImgInfo', ImgInfo.value)
     }
     formData.append('contents', hotPlaceInfo.value.contents)
-    formData.append('lat', hotPlaceInfo.value.lat)
-    formData.append('lng', hotPlaceInfo.value.lng)
+    formData.append('lat', markerLat.value)
+    formData.append('lng', markerLng.value)
 
     updateHotPlaceInfo(
         formData,
@@ -122,21 +138,14 @@ function moveList() {
 </script>
 
 <template>
-    <!-- <KakaoMap @onLoadKakaoMap="onLoadKakaoMap" :lat="coordinate.lat" :lng="coordinate.lng" :draggable="true" class="kakaoMapObj">
-        <KakaoMapMarker v-for="marker in markersWithShowInfo" :lat="marker.latitude" :lng="marker.longitude" :key="marker.contentId"
-        :clickable="true"
-        :image="{
-        imageSrc: imageSrc,
-        imageWidth: 24,
-        imageHeight: 28,
-        imageOption: {}
-        }"
-        :infoWindow="{ content: `${marker.title} <br> ${marker.addr1}`, visible: marker.showInfo }"
-        @mouseOverKakaoMapMarker="showInfoWindow(marker)"
-        @mouseOutKakaoMapMarker="hideInfoWindow(marker)"
-        >
-        </KakaoMapMarker>
-    </KakaoMap> -->
+<div class="contents">
+    <div class="kakaoMapDiv">
+        <KakaoMap :lat="mapLat" :lng="mapLng" width="100%" height="100%" @onLoadKakaoMap="onLoadKakaoMap">
+            <KakaoMapMarker v-if="checkMarker" :lat="markerLat" :lng="markerLng">
+            </KakaoMapMarker>
+        </KakaoMap>
+    </div>
+    <div class="formDiv">
     <form @submit.prevent="onSubmit">
         <div class="text-start">
             <label for="HotPlaceName" class="form-label">핫플레이스 이름</label>
@@ -159,9 +168,12 @@ function moveList() {
         <div v-if="props.type == 'update'">
             <div class="text-start">
                 <label for="ImgAddress" class="form-label">핫플레이스 이미지 변경</label>
-                <input type="checkbox" v-model="ImgChangeBoolean" @click="setImgInput">
+                <input type="checkbox" v-model="ImgChangeBoolean" @click="setImgInput" class="checkBoxInput">
+                <div v-if="!ImgChangeBoolean">
+                    <v-file-input disabled @change="selectFile"></v-file-input>
+                </div>
                 <div v-if="ImgChangeBoolean">
-                    <v-file-input @change="selectFile"></v-file-input>
+                    <v-file-input  @change="selectFile"></v-file-input>
                 </div>
             </div>
         </div>
@@ -169,23 +181,81 @@ function moveList() {
             <label for="contents" class="form-label">핫플레이스 상세설명</label>
             <textarea class="form-control" name="contents" v-model="hotPlaceInfo.contents" rows="10"></textarea>
         </div>
-        <div>
-            <input type="text" class="form-control" name="lat" placeholder="핫플레이스 lat" v-model="hotPlaceInfo.lat"/>
-            <input type="text" class="form-control" name="lng" placeholder="핫플레이스 lng" v-model="hotPlaceInfo.lng"/>
-        </div>
         <div class="buttonGather">
-            <button type="submit" class="btn btnCreate" v-if="type !== 'update'" >
-            작성
-            </button>
-            <button type="submit" class="btn btnUpdate" v-else>
-            수정
-            </button>
             <button type="button" class="btn btnList" @click="moveList">
             취소
             </button>
+            <button type="submit" class="btn btnCreate" v-if="type !== 'update'" >
+            작성
+            </button>
+            <button type="submit" class="btn btnUpdate" v-if="type == 'update'">
+            수정
+            </button>
         </div>
     </form>
+    </div>
+</div>
 </template>
 
 <style scoped>
+.contents{
+    display: flex;
+    justify-content: center;
+}
+.kakaoMapDiv{
+    width: 43%;
+    height: 900px;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+.formDiv{
+    width: 42%;
+    height: 900px;
+    margin-right: 5%;
+}
+.checkBoxInput{
+    margin-left: 5px;
+    height: 10px;
+}
+.text-start{
+    margin-bottom: 20px;;
+}
+textarea{
+    height: 400px;
+}
+.btnCreate{
+    float : right;
+    background-color: white;
+    border: 1px solid #4AD597;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    color: #4AD597;
+    font-weight: bold;
+    font-size: 17px;
+    margin-right: 10px;
+}
+.btnUpdate{
+    background-color: white;
+    border: 1px solid #4AD597;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    color: #4AD597;
+    font-weight: bold;
+    font-size: 17px;
+    float : right;
+    margin-right: 10px;
+}.btnList{
+    background-color: #4AD597;
+    border: none;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    margin-right: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+    float : right;
+}
 </style>

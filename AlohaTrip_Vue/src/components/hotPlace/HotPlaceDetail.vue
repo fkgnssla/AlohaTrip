@@ -1,5 +1,5 @@
 <script setup>
-import { KakaoMap, KakaoMapMarker, KakaoMapCustomOverlay  } from 'vue3-kakao-maps';
+import { KakaoMap, KakaoMapMarker} from 'vue3-kakao-maps';
 import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getSidoAddress, getGugunAddress } from "@/api/address" 
@@ -10,6 +10,11 @@ const route = useRoute();
 const router = useRouter();
 const { id } = route.params;
 const hotPlaceInfo = ref([]);
+const markerLat = ref('');
+const markerLng = ref('');
+const mapLat = ref(33.450701);
+const mapLng = ref(126.570667);
+
 onMounted(() => {
     hotPlaceDetail();
 });
@@ -21,6 +26,10 @@ const hotPlaceDetail = async () => {
         id,
         ({ data }) => {
             hotPlaceInfo.value = data;
+            markerLat.value = data.lat;
+            markerLng.value = data.lng;
+            mapLat.value = data.lat;
+            mapLng.value = data.lng;
             console.log(hotPlaceInfo.value)
         },
         (error) => {
@@ -29,20 +38,6 @@ const hotPlaceDetail = async () => {
     );
 };
 
-const coordinate = ref({
-  lat: 37.566826,
-  lng: 126.9786567
-});
-const onLoadKakaoMap = (mapRef) => {
-    map.value = mapRef;
-    resizeMap();
-    map.relayout();
-};
-function resizeMap() {
-    var mapContainer = document.getElementById('map');
-    mapContainer.style.width = '100px';
-    mapContainer.style.height = '150px'; 
-}
 
 function moveUpdate() { 
     router.push({name: 'hotPlaceUpdate', params: { id: id }});
@@ -71,25 +66,19 @@ function moveList() {
         <div class="imgAndMapDiv">
             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner imgAndMapCarousel">
+                    <div class="carousel-item active mapDiv">
+                        <KakaoMap :lat="mapLat" :lng="mapLng" width="100%" height="100%" @onLoadKakaoMap="onLoadKakaoMap">
+                            <KakaoMapMarker :lat="markerLat" :lng="markerLng">
+                            </KakaoMapMarker>
+                        </KakaoMap>
+                    </div>
                     <div>
                         <div class="carousel-item active" data-bs-interval="2000">
                             <div class="carouselItemBlock">
                                 <img src="@/assets/img/HotPlace/testImg.png" class="d-block w-100" alt="...">
                             </div>
                         </div>
-                        <div class="carousel-item active" data-bs-interval="4000">
-                            <div class="carouselItemBlock">
-                                <img src="@/assets/img/HotPlace/testImg2.jpg" class="d-block w-100" alt="...">
-                            </div>
-                        </div>
                     </div>
-                    <!--
-                        <div class="carousel-item">
-                        map
-                            <KakaoMap @onLoadKakaoMap="onLoadKakaoMap" :lat="coordinate.lat" :lng="coordinate.lng" :draggable="true">
-                            </KakaoMap>
-                        </div>
-                    -->
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -162,6 +151,11 @@ function moveList() {
     margin-bottom: 50px;
     height: 900px;
     display: flex;
+}
+.mapDiv{
+    background-color: red;
+    width: 100%;
+    height: 900px;
 }
 .imgAndMapDiv{
     width: 45%;

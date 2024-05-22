@@ -7,7 +7,7 @@ import HotPlaceFormItem from "@/components/hotPlace/item/HotPlaceFormItem.vue";
         <div class="hotPlaceBanner">
             <div class="position-absolute top-50 start-50 translate-middle">Brag of Hotplace : Write Post</div>
         </div>
-        <div class="container text-center postWriteForm">
+        <div class="contents text-center postWriteForm">
             <HotPlaceFormItem type="regist"/>
         </div>
     </div>
@@ -23,6 +23,12 @@ import HotPlaceFormItem from "@/components/hotPlace/item/HotPlaceFormItem.vue";
   font-weight: bold;
   font-size: 35px;
   position: relative;
+}
+.contents{
+    margin-top: 100px;
+    margin-bottom: 50px;
+    height: 900px;
+    width: 100%;
 }
 .postWriteForm{
     margin-top: 60px;
