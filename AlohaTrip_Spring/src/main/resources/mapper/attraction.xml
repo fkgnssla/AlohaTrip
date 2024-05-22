@@ -18,10 +18,10 @@
 		latitude, longitude, mlevel
 		from attraction_info
 	</select>
-	
+
 	<select id="getListByCodeAndKeyword" parameterType="map" resultType="attractionDto">
 		select content_id as contentId, content_type_id as contentTypeId, title, addr1, addr2, zipcode, tel, 
-		first_image, first_image2, readcount, sido_code, gugun_code, 
+		first_image as firstImage, first_image2 as firstImage2, readcount, sido_code as sidoCode, gugun_code as gugunCode,
 		latitude, longitude, mlevel
 		from attraction_info
 		where 1=1
