@@ -57,16 +57,16 @@ const closeModal = () => {
 
 <template>
     <div class="carousel-item text-center" :class="{ 'active': flag }" >
-      <div class="card" style="margin: 0 auto; min-height: 400px; max-width: 400px; box-shadow: -5px -5px 30px 5px rgba(74, 213, 151, 1), 5px 5px 30px 5px blue;">
+      <div class="card" style="margin: 0 auto; min-height: 400px; max-width: 400px; box-shadow: 5px 5px lightgray;">
           <img v-if="plan.imgSrc === '' || plan.imgSrc === null" src="../../../assets/img/common/logo.png" class="card-img-top img-fluid" alt="..." style="width: 100%; height: 300px; ">
           <img v-else :src="plan.imgSrc" class="card-img-top img-fluid" alt="..." style="width: 100%; height: 300px; ">
           <div class="card-body">
             <h5 class="card-title">{{ plan.title }}</h5>
             <p class="card-text" v-if="startDate === ''">날짜 미정</p>
             <p class="card-text" v-else>{{ startDate }} ~ {{ endDate }}</p>
-            <a class="btn btn-primary me-5" @click="moveDetail">들어가기</a>
-            <a class="btn btn-success me-5" @click="openModal">수정하기</a>
-            <a class="btn btn-danger" @click="$emit('deletePlan', props.plan.planId)">삭제하기</a>
+            <a class="btn btnMove me-5" @click="moveDetail">들어가기</a>
+            <a class="btn btnUpdate me-5" @click="openModal">수정하기</a>
+            <a class="btn btnDelete" @click="$emit('deletePlan', props.plan.planId)">삭제하기</a>
           </div>
       </div>
     </div>
@@ -104,8 +104,8 @@ const closeModal = () => {
             
             <!-- 모달 푸터 -->
             <div class="modal-footer">
-              <a class="btn btn-danger" @click="closeModal">취소</a>
-              <a class="btn btn-primary" @click="onPlanUpdate">저장</a>
+              <a class="btn btnCancel " @click="closeModal">취소</a>
+              <a class="btn btnSave" @click="onPlanUpdate">저장</a>
             </div>
           </div>
         </div>
@@ -148,5 +148,53 @@ const closeModal = () => {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+}
+
+.btnMove{
+    background-color: #7AEBB8;
+    border: none;
+    color: white;
+}
+.btnMove:hover{
+  border: 1px solid white;
+  color: #7AEBB8;
+}
+.btnUpdate{
+    background-color: #7AEBB8;
+    border: none;
+    color: white;
+}
+.btnUpdate:hover{
+  border: 1px solid white;
+  color: #7AEBB8;
+}
+.btnDelete{
+  background-color: white;
+  border: 1px solid #7AEBB8;
+  color: #7AEBB8;
+}
+.btnDelete:hover{
+  border: 1px solid white;
+  color: #7AEBB8;
+}
+
+
+.btnSave{
+    background-color: #7AEBB8;
+    border: none;
+    color: white;
+}
+.btnCancel{
+  background-color: white;
+  border: 1px solid #7AEBB8;
+  color: #7AEBB8;
+}
+.btnSave:hover{
+  border: none;
+  color: #7AEBB8;
+}
+.btnCancel:hover{
+  border: none;
+  color: #7AEBB8;
 }
 </style>

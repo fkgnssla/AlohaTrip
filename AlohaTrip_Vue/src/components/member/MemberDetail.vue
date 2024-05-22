@@ -30,10 +30,9 @@ const onMove = () => {
 
 <template>
     <div>
-        <section class="h-100">
-        <div class="container h-100">
+        <div class="contents">
             <div class="row justify-content-sm-center h-100">
-                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9 memberDiv">
                     <div class="card shadow-lg">
                         <div class="card-body p-5">
                             <h1 class="fs-4 card-title fw-bold mb-4 text-center">내 정보</h1>
@@ -57,7 +56,7 @@ const onMove = () => {
                                 </div>
 
                                 <div class="d-flex align-items-center">
-                                    <button id="updateBtn" type="button" class="btn btn-primary text-white ms-auto" @click="onMove">
+                                    <button id="updateBtn" type="button" class="btn btn-primary ms-auto btnUpdate" @click="onMove">
                                         정보 수정하기
                                     </button>
                                 </div>
@@ -71,10 +70,26 @@ const onMove = () => {
                 </div>
             </div>
         </div>
-    </section>
     </div>
 </template>
 
 <style scoped>
-
+.contents{
+    height: 750px;
+}
+.memberDiv{
+    height: fit-content;
+    margin: 5% 0;
+}
+.btnUpdate{
+    margin-top: 10%;
+    background-color: #54cc96;
+    border: none;
+    color: white;
+}
+.btnUpdate:hover{
+    border: 1px solid #54cc96;
+    background-color: white;
+    color: #54cc96;
+}
 </style>

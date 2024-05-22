@@ -12,7 +12,7 @@ console.log(props.markerInfo.firstImage)
             <div class="imgDiv">
                 <img :src="markerInfo.firstImage" v-if="markerInfo.firstImage!=''">
                 <img :src="markerInfo.firstImage2" v-if="markerInfo.firstImage=='' && markerInfo.firstImage2 !=''">
-                <img src="@/assets/img/common/noImage.png" v-if="markerInfo.firstImage=='' && markerInfo.firstImage2 ==''">
+                <img src="@/assets/img/common/noImage.png" v-if="markerInfo.firstImage=='' && markerInfo.firstImage2 ==''" >
             </div>
             <div class="attractionContents">
                 <div class="attractionTitle">
@@ -30,12 +30,14 @@ console.log(props.markerInfo.firstImage)
 <style scoped>
 .attractionDiv{
     margin: 20px;
+    border-left: 5px solid lightgray;
 }
 .attractionInfo{
     display: flex;
     justify-content: left;
 }
 .imgDiv{
+    margin-left: 10px;
     margin-right: 20px;
     width: 120px;
     height: 120px;

@@ -119,23 +119,21 @@ const onPlanCopy = () => {
 </script>
 
 <template>
-    <div class="container p-3">
+    <div class="travelInfoShareBanner">
+      <div class="position-absolute top-50 start-50 translate-middle">여행 계획 : {{ planDetail.title }}</div>
+    </div>
+    <div class="container">
         <div class="row">
-          <div class="col-8 my-3">
-            <h2>{{ planDetail.title }}</h2>
-          </div>
-          <div class="col-2 my-3" v-show="getMemberId() !== null">
-            <a href="#" class="btn btn-primary me-5" @click="onPlanCopy">내 계획에 추가하기</a>
-          </div>
-          <div class="col-2 my-3">
-            <a href="#" class="btn btn-danger me-5" @click="movePlanList">뒤로가기</a>
+          <div class="btnGroup">
+            <a href="#" class="btn me-5 btnAdd" @click="onPlanCopy">내 계획에 추가하기</a>
+            <a href="#" class="btn btnBack" @click="movePlanList">뒤로가기</a>
           </div>
         </div>
 
         <div class="row p-5" v-if="loading">
           <h3>여행 계획을 불러오고 있습니다..</h3>
           <v-progress-linear
-            color="green"
+            color="#7AEBB8"
             indeterminate
           ></v-progress-linear>
         </div>
@@ -175,6 +173,17 @@ const onPlanCopy = () => {
 </template>
 
 <style scoped>
+.travelInfoShareBanner{
+  background-image: linear-gradient( rgba(0,0,0, 0.55), rgba(0,0,0, 0.55) ),url("@/assets/img/planAll/bannerImg.png");
+  background-repeat : no-repeat;
+  background-size : cover;
+  height: 200px;
+  color: #7AEBB8;
+  font-weight: bold;
+  font-size: 35px;
+  position: relative;
+  margin-bottom: 100px;
+}
 .scroll4::-webkit-scrollbar {
   width: 10px;
 }
@@ -194,7 +203,29 @@ const onPlanCopy = () => {
   float: left;
   margin: 0 10px;
 }
-/* .content {
-  height: 2500px;
-} */
+.btnGroup{
+  float: right;
+  margin-left: 78%;
+  width: fit-content
+}
+.btnAdd{
+  background-color: #54cc96;
+  border: none;
+  color: white;
+}
+.btnAdd:hover{
+  border: 1px solid white;
+  background-color: white;
+  color: #54cc96;
+}
+.btnBack{
+  border: 1px solid #54cc96;
+  background-color: white;
+  color: #54cc96;
+}
+.btnBack:hover{
+  border: 1px solid white;
+  background-color: white;
+  color: #54cc96;
+}
 </style>

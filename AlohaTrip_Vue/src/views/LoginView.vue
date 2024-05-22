@@ -4,10 +4,9 @@
 
 <template>
     <div>
-        <section class="h-100">
-        <div class="container h-100">
+        <div class="contents">
             <div class="row justify-content-sm-center h-100">
-                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+                <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9  loginDiv">
                     <div class="text-center my-5">
                         <a href="index.jsp">
                             
@@ -15,7 +14,7 @@
                     </div>
                     <div class="card shadow-lg">
                         <div class="card-body p-5">
-                            <h1 class="fs-4 card-title fw-bold mb-4">로그인</h1>
+                            <div class="mb-4 titleDiv">로그인</div>
                             <form class="needs-validation" novalidate="" autocomplete="off">
                                 <div class="mb-3">
                                     <label class="mb-2 text-muted" for="id">아이디</label>
@@ -35,7 +34,7 @@
                                             <img src="../assets/img/kakao_login.png"/>
                                         </a>
                                     </div>
-                                    <button id="updateBtn" type="button" class="btn btn-primary text-white ms-auto">
+                                    <button id="updateBtn" type="button" class="btn btn-primary ms-auto btnCheck">
                                         확인
                                     </button>
                                 </div>
@@ -49,10 +48,28 @@
                 </div>
             </div>
         </div>
-    </section>
     </div>
 </template>
 
 <style scoped>
-
+.contents{
+    height: 750px;
+}
+.loginDiv{
+    height: fit-content;
+    margin: 5% 0;
+}
+.titleDiv{
+    font-size: 30px;
+}
+.btnCheck{
+    background-color: #54cc96;
+    border: none;
+    color: white;
+}
+.btnCheck:hover{
+    border: 1px solid #54cc96;
+    background-color: white;
+    color: #54cc96;
+}
 </style>

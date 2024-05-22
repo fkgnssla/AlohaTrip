@@ -20,8 +20,8 @@ onMounted(() => {
     getPlanListByPage(
         1,
         (response) => {
-            plans.value = response.data;
-            console.log(plans.value);
+          plans.value = response.data;
+          console.log(plans.value);
         },
         (error) => console.error(error)
     )
@@ -38,14 +38,14 @@ watch(page, (newValue, oldValue) => {
 </script>
 
 <template>
-    <div>
-        <v-sheet
-            class="d-flex align-content-start flex-wrap ms-16"
-            min-height="200"
-        >
-            <v-sheet v-for="plan in plans" :key="plan.planId" class="ma-12 pa-2 hover-up" >
-                <PlanListItem :plan="plan"/>
-            </v-sheet>
+    <div class="travelInfoShareBanner">
+      <div class="position-absolute top-50 start-50 translate-middle">여행 계획 둘러보기</div>
+    </div>
+    <div class="planList" >
+        <v-sheet min-height="200" class="d-flex flex-wrap listSheet">
+          <v-sheet v-for="plan in plans" :key="plan.planId" class="hover-up planSheet" >
+            <PlanListItem :plan="plan"/>
+          </v-sheet>
         </v-sheet>
 
         <div class="text-center">
@@ -55,6 +55,25 @@ watch(page, (newValue, oldValue) => {
 </template>
 
 <style scoped>
+.travelInfoShareBanner{
+  background-image: linear-gradient( rgba(0,0,0, 0.55), rgba(0,0,0, 0.55) ),url("@/assets/img/planAll/bannerImg.png");
+  background-repeat : no-repeat;
+  background-size : cover;
+  height: 200px;
+  color: #7AEBB8;
+  font-weight: bold;
+  font-size: 35px;
+  position: relative;
+  margin-bottom: 100px;
+}
+.listSheet{
+  margin: 0 auto;
+  width: fit-content;
+}
+.planSheet{
+  width: 344px;
+  margin: 60px;
+}
 .hover-up {
   transition: transform 0.3s ease-in-out;
 }

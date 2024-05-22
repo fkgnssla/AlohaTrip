@@ -67,7 +67,6 @@ const onSearchTripInfo = () => {
       </div>
       <div>
         <form>
-        <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
         <div class="input-group input-group-sm researchTextDiv">
           <input
             type="text"
@@ -110,6 +109,12 @@ const onSearchTripInfo = () => {
   font-size: smaller;
   border: none;
 }
+.wirteArticle:hover{
+  background-color: white;
+  color: #4AD597;
+  font-weight: bold;
+  font-size: smaller;
+}
 .tableDiv{
   margin-top: 15px;
 }
@@ -124,8 +129,13 @@ table{
 }
 .researchTextBtn{
   width: 65px;
-  background-color: lightgrey;
+  background-color: #4AD597;
   border: none;
+  color: white;
 }
-
+.researchTextBtn:hover{
+  background-color: white;
+  border-left : 1px solid lightgrey;
+  color: #4AD597
+}
 </style>

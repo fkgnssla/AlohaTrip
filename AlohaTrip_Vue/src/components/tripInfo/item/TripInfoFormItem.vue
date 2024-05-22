@@ -126,25 +126,44 @@ function moveList() {
   margin-top: 60px;
 }
 .btnCreate{
-  border-width: 2px;
+  border-width: 1px;
   border-color: #4AD597;
   background-color: #4AD597;
   color :white;
   font-weight: bold;
   margin: 0 5px;
 }
+.btnCreate:hover{
+  border : 1px solid #4AD597;
+  color :#4AD597;
+  font-weight: bold;
+}
 .btnUpdate{
-  border-width: 2px;
+  border-width: 1px;
   border-color: #4AD597;
   background-color: #4AD597;
   color :white;
+  font-weight: bold;
+  margin: 0 5px;
+}
+.btnUpdate:hover{
+  border-width: 1px;
+  border-color: white;
+  color :#4AD597;
   font-weight: bold;
   margin: 0 5px;
 }
 .btnList{
-  border-width: 2px;
-  border-color: rgb(148, 148, 148);
-  color :rgb(148, 148, 148);
+  border-width: 1px;
+  border-color: #4AD597;
+  color :#4AD597;
+  font-weight: bold;
+  margin: 0 5px;
+}
+.btnList:hover{ 
+  border-width: 1px;
+  border-color: white;
+  color :#4AD597;
   font-weight: bold;
   margin: 0 5px;
 }

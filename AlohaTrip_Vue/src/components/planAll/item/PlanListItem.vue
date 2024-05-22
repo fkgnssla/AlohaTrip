@@ -14,10 +14,10 @@ const moveDetail = () => {
 </script>
 
 <template>
-    <div>
+    <div class="planDiv">
         <v-card class="mx-auto" min-width="344">
             <v-img
-            height="200px"
+            height="300px"
             :src="plan.imgSrc"
             cover
             ></v-img>
@@ -29,12 +29,14 @@ const moveDetail = () => {
             <v-card-actions>
             <v-spacer></v-spacer>
             
-            <v-btn color="orange-lighten-2" text="들어가기" @click="moveDetail" />
+            <v-btn color="#4AD597" text="들어가기" @click="moveDetail" />
             </v-card-actions>
         </v-card>
     </div>
 </template>
 
 <style scoped>
-
+.planDiv{
+  box-shadow: 10px 30px 30px rgba(128, 128, 128, 0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
 </style>

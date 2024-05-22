@@ -96,12 +96,15 @@ const onUpdate = (planId, planTitle, planStartDate, planEndDate) => {
 </script>
 
 <template>
-    <div id="carouselExampleAutoplaying" class="carousel carousel-dark slide mt-3">
+    <div class="travelInfoShareBanner">
+      <div class="position-absolute top-50 start-50 translate-middle">나만의 여행 계획</div>
+    </div>
+    <div id="carouselExampleAutoplaying" class="carousel carousel-dark slide mt-10">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleAutoplaying" :data-bs-slide-to="idx" 
                 v-for="(plan, idx) in plans" :class="{ 'active': idx === 0 }" :aria-current="idx === 0 ? 'true' : null"></button>
         </div>
-        <div class="carousel-inner p-5" v-if="plans.length>0">
+        <div class="carousel-inner p-5 planItem" v-if="plans.length>0">
             <PlanListItem v-for="(plan, idx) in plans" :plan="plan" :key="plan.planId" :flag="idx === 0" @delete-plan="onDelete" @update-plan="onUpdate" />
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
@@ -117,7 +120,7 @@ const onUpdate = (planId, planTitle, planStartDate, planEndDate) => {
     <div>
       <!-- 모달 토글 버튼 -->
       <div class="text-center mt-3 mb-3">
-          <a class="btn btn-warning" @click="openModal">여행 계획 만들기!</a>
+          <a class="btn btnCreate" @click="openModal">여행 계획 만들기!</a>
       </div>
 
       <!-- 모달 -->
@@ -126,34 +129,34 @@ const onUpdate = (planId, planTitle, planStartDate, planEndDate) => {
           <div class="modal-content">
             <!-- 모달 헤더 -->
             <div class="modal-header">
-              <h5 class="modal-title">여행 계획 만들기</h5>
-              <button type="button" class="btn-close" @click="closeModal"></button>
+              <h5 class="modal-title" >여행 계획 만들기</h5>
+              <button type="button" class="btn-close" @click="closeModal" ></button>
             </div>
             
             <!-- 모달 바디 -->
             <div class="modal-body">
               <!-- 제목 입력 -->
               <div class="mb-3">
-                <label for="planTitle" class="form-label">제목</label>
+                <label for="planTitle" class="form-label">계획 제목</label>
                 <input type="text" class="form-control" id="planTitle" v-model="planTitle">
               </div>
               
               <!-- 날짜 선택 -->
               <div class="mb-3">
-                <label for="planDate" class="form-label">시작 날짜</label>
+                <label for="planDate" class="form-label">여행 시작 날짜</label>
                 <input type="date" class="form-control" id="planDate" v-model="planStartDate">
               </div>
 
               <div class="mb-3">
-                <label for="planDate" class="form-label">끝날짜</label>
+                <label for="planDate" class="form-label">여행 마지막 날짜</label>
                 <input type="date" class="form-control" id="planDate" v-model="planEndDate">
               </div>
             </div>
             
             <!-- 모달 푸터 -->
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" @click="closeModal">취소</button>
-              <button type="button" class="btn btn-primary" @click="savePlan">저장</button>
+              <button type="button" class="btn btnCancel" @click="closeModal">취소</button>
+              <button type="button" class="btn btnSave" @click="savePlan">저장</button>
             </div>
           </div>
         </div>
@@ -162,6 +165,16 @@ const onUpdate = (planId, planTitle, planStartDate, planEndDate) => {
 </template>
 
 <style scoped>
+.travelInfoShareBanner{
+  background-image: linear-gradient( rgba(0,0,0, 0.55), rgba(0,0,0, 0.55) ),url("@/assets/img/AttractionView/bannerImg.png");
+  background-repeat : no-repeat;
+  background-size : cover;
+  height: 200px;
+  color: #7AEBB8;
+  font-weight: bold;
+  font-size: 35px;
+  position: relative;
+}
 /* 모달 스타일 (부트스트랩 클래스 사용) */
 .modal {
   position: fixed;
@@ -196,5 +209,36 @@ const onUpdate = (planId, planTitle, planStartDate, planEndDate) => {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+}
+
+.btnCreate{
+    background-color: #54cc96;
+    border: none;
+    color: white;
+}
+.btnCreate:hover{
+    background-color: white;
+    border: none;
+    color: #54cc96;
+}
+.btnCancel{
+  background-color: white;
+  border: 1px solid #54cc96;
+  color: #54cc96;
+}
+.btnCancel:hover{
+    background-color: white;
+    border: none;
+    color: #54cc96;
+}
+.btnSave{
+    background-color: #54cc96;
+    border: none;
+    color: white;
+}
+.btnSave:hover{
+    background-color: white;
+    border: none;
+    color: #54cc96;
 }
 </style>

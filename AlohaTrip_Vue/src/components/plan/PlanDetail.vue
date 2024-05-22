@@ -224,9 +224,20 @@ const onAddRoute = () => {
 </script>
 
 <template>
-    <div class="container p-3">
-        <div class="row">
-          <div class="col-9">
+  <div class="travelInfoShareBanner">
+      <div class="position-absolute top-50 start-50 translate-middle">여행 계획</div>
+    </div>
+    <div class="contents">
+        <div class="row p-5 m-5" v-if="loading">
+          <h3>여행 계획을 불러오고 있습니다..</h3>
+          <v-progress-linear
+          color="#7AEBB8"
+            indeterminate
+          ></v-progress-linear>
+        </div>
+        <div class="row infoGroup" v-else>
+          <div class="row searchGroupDiv">
+            <div class="col searchBtnGroup">
             <form class="d-flex my-3 searchGroup" onsubmit="return false;" role="search">
                 <select id="search-area-city" class="form-select me-2" v-model="searchAreaCity">
                     <option value="" selected>시 ・ 도</option>
@@ -252,23 +263,13 @@ const onAddRoute = () => {
                     <option value="39">음식점</option>
                 </select>
             </form>
+            </div>
+            <div class="searchBtn">
+              <a href="#" class="btn searchAttractionBtn" @click="movePlanList">여행 목록 보기</a>
+            </div>           
           </div>
-          <div class="col-3 my-3">
-            <a href="#" class="btn btn-primary me-5" @click="movePlanList">여행 목록 보기</a>
-          </div>
-            
-        </div>
-
-        <div class="row p-5 m-5" v-if="loading">
-          <h3>여행 계획을 불러오고 있습니다..</h3>
-          <v-progress-linear
-            color="green"
-            indeterminate
-          ></v-progress-linear>
-        </div>
-        <div class="row" v-else>
-            <div class="col-md-6">
-                <KakaoMap :lat="coordinate.lat" :lng="coordinate.lng">
+          <div class="col-md-6">
+                <KakaoMap :lat="coordinate.lat" :lng="coordinate.lng" width="100%">
                     <KakaoMapPolyline :latLngList="latLngList" :endArrow="true" />
                     <KakaoMapMarker v-for="marker in attractions" :lat="marker.attractionDto.latitude" :lng="marker.attractionDto.longitude"
                         :clickable="true"
@@ -349,6 +350,17 @@ const onAddRoute = () => {
 </template>
 
 <style scoped>
+.travelInfoShareBanner{
+  background-image: linear-gradient( rgba(0,0,0, 0.55), rgba(0,0,0, 0.55) ),url("@/assets/img/plan/bannerImg.png");
+  background-repeat : no-repeat;
+  background-size : cover;
+  height: 200px;
+  color: #7AEBB8;
+  font-weight: bold;
+  font-size: 35px;
+  position: relative;
+  margin-bottom: 100px;
+}
 .scroll4::-webkit-scrollbar {
   width: 10px;
 }
@@ -368,10 +380,30 @@ const onAddRoute = () => {
   float: left;
   margin: 0 10px;
 }
-/* .content {
-  height: 2500px;
-} */
-
+.infoGroup{
+  width: 1700px;
+  margin: 0 auto;
+  height: fit-content;
+}
+.searchGroupDiv{
+  margin-left: 1px;
+}
+.searchBtnGroup{
+}
+.searchBtn{
+  margin: auto 0;
+  width: fit-content;
+}
+.searchAttractionBtn{
+  background-color: #54cc96;
+  border: none;
+  color: white;
+}
+.searchAttractionBtn:hover{
+  border: none;
+  background-color: white;
+  color: #54cc96;
+}
 /* 모달 스타일 (부트스트랩 클래스 사용) */
 .modal {
   position: fixed;
