@@ -132,21 +132,31 @@ watch(searchContentId, (newValue, oldValue) => {
   );
 });
 
-const handleMarkerClick = (marker) => {
-  if (confirm('경로를 추가하시겠습니까?')) {
-    onAddRoute(marker);
-  }
+// 모달
+const showModal = ref(false);
+const clickMarker = ref();
+const planMemo = ref("");
+
+const openModal = (marker) => {
+  clickMarker.value = marker;
+  showModal.value = true; // 모달 열기
 };
 
-const onAddRoute = (marker) => {
-    console.log('경로 추가:', marker.title);
+const closeModal = () => {
+    showModal.value = false;
+    planMemo.value = '';
+};
+
+
+const onAddRoute = () => {
+    console.log('경로 추가:', clickMarker.value.title);
     console.log("order 최대값:", maxOrder);
 
     const newRoute = {
         "planId": planDetail.value.planId,
-        "contentId": marker.contentId,
+        "contentId": clickMarker.value.contentId,
         "order": maxOrder.value + 1,
-        "memo": "내부에 좋은 카페!"
+        "memo": planMemo.value
     }
 
     console.log(JSON.stringify(newRoute))
@@ -155,6 +165,7 @@ const onAddRoute = (marker) => {
       res => {
         console.log("추가")
         onPlanDetail()
+        closeModal()
       },
       err => console.log(err)
     )
@@ -197,7 +208,8 @@ const onAddRoute = (marker) => {
             
         </div>
 
-        <div class="row p-5" v-if="loading">
+        <div class="row p-5 m-5" v-if="loading">
+          <h3>여행 계획을 불러오고 있습니다..</h3>
           <v-progress-linear
             color="green"
             indeterminate
@@ -224,7 +236,7 @@ const onAddRoute = (marker) => {
                         :infoWindow="{ content: `${marker.title} <br> ${marker.addr1}`, visible: marker.showInfo }"
                         @mouseOverKakaoMapMarker="showInfoWindow(marker)"
                         @mouseOutKakaoMapMarker="hideInfoWindow(marker)"
-                        @onClickKakaoMapMarker="handleMarkerClick(marker)"
+                        @onClickKakaoMapMarker="openModal(marker)"
                     >
                     </KakaoMapMarker>
                 </KakaoMap>
@@ -242,6 +254,45 @@ const onAddRoute = (marker) => {
                 </div>
             </div>
         </div>
+
+        <!-- 모달 -->
+      <div v-if="showModal" class="modal" @click.self="closeModal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <!-- 모달 헤더 -->
+            <div class="modal-header">
+              <h5 class="modal-title">경로 추가하기</h5>
+              <button type="button" class="btn-close" @click="closeModal"></button>
+            </div>
+            
+            <!-- 모달 바디 -->
+            <div class="modal-body">
+              <!-- 지명 -->
+              <div class="mb-3">
+                <label for="planTitle" class="form-label">지명</label>
+                <input type="text" class="form-control" id="planTitle" :value="clickMarker.title">
+              </div>
+              <!-- 주소 -->
+              <div class="mb-3">
+                <label for="planAddr" class="form-label">주소</label>
+                <input type="text" class="form-control" id="planAddr" :value="clickMarker.addr1">
+              </div>
+              <!-- 메모 -->
+              <div class="mb-3">
+                <label for="planMemo" class="form-label">메모</label>
+                <input type="text" class="form-control" id="planMemo" v-model="planMemo">
+              </div>
+              
+            </div>
+            
+            <!-- 모달 푸터 -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" @click="closeModal">취소</button>
+              <button type="button" class="btn btn-primary" @click="onAddRoute">저장</button>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
     
 </template>
@@ -269,4 +320,40 @@ const onAddRoute = (marker) => {
 /* .content {
   height: 2500px;
 } */
+
+/* 모달 스타일 (부트스트랩 클래스 사용) */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-dialog {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content {
+  padding: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
 </style>
