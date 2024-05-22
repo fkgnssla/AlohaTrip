@@ -133,6 +133,7 @@ const onPlanCopy = () => {
         </div>
 
         <div class="row p-5" v-if="loading">
+          <h3>여행 계획을 불러오고 있습니다..</h3>
           <v-progress-linear
             color="green"
             indeterminate

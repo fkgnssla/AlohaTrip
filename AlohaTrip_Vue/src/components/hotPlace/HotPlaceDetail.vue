@@ -6,6 +6,7 @@ import { getSidoAddress, getGugunAddress } from "@/api/address"
 import { getAttractionList } from "@/api/attraction"
 import { getHotPlaceInfoDetail, postDeletePost } from "@/api/hotPlace.js";
 import { getMemberId } from "@/util/storageUtil"
+import { createLike, deleteLike } from "@/api/like"
 
 const route = useRoute();
 const router = useRouter();
@@ -16,8 +17,11 @@ const markerLng = ref('');
 const mapLat = ref(33.450701);
 const mapLng = ref(126.570667);
 const writerId = ref();
+const isLike = ref();
+const memberId = ref();
 
 onMounted(() => {
+    memberId.value = getMemberId();
     hotPlaceDetail();
 });
 
@@ -59,6 +63,44 @@ function deletePost() {
 function moveList() {
   router.push({name: 'bragOfHotPlace'});
 }
+
+const clickHeart = () => {
+    const like = {
+        "userId": getMemberId(),
+        "hotPlaceId": hotPlaceInfo.value.hotPlaceId
+    }
+
+    if (isLike) {
+        deleteLike(
+            like,
+            response => console.log(response),
+            err => console.log(err)
+        )
+    } else {
+        createLike(
+            like,
+            response => console.log(response),
+            err => console.log(err)
+        )
+    }
+
+    getHotPlaceInfoDetail(
+        id,
+        ({ data }) => {
+            hotPlaceInfo.value = data;
+            markerLat.value = data.lat;
+            markerLng.value = data.lng;
+            mapLat.value = data.lat;
+            mapLng.value = data.lng;
+            writerId.value = data.memberId;
+            console.log(hotPlaceInfo.value)
+        },
+        (error) => {
+            console.log(error);
+       }
+    );
+}
+
 </script>
 
 <template>
@@ -120,7 +162,8 @@ function moveList() {
             </div>
             <div class="divisionLineRow"></div>
             <div class="likeDiv">
-                <img src="@/assets/img/common/heart.png" height="20px" style="margin-right: 5px;">
+                <img src="@/assets/img/common/heartFilled.png" @click="clickHeart" v-if="isLike" height="20px" style="margin-right: 5px;">
+                <img src="@/assets/img/common/heart.png" @click="clickHeart" v-else height="20px" style="margin-right: 5px;">
                 {{ hotPlaceInfo.likes }} people like this
             </div>
             <div class="BtnGroup" >
