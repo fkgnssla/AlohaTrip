@@ -3,6 +3,7 @@ import { KakaoMap, KakaoMapMarker, KakaoMapCustomOverlay  } from 'vue3-kakao-map
 import { ref, onMounted, watch } from "vue";
 import { getSidoAddress, getGugunAddress } from "@/api/address" 
 import { getAttractionList } from "@/api/attraction"
+import AttractionListItem from "@/components/attraction/item/AttractionListItem.vue";
 
 const searchAreaCity = ref("")
 const searchAreaOptions = ref([]);
@@ -81,10 +82,10 @@ const hideInfoWindow = (marker) => {
     <div class="travelInfoShareBanner">
       <div class="position-absolute top-50 start-50 translate-middle">지역별 여행지</div>
     </div>
-    <div class="container" >
+    <div class="contents" >
       <div style="height: 70px"></div>  
       <!-- 중앙 center content end -->
-      <div>
+      <div class="searchAttraction">
         <!-- 관광지 검색 start -->
         <form class="d-flex my-3 searchGroup" onsubmit="return false;" role="search">
           <select id="search-area-city" class="form-select me-2" v-model="searchAreaCity">
@@ -99,7 +100,7 @@ const hideInfoWindow = (marker) => {
               {{ option.gugunName }}
             </option>
           </select>
-          <select id="search-content-id" class="form-select me-2" v-model="searchContentId">
+          <select id="search-content-id" class="form-select" v-model="searchContentId">
             <option value="" selected>관광지 유형</option>
 			      <option value="12">관광지</option>
             <option value="14">문화시설</option>
@@ -113,9 +114,9 @@ const hideInfoWindow = (marker) => {
         </form>
 
           <!-- kakao map start -->
-        <KakaoMap @onLoadKakaoMap="onLoadKakaoMap" :lat="coordinate.lat" :lng="coordinate.lng" :draggable="true" class="kakaoMapObj">
+        <KakaoMap @onLoadKakaoMap="onLoadKakaoMap" :lat="coordinate.lat" :lng="coordinate.lng" :draggable="true" class="kakaoMapObj" width="100%" height="50rem">
           <KakaoMapMarker v-for="marker in markersWithShowInfo" :lat="marker.latitude" :lng="marker.longitude" :key="marker.contentId"
-              :clickable="true"
+            :clickable="true"
               :image="{
                 imageSrc: imageSrc,
                 imageWidth: 24,
@@ -146,6 +147,15 @@ const hideInfoWindow = (marker) => {
         </div>
         <!-- 관광지 검색 end -->
       </div>
+      <div class="attractionList">
+        <div class="listTitle">
+          여행지 목록
+        </div>
+        <div class="divisionLine"></div>
+        <div class="scrollspy-example" data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" tabindex="0">
+          <AttractionListItem v-for="markerInfo in markersWithShowInfo" :markerInfo="markerInfo"/>
+        </div>
+      </div>
     </div>
   </main>
 </template>
@@ -161,13 +171,34 @@ const hideInfoWindow = (marker) => {
   font-size: 35px;
   position: relative;
 }
-
-.kakaoMapContainer {
-  width: 100%; /* 부모 요소의 너비에 따라 조정 */
-  height: 400px; /* 초기 높이 설정 */
+.contents{
+  width : 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  padding-top: 80px;
 }
-.kakaoMapObj {
-  width: 100%;
-  height: 100%; /* 부모 요소의 높이에 맞게 조정 */
+.searchAttraction{
+  width: 55%;
+  margin: 0 5%;
+}
+.attractionList{
+  width: 30%;
+  height: 862px;
+  margin-right: 5%;
+}
+.listTitle{
+  margin-top: 10px;
+  font-size: 25px;
+  color: #7AEBB8;
+}
+.divisionLine{
+  background-color: lightgrey;
+  height: 1px;
+  margin-top: 10px;
+}
+.scrollspy-example{
+  max-height: calc(93%);
+  overflow-y: auto;
 }
 </style>
