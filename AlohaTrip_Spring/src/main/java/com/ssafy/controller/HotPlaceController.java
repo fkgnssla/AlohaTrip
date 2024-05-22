@@ -11,9 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.ssafy.model.PrincipalDetail;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,7 +56,7 @@ public class HotPlaceController {
 		System.out.println(memberId + "/" + hotPlaceName + "/" + visitedDate + "/" + address + "/" + ImgInfo + "/" + contents + "/" + lat + "/" + lng);
 		
 		HotPlaceCreateAndUpdateDto hotPlace = new HotPlaceCreateAndUpdateDto();
-		hotPlace.setMemberId(1);
+		hotPlace.setMemberId(Integer.parseInt(memberId));
 		hotPlace.setHotPlaceName(hotPlaceName);
 		hotPlace.setAddress(address);
 		hotPlace.setContents(contents);
@@ -95,9 +97,9 @@ public class HotPlaceController {
 	}
 	
 	@GetMapping("/hotPlaceDetail")
-	public ResponseEntity<?> findById(@Param("Id") long Id) {
+	public ResponseEntity<?> findById(@Param("Id") long Id,  @AuthenticationPrincipal PrincipalDetail principalDetail) {
 		System.out.println("bragOfHotPlace/hotPlaceDetail/${id} : " + Id);
-		HotPlaceDto hotPlace = hotPlaceService.findById(Id);
+		HotPlaceDto hotPlace = hotPlaceService.findById(Id, principalDetail.getId());
 		return ResponseEntity.ok().body(hotPlace);
 	}
 	
@@ -115,7 +117,6 @@ public class HotPlaceController {
 //		for(int i = 0; i < hotPlaceDtoList.size(); i++) {
 //			System.out.println(hotPlaceDtoList.get(i).toString());
 //		}
-		
 		int lastPage = hotPlaceService.findLastPageNum();
 		Map<String, Object> result = new HashMap<>();
 		result.put("hotPlaceDtoList", hotPlaceDtoList);

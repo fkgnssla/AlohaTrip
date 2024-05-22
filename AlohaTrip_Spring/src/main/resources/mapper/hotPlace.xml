@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+
 <mapper namespace="com.ssafy.dao.HotPlaceMapper">
 	<insert id="create" parameterType="com.ssafy.dto.hotPlace.HotPlaceCreateAndUpdateDto">
 		insert into hotplaceinfo values(NULL, #{memberId}, #{HotPlaceName}, #{address}, #{contents}, #{ImgAddress}, #{lat}, #{lng}, #{views}, #{likes}, now(), #{visitedDate})
 	</insert>
-	
+
 	<select id="findById" parameterType="long" resultType="com.ssafy.dto.hotPlace.HotPlaceDto">
 		select h.hotPlace_id as hotPlaceId, m.name as writerName, hot_place_name as HotPlaceName, address, contents, image_address as ImgAddress, lat, lng, views, likes, created_date as createdDate, visited_date as visitedDate
 		from hotplaceinfo h join memberinfo m on (h.member_id = m.member_id)
 		where h.hotPlace_id = #{hotPlaceId}
 	</select>
-	
+
 	<select id="findBestHotPlacePost" resultType="com.ssafy.dto.hotPlace.HotPlaceDto">
 		select hotPlace_id AS hotPlaceId, m.name as writerName, hot_place_name AS HotPlaceName, views, visited_date AS visitedDate
 		from hotplaceinfo h join memberinfo m on (h.member_id = m.member_id)
@@ -23,20 +23,24 @@
 		from hotplaceinfo h join memberinfo m on (h.member_id = m.member_id)
 		order by hotPlace_id asc limit #{startPostNum}, 10;
 	</select>
-	
+
 	<select id="findLastPageNum" resultType="int">
 		select count(*) from hotplaceinfo;
 	</select>
-	
+
 	<update id="update" parameterType="com.ssafy.dto.BoardDto">
 		UPDATE hotplaceinfo SET hot_place_name = #{HotPlaceName},address=#{address}, contents=#{contents},image_address=#{ImgAddress},lat=#{lat},lng=#{lng},visited_date=#{visitedDate} WHERE hotPlace_id = #{hotPlaceId}
 	</update>
-	
+
 	<update id="updateWithOutImg" parameterType="com.ssafy.dto.BoardDto">
 		UPDATE hotplaceinfo SET hot_place_name = #{HotPlaceName},address=#{address}, contents=#{contents}, lat=#{lat},lng=#{lng},visited_date=#{visitedDate} WHERE hotPlace_id = #{hotPlaceId}
 	</update>
-	
+
 	<delete id="deleteById" parameterType="long">
 		delete from hotplaceinfo where hotPlace_id = #{hotPlaceId}
 	</delete>
+
+	<update id="updateViews">
+		update hotplaceinfo set views = #{views} where hotPlace_id = #{id}
+	</update>
 </mapper>

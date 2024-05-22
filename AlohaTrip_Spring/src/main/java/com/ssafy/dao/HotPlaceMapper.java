@@ -17,4 +17,5 @@ public interface HotPlaceMapper {
 	public void update(HotPlaceCreateAndUpdateDto hotPlace);
 	public void updateWithOutImg(HotPlaceCreateAndUpdateDto hotPlace);
 	public void deleteById(Long id);
+	public void updateViews(Long id, int views);
 }

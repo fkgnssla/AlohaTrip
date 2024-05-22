@@ -5,7 +5,7 @@ import { useRoute, useRouter } from "vue-router"
 import { getAccessToken, getMemberId } from "@/util/storageUtil";
 import { createHotPlaceInfo } from "@/api/hotPlace.js";
 import { KakaoMap,KakaoMapMarker } from 'vue3-kakao-maps';
-import {getHotPlaceInfoDetail, updateHotPlaceInfo} from "@/api/hotPlace.js";
+import { getHotPlaceInfoDetail, updateHotPlaceInfo } from "@/api/hotPlace.js";
 
 const route = useRoute()
 const router = useRouter()
@@ -84,7 +84,7 @@ function onSubmit() {
 function onCreateHotPlaceInfo() {
     hotPlaceInfo.value.visitedDate = hotPlaceInfo.value.visitedDate+" 00:00:00"
     var formData = new FormData();
-    formData.append('memberId', hotPlaceInfo.value.memberId)
+    formData.append('memberId', getMemberId())
     formData.append('hotPlaceName', hotPlaceInfo.value.hotPlaceName)
     formData.append('visitedDate', hotPlaceInfo.value.visitedDate)
     formData.append('address', hotPlaceInfo.value.address)
