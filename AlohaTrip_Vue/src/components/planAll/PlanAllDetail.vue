@@ -1,7 +1,7 @@
 <script setup>
 import {ref, onMounted, watch} from "vue";
 import PlanDetailItem from "@/components/planAll/item/PlanDetailItem.vue";
-import { KakaoMap, KakaoMapPolyline, KakaoMapMarker } from 'vue3-kakao-maps';
+import { KakaoMap, KakaoMapPolyline, KakaoMapMarker, KakaoMapCustomOverlay } from 'vue3-kakao-maps';
 import { useRoute, useRouter } from "vue-router";
 import { getAttractionList } from "@/api/attraction"
 import { getPlanDetail, copyPlan } from "@/api/plan"
@@ -68,7 +68,31 @@ const onPlanDetail = () => {
 }
 
 // 마커에 마우스를 올렸을 때 인포윈도우 표시 함수
+const content = ref();
 const showInfoWindow = (marker) => {
+  content.value = `<div
+        style="
+          padding: 10px;
+          background-color: white;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        "
+      >
+        <div style="font-weight: bold; margin-bottom: 5px"></div>
+        <div style="display: flex">
+          <div style="margin-right: 10px">
+            <img src="${marker.attractionDto.firstImage ? marker.attractionDto.firstImage : '@/assets/img/common/noImage.png'}" width="73" height="70" />
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-start">
+            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">${marker.attractionDto.title}</div>
+            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">${marker.attractionDto.addr1}</div>
+          </div>
+        </div>
+      </div>`;
+      console.log(content.value);
   marker.showInfo = true; // 마커 객체의 showInfo 상태를 true로 변경하여 인포윈도우 표시
 };
 
@@ -125,17 +149,10 @@ const onPlanCopy = () => {
                             imageHeight: 28,
                             imageOption: {}
                         }"
-                        :infoWindow="{ content: `${marker.attractionDto.title} <br> ${marker.attractionDto.addr1}`, visible: marker.showInfo }"
                         @mouseOverKakaoMapMarker="showInfoWindow(marker)"
                         @mouseOutKakaoMapMarker="hideInfoWindow(marker)">
                     </KakaoMapMarker>
-                    <KakaoMapMarker v-for="marker in searchMarkers" :lat="marker.latitude" :lng="marker.longitude" :key="marker.contentId"
-                        :clickable="true"
-                        :infoWindow="{ content: `${marker.title} <br> ${marker.addr1}`, visible: marker.showInfo }"
-                        @mouseOverKakaoMapMarker="showInfoWindow(marker)"
-                        @mouseOutKakaoMapMarker="hideInfoWindow(marker)"
-                    >
-                    </KakaoMapMarker>
+                    <KakaoMapCustomOverlay v-for="marker in attractions" :lat="marker.attractionDto.latitude" :lng="marker.attractionDto.longitude" :yAnchor="1.4" :visible="marker.showInfo" :content="content" />
                 </KakaoMap>
             </div>
             <div class="col-md-6">

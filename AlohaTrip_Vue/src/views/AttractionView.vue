@@ -1,5 +1,5 @@
 <script setup>
-import { KakaoMap, KakaoMapMarker, KakaoMapCustomOverlay  } from 'vue3-kakao-maps';
+import { KakaoMap, KakaoMapMarker, KakaoMapCustomOverlay } from 'vue3-kakao-maps';
 import { ref, onMounted, watch } from "vue";
 import { getSidoAddress, getGugunAddress } from "@/api/address" 
 import { getAttractionList } from "@/api/attraction"
@@ -67,7 +67,30 @@ watch(searchContentId, (newValue, oldValue) => {
 const markersWithShowInfo = ref([]);
 
 // 마커에 마우스를 올렸을 때 인포윈도우 표시 함수
+const content = ref();
 const showInfoWindow = (marker) => {
+  content.value = `<div
+        style="
+          padding: 10px;
+          background-color: white;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        "
+      >
+        <div style="font-weight: bold; margin-bottom: 5px"></div>
+        <div style="display: flex">
+          <div style="margin-right: 10px">
+            <img src="${marker.firstImage ? marker.firstImage : '/assets/img/common/noImage.png'}" width="73" height="70" />
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-start">
+            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">${marker.title}</div>
+            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap">${marker.addr1}</div>
+          </div>
+        </div>
+      </div>`;
   marker.showInfo = true; // 마커 객체의 showInfo 상태를 true로 변경하여 인포윈도우 표시
 };
 
@@ -123,11 +146,11 @@ const hideInfoWindow = (marker) => {
                 imageHeight: 28,
                 imageOption: {}
               }"
-              :infoWindow="{ content: `${marker.title} <br> ${marker.addr1}`, visible: marker.showInfo }"
               @mouseOverKakaoMapMarker="showInfoWindow(marker)"
               @mouseOutKakaoMapMarker="hideInfoWindow(marker)"
           >
           </KakaoMapMarker>
+          <KakaoMapCustomOverlay v-for="marker in markersWithShowInfo" :lat="marker.latitude" :lng="marker.longitude" :yAnchor="1.4" :visible="marker.showInfo" :content="content" />
         </KakaoMap>
         <!-- kakao map end -->
 
