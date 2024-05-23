@@ -55,7 +55,7 @@ function onDeleteTripInfo() {
 <template>
   <div>
     <div class="travelInfoShareBanner">
-      <div class="position-absolute top-50 start-50 translate-middle">Travel Info Share : Detail Post</div>
+      <div class="position-absolute top-50 start-50 translate-middle">여행 정보 : 자세히 보기</div>
     </div>
     <div class="container text-center post">
       <div class="postInfo">

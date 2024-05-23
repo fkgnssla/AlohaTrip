@@ -87,7 +87,7 @@ public class HotPlaceController {
 				System.out.println(saveFileName);
 				try {
 					ImgInfo.transferTo(new File(folder, saveFileName));
-					hotPlace.setImgAddress(folder+saveFileName);
+					hotPlace.setImgAddress(folder+"\\"+saveFileName);
 				} catch (IllegalStateException e) {e.printStackTrace();}
 				catch (IOException e) {e.printStackTrace();}
 			}
@@ -174,7 +174,7 @@ public class HotPlaceController {
 				System.out.println(saveFileName);
 				try {
 					ImgInfo.transferTo(new File(folder, saveFileName));
-					hotPlace.setImgAddress(folder+saveFileName);
+					hotPlace.setImgAddress(folder+"\\"+saveFileName);
 				} catch (IllegalStateException e) {e.printStackTrace();}
 				catch (IOException e) {e.printStackTrace();}
 			}

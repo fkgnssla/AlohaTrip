@@ -6,7 +6,7 @@ const props = defineProps({
     bestHotPlaceInfo: Object
 });
 const month = ref("")
-
+const imgAddress = ref("");
 onMounted(() => {
     if (props.bestHotPlaceInfo.visitedDate[1] == 1) {
         month.value = "Jan"
@@ -34,6 +34,11 @@ onMounted(() => {
     }else {
         month.value = "Dec"
     }
+
+    imgAddress.value = props.bestHotPlaceInfo.ImgAddress.replace('C:\\SSAFY\\08_enjoytrip_final\\AlohaTrip_Vue', '').replaceAll('\\','/');
+    console.log(imgAddress)
+    // backgroundImgAdress = "url("+imgAddress.value+")"
+
 })
 
 const moveDetail = () => {
@@ -45,7 +50,8 @@ const moveDetail = () => {
 <template>
     <div class="post" @click="moveDetail">
         <div>
-            <div class="postImg">
+            <div class="postImgDiv">
+                <img class="postImg" :src="imgAddress" />
             </div>
             <div class="postDate">
                 <div class="postDateDay">
@@ -75,6 +81,7 @@ const moveDetail = () => {
 
 <style scoped>
 .post{
+    background-color: white;
     box-shadow: 5px 5px 5px 5px lightgray;
     position: relative;
     width: 1200px;
@@ -82,12 +89,15 @@ const moveDetail = () => {
     margin-right: 50px;
     margin-left: 50px;
 }
-.postImg{
-    background-image: url("@/assets/img/HotPlace/testImg.png");
-    background-repeat : no-repeat;
-    background-size : cover;
+.postImgDiv{
     width: 1200px;
-    height: 300px;
+    max-height: 300px;
+    overflow: hidden;
+}
+.postImg{
+    max-height: initial;
+    margin-top: -50%;
+    width: 1200px;
 }
 .postInfo{
     width: 1200px;

@@ -5,7 +5,7 @@ import TripInfoFormItem from "@/components/tripInfo/item/TripInfoFormItem.vue"
 <template>
     <div>
         <div class="travelInfoShareBanner">
-            <div class="position-absolute top-50 start-50 translate-middle">Travel Info Share : Update Post</div>
+            <div class="position-absolute top-50 start-50 translate-middle">여행 정보 : 업데이트</div>
         </div>
         <div class="container text-center postWriteForm">
             <TripInfoFormItem type="update" />

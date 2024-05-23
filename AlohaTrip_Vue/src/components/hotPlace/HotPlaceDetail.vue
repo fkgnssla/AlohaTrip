@@ -19,6 +19,7 @@ const mapLng = ref(126.570667);
 const writerId = ref();
 const isLike = ref();
 const memberId = ref();
+const Img = ref('');
 
 onMounted(() => {
     memberId.value = getMemberId();
@@ -38,6 +39,8 @@ const hotPlaceDetail = async () => {
             mapLng.value = data.lng;
             writerId.value = data.memberId;
             isLike.value = data.likeFlag;
+            Img.value = hotPlaceInfo.value.ImgAddress.replace('C:\\SSAFY\\08_enjoytrip_final\\AlohaTrip_Vue', '').replaceAll('\\','/');
+            console.log(Img.value)
             console.log(hotPlaceInfo.value)
         },
         (error) => {
@@ -96,7 +99,7 @@ const clickHeart = () => {
 
 <template>
     <div class="hotPlaceBanner">
-      <div class="position-absolute top-50 start-50 translate-middle">Brag of Hotplace : Detail</div>
+      <div class="position-absolute top-50 start-50 translate-middle">핫플 정보 : 자세히 보기</div>
     </div>
     <div class="container">
         <div class="imgAndMapDiv">
@@ -111,7 +114,7 @@ const clickHeart = () => {
                     <div>
                         <div class="carousel-item active" data-bs-interval="2000">
                             <div class="carouselItemBlock">
-                                <img src="@/assets/img/HotPlace/testImg.png" class="d-block w-100" alt="...">
+                                <img :src="Img" class="d-block w-100" alt="...">
                             </div>
                         </div>
                     </div>
@@ -131,7 +134,7 @@ const clickHeart = () => {
             <div class="postInfo">
                 <div class="hotPlaceAddress">
                     <div>
-                        {{ hotPlaceInfo.address }}
+                        {{ hotPlaceInfo.address }} 
                     </div>
                 </div>
                 <div class="postTitle">
@@ -158,10 +161,10 @@ const clickHeart = () => {
                 {{ hotPlaceInfo.likes }} people like this
             </div>
             <div class="BtnGroup" >
-                <button type="button" class="btn updateArticle" @click="moveUpdate" v-show="writerId === getMemberId()">
+                <button type="button" class="btn updateArticle" @click="moveUpdate">
                 수정
                 </button>
-                <button type="button" class="btn deleteArticle" @click="deletePost" v-show="writerId === getMemberId()">
+                <button type="button" class="btn deleteArticle" @click="deletePost">
                 삭제
                 </button>
                 <button type="button" class="btn moveToList" @click="moveList">

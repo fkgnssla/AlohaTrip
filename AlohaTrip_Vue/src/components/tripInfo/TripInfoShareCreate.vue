@@ -6,7 +6,7 @@ import { ref } from "vue";
 <template>
     <div>
         <div class="travelInfoShareBanner">
-            <div class="position-absolute top-50 start-50 translate-middle">Travel Info Share : Write Post</div>
+            <div class="position-absolute top-50 start-50 translate-middle">여행 정보 : 추가</div>
         </div>
         <div class="container text-center postWriteForm">
             <TripInfoFormItem type="regist" />

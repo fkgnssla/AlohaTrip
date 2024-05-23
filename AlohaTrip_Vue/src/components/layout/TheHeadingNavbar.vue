@@ -92,7 +92,7 @@ const onLogout = () => {
           <li class="nav-item text-end">
             <router-link :to="{ name: 'bragOfHotPlace'}">핫플 자랑하기</router-link>
           </li>
-          <li class="nav-item text-end">
+          <li class="nav-item text-end trvelInfo">
             <router-link :to="{ name: 'tripInfoShare' }">여행 정보 공유</router-link>
           </li>
           <div v-if="memberId == null">
@@ -110,7 +110,7 @@ const onLogout = () => {
                 <router-link>로그아웃</router-link>
             </li>
           </div>
-          <div v-if="memberId !== null">
+          <div v-if="memberId !== null" class="userImgInfo">
             <li class="nav-item text-end">
               <v-avatar>
                 <v-img

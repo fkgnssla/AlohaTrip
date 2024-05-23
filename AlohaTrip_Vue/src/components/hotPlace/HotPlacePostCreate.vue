@@ -5,7 +5,7 @@ import HotPlaceFormItem from "@/components/hotPlace/item/HotPlaceFormItem.vue";
 <template>
     <div>
         <div class="hotPlaceBanner">
-            <div class="position-absolute top-50 start-50 translate-middle">Brag of Hotplace : Write Post</div>
+            <div class="position-absolute top-50 start-50 translate-middle">핫플 정보 : 추가</div>
         </div>
         <div class="contents text-center postWriteForm">
             <HotPlaceFormItem type="regist"/>

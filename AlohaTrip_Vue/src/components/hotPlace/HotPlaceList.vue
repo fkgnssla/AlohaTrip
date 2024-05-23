@@ -70,7 +70,7 @@ const moveCreate = () => {
 
 <template>
     <div class="hotPlaceBanner">
-      <div class="position-absolute top-50 start-50 translate-middle">Brag of Hotplace</div>
+      <div class="position-absolute top-50 start-50 translate-middle">핫플 자랑하기</div>
     </div>
     <div class="containerObj">
       <div class="postBestListObj"> 
@@ -97,7 +97,7 @@ const moveCreate = () => {
         </div>
       </div>
       <div class="divisionLine"></div>
-      <div class="btnGroupDiv">
+      <div class="btnGroupDiv hotPlaceList">
         <div class="input-group searchHotPlace">
           <input type="text" class="form-control" placeholder="검색어 입력" aria-describedby="btnSearchHotPalce">
           <button class="btnSearchHotPalce" type="button" id="btnSearchHotPalce">

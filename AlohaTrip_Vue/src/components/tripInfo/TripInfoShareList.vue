@@ -41,7 +41,7 @@ const onSearchTripInfo = () => {
 <template>
   <div>
     <div class="travelInfoShareBanner">
-      <div class="position-absolute top-50 start-50 translate-middle">Travel Info Share</div>
+      <div class="position-absolute top-50 start-50 translate-middle">여행 정보 공유</div>
     </div>
     <div class="container text-center">
       <div class="wirteArticlBtnDiv" v-if="memberId !== null">

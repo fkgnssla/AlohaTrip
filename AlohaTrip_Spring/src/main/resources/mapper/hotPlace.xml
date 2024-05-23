@@ -13,7 +13,7 @@
 	</select>
 
 	<select id="findBestHotPlacePost" resultType="com.ssafy.dto.hotPlace.HotPlaceDto">
-		select hotPlace_id AS hotPlaceId, m.name as writerName, hot_place_name AS HotPlaceName, views, visited_date AS visitedDate
+		select hotPlace_id AS hotPlaceId, m.name as writerName, hot_place_name AS HotPlaceName, views, visited_date AS visitedDate, image_address as ImgAddress
 		from hotplaceinfo h join memberinfo m on (h.member_id = m.member_id)
 		order by likes desc, views desc limit 0, 5;
 	</select>

@@ -10,7 +10,7 @@ const { id } = route.params;
 <template>
     <div>
         <div class="hotPlaceBanner">
-            <div class="position-absolute top-50 start-50 translate-middle">Brag of Hotplace : Update Post</div>
+            <div class="position-absolute top-50 start-50 translate-middle">핫플 정보 : 업데이트</div>
         </div>
         <div class="contents text-center postWriteForm">
             <HotPlaceFormItem type="update" :id="id"/>
