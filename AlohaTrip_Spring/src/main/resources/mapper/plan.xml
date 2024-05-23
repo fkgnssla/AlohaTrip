@@ -160,4 +160,10 @@
         SET share_count = share_count + 1
         WHERE plan_id = #{planId};
     </update>
+
+    <select id="findTop3ByOrderByShareCountDesc" resultType="planDto">
+        SELECT p.member_id as memberId, plan_id as planId, title, nickname, start_date as startDate, end_date as endDate
+        FROM plan p join memberInfo m on(p.member_id = m.member_id)
+        order by share_count desc limit 3;
+    </select>
 </mapper>

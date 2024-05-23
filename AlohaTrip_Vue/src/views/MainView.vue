@@ -1,4 +1,22 @@
-<script setup></script>
+<script setup>
+import { getPlanTop3 } from "@/api/plan";
+import PlanList from "@/components/plan/PlanList.vue";
+import PlanListItem from "@/components/planAll/item/PlanListItem.vue";
+import { onMounted, ref } from "vue";
+
+const plans = ref();
+
+onMounted(() => {
+  getPlanTop3(
+    response => {
+      console.log(response.data)
+      plans.value = response.data;
+    },
+    err => console.log(err)
+  )
+})
+
+</script>
 
 <template>
   <div class="video-container">
@@ -9,7 +27,11 @@
   </div>
   <div class="mt-4 text-center">
     <h3>요즘 뜨는 여행 경로</h3>
-
+    <v-sheet min-height="200" class="d-flex flex-wrap listSheet justify-center align-center">
+      <v-sheet v-for="plan in plans" :key="plan.planId" class="hover-up planSheet mt-4 ms-5 me-5" >
+        <PlanListItem :plan="plan"/>
+      </v-sheet>
+    </v-sheet>
   </div>
   
 </template>

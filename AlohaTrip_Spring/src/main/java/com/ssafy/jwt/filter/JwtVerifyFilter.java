@@ -24,7 +24,7 @@ public class JwtVerifyFilter extends OncePerRequestFilter {
 
     private static final String[] whitelist = {"/signUp", "/login" , "/refresh", "/", "/index.html"
         ,"/address/*", "/attraction/*", "/plan/totalPage", "/plan/listAll", "/plan/info/*", "/bragOfHotPlace/hotPlaceList", "/bragOfHotPlace/hotPlaceBestList",
-        "/bragOfHotPlace/hotPlaceDetail", "/tripInfoShare", "/tripInfoShare/*"};
+        "/bragOfHotPlace/hotPlaceDetail", "/tripInfoShare", "/tripInfoShare/*", "/plan/top3"};
 
     private static void checkAuthorizationHeader(String header) {
         if(header == null || header.equals("Bearer null")) {

@@ -26,4 +26,5 @@ public interface PlanMapper {
 	public void deletePlanAttraction(int planAttractionId) throws Exception;
 	public void deletePlanAttractionByPlanId(int planId) throws Exception;
 	public void updateShareCount(int planId);
+	public List<PlanDto> findTop3ByOrderByShareCountDesc() throws Exception;
 }

@@ -153,6 +153,12 @@ public class PlanService {
 		planMapper.deletePlanAttraction(planAttractionId);
 	}
 
+	public List<PlanDto> findTop3ByOrderByShareCountDesc() throws Exception {
+		List<PlanDto> planDtoList = planMapper.findTop3ByOrderByShareCountDesc();
+		addFirstImg(planDtoList);
+		return planDtoList;
+	}
+
 	public void shortenPath(int planId) throws Exception {
 		// 1. plan_attraction에서 planId에 해당하는 경로 정보 가져오기
 		List<PlanAttractionInfoDto> attractions = planMapper.getPlanAttractionInfoDtoList(planId);

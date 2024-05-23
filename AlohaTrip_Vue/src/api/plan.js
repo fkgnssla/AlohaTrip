@@ -90,7 +90,15 @@ function copyPlan(plan, success, fail) {
     }).then(success).catch(fail);
 }
 
+function getPlanTop3(success, fail) {
+  local.get(`/plan/top3`, {
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`
+      }
+    }).then(success).catch(fail);
+}
+
 
 export {
-    getPlanList, getPlanDetail, getPlanListByPage, getTotalPage, addRoute, deleteRoute, createPlan, updatePlan, deletePlan, copyPlan
+    getPlanList, getPlanDetail, getPlanListByPage, getTotalPage, addRoute, deleteRoute, createPlan, updatePlan, deletePlan, copyPlan, getPlanTop3
 }
