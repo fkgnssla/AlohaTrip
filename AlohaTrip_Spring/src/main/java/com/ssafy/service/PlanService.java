@@ -85,10 +85,10 @@ public class PlanService {
 	}
 	
 	public List<PlanDto> getPlanDtoListAll(int pageNum) throws Exception {
-		int offset = (pageNum - 1) * 12;
+		int offset = (pageNum - 1) * 8;
 		
         Map<String, Object> params = new HashMap();
-        params.put("rowsPerPage", 12);
+        params.put("rowsPerPage", 8);
         params.put("offset", offset);
 		
 		
@@ -100,8 +100,8 @@ public class PlanService {
 	public int findTotalPage() throws Exception {
 		int totalPage = planMapper.findTotalCount();
 		
-		if(totalPage % 12 == 0) return totalPage / 12;
-		else return totalPage /12 + 1;
+		if(totalPage % 8 == 0) return totalPage / 8;
+		else return totalPage /8 + 1;
 	}
 
 	public int save(PlanDto planDto) throws Exception {
