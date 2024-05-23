@@ -27,7 +27,7 @@ public class JwtVerifyFilter extends OncePerRequestFilter {
         "/bragOfHotPlace/hotPlaceDetail", "/tripInfoShare", "/tripInfoShare/*"};
 
     private static void checkAuthorizationHeader(String header) {
-        if(header == null) {
+        if(header == null || header.equals("Bearer null")) {
             log.error("토큰이 존재하지 않습니다.");
             throw new CustomJwtException("토큰이 존재하지 않습니다.");
         } else if (!header.startsWith(JwtConstants.JWT_TYPE)) {
@@ -39,16 +39,18 @@ public class JwtVerifyFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String requestURI = request.getRequestURI();
-        System.out.println(requestURI); //삭제해야함.
+        log.info("요청받은 URI: " + requestURI);
 
 //       return true; //나중에 삭제해야함.
-        return PatternMatchUtils.simpleMatch(whitelist, requestURI);
+//        return PatternMatchUtils.simpleMatch(whitelist, requestURI);
+        return false;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("JwtVerifyFilter 호출");
-
+        String requestURI = request.getRequestURI();
+        
         String authHeader = request.getHeader(JwtConstants.JWT_HEADER);
         try {
             checkAuthorizationHeader(authHeader);   // header가 올바른 형식인지 체크
@@ -62,6 +64,13 @@ public class JwtVerifyFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);    // 다음 필터로 이동
         } catch (Exception e) {
+            //토큰에서 문제가 발생할 때, 허용된 URI인 경우 다음 필터로 이동
+            if(PatternMatchUtils.simpleMatch(whitelist, requestURI)) {
+                log.info("토큰이 없지만 허용된 경로입니다.");
+                filterChain.doFilter(request, response);
+                return;
+            }
+
             Gson gson = new Gson();
             String json = "";
             if (e instanceof CustomExpiredJwtException) {
