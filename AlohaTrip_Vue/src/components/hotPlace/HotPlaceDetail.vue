@@ -152,7 +152,7 @@ const clickHeart = () => {
                 </div>
             </div>
             <div class="divisionLineRow"></div>
-            <div class="likeDiv">
+            <div class="likeDiv" v-if="memberId !== null">
                 <img src="@/assets/img/common/heartFilled.png" @click="clickHeart" v-if="isLike" height="20px" style="margin-right: 5px;">
                 <img src="@/assets/img/common/heart.png" @click="clickHeart" v-else height="20px" style="margin-right: 5px;">
                 {{ hotPlaceInfo.likes }} people like this
