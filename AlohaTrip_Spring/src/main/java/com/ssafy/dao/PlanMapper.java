@@ -25,4 +25,5 @@ public interface PlanMapper {
 	public int deletePlan(int planId) throws Exception;
 	public void deletePlanAttraction(int planAttractionId) throws Exception;
 	public void deletePlanAttractionByPlanId(int planId) throws Exception;
+	public void updateShareCount(int planId);
 }

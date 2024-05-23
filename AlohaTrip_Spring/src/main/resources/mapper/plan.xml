@@ -100,8 +100,8 @@
 
     <!-- savePlan -->
     <insert id="savePlan" parameterType="planDto" useGeneratedKeys="true" keyProperty="planId">
-        INSERT INTO plan (title, member_id, start_date, end_date)
-        VALUES (#{title}, #{memberId}, #{startDate}, #{endDate})
+        INSERT INTO plan (title, member_id, start_date, end_date, share_count)
+        VALUES (#{title}, #{memberId}, #{startDate}, #{endDate}, 0)
     </insert>
     
     <!-- savePlanAttraction -->
@@ -153,5 +153,11 @@
         UPDATE plan_attraction
         SET seq = #{order}
         WHERE plan_attraction_id = #{planAttractionId}
+    </update>
+
+    <update id="updateShareCount">
+        UPDATE plan
+        SET share_count = share_count + 1
+        WHERE plan_id = #{planId};
     </update>
 </mapper>

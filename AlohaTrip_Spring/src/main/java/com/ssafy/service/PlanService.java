@@ -124,6 +124,9 @@ public class PlanService {
 	}
 
 	public void copyPlan(Long memberId, PlanInfoDto planInfoDto) throws Exception {
+		//공유 수 갱신
+		planMapper.updateShareCount(planInfoDto.getPlanId());
+
 		//계획 생성
 		PlanDto planDto = new PlanDto();
 		planDto.setMemberId(memberId);
