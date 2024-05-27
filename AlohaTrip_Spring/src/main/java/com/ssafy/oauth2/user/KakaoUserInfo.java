@@ -2,27 +2,26 @@ package com.ssafy.oauth2.user;
 
 import java.util.Map;
 
-public class KakaoUserInfo {
-
-    public static String socialId;
-    public static Map<String, Object> account;
-    public static Map<String, Object> profile;
+public class KakaoUserInfo extends OAuth2UserInfo{
 
     public KakaoUserInfo(Map<String, Object> attributes, String userNameAttributeName) {
-        socialId = String.valueOf(attributes.get(userNameAttributeName));
-        account = (Map<String, Object>) attributes.get("kakao_account");
-        profile = (Map<String, Object>) account.get("profile");
+        super(attributes, userNameAttributeName);
+        this.attributes = (Map<String, Object>) attributes.get("kakao_account");
+        this.attributes = (Map<String, Object>) attributes.get("profile");
     }
 
+    @Override
     public String getSocialId() {
         return socialId;
     }
 
+    @Override
     public String getName() {
-        return String.valueOf(profile.get("nickname"));
+        return String.valueOf(attributes.get("nickname"));
     }
-    
+
+    @Override
     public String getProfileImage() {
-        return String.valueOf(profile.get("profile_image_url"));
+        return String.valueOf(attributes.get("profile_image_url"));
     }
 }
