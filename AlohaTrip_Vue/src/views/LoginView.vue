@@ -29,13 +29,20 @@
                                 </div>
 
                                 <div class="d-flex align-items-center">
-                                    <div >
+                                    <div style="margin-right: 10px;">
                                         <a href="http://localhost:8080/oauth2/authorization/kakao">
-                                            <img src="../assets/img/kakao_login.png"/>
+                                            <img src="../assets/img/kakao_login.png" width="178px"/>
                                         </a>
                                     </div>
+                                    <div >
+                                        <a href="http://localhost:8080/oauth2/authorization/naver">
+                                            <img src="../assets/img/naver_login.png" width="178px" height="45px"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div>
                                     <button id="updateBtn" type="button" class="btn btn-primary ms-auto btnCheck">
-                                        확인
+                                            확인
                                     </button>
                                 </div>
                             </form>

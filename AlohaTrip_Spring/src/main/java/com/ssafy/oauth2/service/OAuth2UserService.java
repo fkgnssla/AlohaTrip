@@ -5,6 +5,7 @@ import com.ssafy.dto.MemberDto;
 import com.ssafy.dto.MemberRole;
 import com.ssafy.model.PrincipalDetail;
 import com.ssafy.oauth2.user.KakaoUserInfo;
+import com.ssafy.oauth2.user.NaverUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -44,10 +45,30 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
                 .getUserNameAttributeName();
         log.info("nameAttributeKey = {}", userNameAttributeName);
 
-        KakaoUserInfo kakaoUserInfo = new KakaoUserInfo(attributes, userNameAttributeName);
-        String socialId = kakaoUserInfo.getSocialId();
-        String name = kakaoUserInfo.getName();
-        String profileImgSrc = kakaoUserInfo.getProfileImage();
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        log.info("registrationId = {}", registrationId);
+
+        String socialId;
+        String name;
+        String profileImgSrc;
+
+        if ("kakao".equals(registrationId)) {
+            KakaoUserInfo kakaoUserInfo = new KakaoUserInfo(attributes, userNameAttributeName);
+            socialId = kakaoUserInfo.getSocialId();
+            name = kakaoUserInfo.getName();
+            profileImgSrc = kakaoUserInfo.getProfileImage();
+        } else if ("naver".equals(registrationId)) {
+            Map<String, Object> response = (Map<String, Object>) attributes.get(userNameAttributeName);
+            for (String string : response.keySet()) {
+                System.out.println(string + ": " + response.get(string));
+            }
+            NaverUserInfo naverUserInfo = new NaverUserInfo(response, "id");
+            socialId = naverUserInfo.getSocialId();
+            name = naverUserInfo.getName();
+            profileImgSrc = naverUserInfo.getProfileImage();
+        } else {
+            socialId = name = profileImgSrc = null;
+        }
 
         // 소셜 ID 로 사용자를 조회, 없으면 socialId 와 이름으로 사용자 생성
         Optional<MemberDto> bySocialId = memberMapper.findBySocialId(socialId);
