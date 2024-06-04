@@ -1,8 +1,12 @@
 package com.ssafy.service;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import com.ssafy.dto.plan.*;
 import org.springframework.stereotype.Service;
@@ -24,35 +28,67 @@ public class PlanService {
 	private final TMapApiService tMapService;
 	private double minDist;
 	private int[] shortestPath;
-	
+
 	public PlanInfoDto getPlanInfo(int planId) throws Exception {
 		PlanInfoDto planInfoDto = planMapper.getPlanInfoDto(planId);
-		
-		if(planInfoDto == null) {
-			PlanDto planDto = getPlanDto(planId);
-			planInfoDto = new PlanInfoDto();
-			planInfoDto.setPlanId(planId);
-			planInfoDto.setTitle(planDto.getTitle());
+
+		if (planInfoDto == null) {
+			planInfoDto = createNewPlanInfoDto(planId);
 		} else {
 			List<PlanAttractionInfoDto> attractions = planInfoDto.getAttractions();
-			
-			for(int i=0;i<attractions.size()-1;i++) {
-				AttractionDto a1 = attractions.get(i).getAttractionDto();
-				AttractionDto a2 = attractions.get(i + 1).getAttractionDto();
-				
-				//차량 이동 시간, 택시비 반환
-				Map<String, String> moveDataMap = tMapService.carTime(a1.getLongitude(), a1.getLatitude(), a2.getLongitude(), a2.getLatitude());
-				//도보 이동 시간 반환
-				String walkArrivalTime = tMapService.walkTime(a1.getLongitude(), a1.getLatitude(), a2.getLongitude(), a2.getLatitude());
-				//대중교통 이동 시간 반환
-				String transportArrivalTime = tMapService.transportTime(a1.getLongitude(), a1.getLatitude(), a2.getLongitude(), a2.getLatitude());
-				
-				moveDataMap.put("walkArrivalTime", walkArrivalTime);
-				moveDataMap.put("transportArrivalTime", transportArrivalTime);
-				attractions.get(i).setMoveDataMap(moveDataMap);
-			}
+			List<CompletableFuture<Void>> futures = createAndRunAsyncTasks(attractions);
+			waitForAllFutures(futures);
 		}
 		return planInfoDto;
+	}
+
+	private PlanInfoDto createNewPlanInfoDto(int planId) throws Exception {
+		PlanDto planDto = getPlanDto(planId);
+		PlanInfoDto planInfoDto = new PlanInfoDto();
+		planInfoDto.setPlanId(planId);
+		planInfoDto.setTitle(planDto.getTitle());
+		return planInfoDto;
+	}
+
+	private List<CompletableFuture<Void>> createAndRunAsyncTasks(List<PlanAttractionInfoDto> attractions) {
+		List<CompletableFuture<Void>> futures = new ArrayList<>();
+		for (int i = 0; i < attractions.size() - 1; i++) {
+			int index = i; // for lambda expression
+			CompletableFuture<Void> future = CompletableFuture.runAsync(() -> processAttraction(attractions, index));
+			futures.add(future);
+		}
+		return futures;
+	}
+
+	private void processAttraction(List<PlanAttractionInfoDto> attractions, int index) {
+		try {
+			AttractionDto a1 = attractions.get(index).getAttractionDto();
+			AttractionDto a2 = attractions.get(index + 1).getAttractionDto();
+
+			// 차량 이동 시간, 택시비 반환
+			Map<String, String> moveDataMap = tMapService.carTime(a1.getLongitude(), a1.getLatitude(), a2.getLongitude(), a2.getLatitude());
+			// 도보 이동 시간 반환
+			String walkArrivalTime = tMapService.walkTime(a1.getLongitude(), a1.getLatitude(), a2.getLongitude(), a2.getLatitude());
+			// 대중교통 이동 시간 반환
+			String transportArrivalTime = tMapService.transportTime(a1.getLongitude(), a1.getLatitude(), a2.getLongitude(), a2.getLatitude());
+
+			moveDataMap.put("walkArrivalTime", walkArrivalTime);
+			moveDataMap.put("transportArrivalTime", transportArrivalTime);
+			attractions.get(index).setMoveDataMap(moveDataMap);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void waitForAllFutures(List<CompletableFuture<Void>> futures) {
+		for (CompletableFuture<Void> future : futures) {
+			try {
+				// 각 CompletableFuture의 작업은 병렬 처리된다.
+				future.get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public PlanDto getPlanDto(int planId) throws Exception {
