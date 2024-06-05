@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.dao.LikeMapper">
 
-	<select id="createLike" parameterType="likeDto">
-		insert into likes values (null, #{memberId}, #{hotPlaceId})
-	</select>
-	
-	<delete id="deleteLike">
-		delete from likes where member_id = #{memberId} and hotPlace_id = #{hotPlaceId}
-	</delete>
+    <select id="createLike" parameterType="likeDto">
+        insert into likes
+        values (null, #{memberId}, #{hotPlaceId})
+    </select>
 
-	<select id="findByMemberIdAndHotPlaceId" resultType="likeDto">
-		select like_id as likeId, member_id as memberId, hotPlace_id as hotPlaceId
-		from likes l
-		where l.member_id = #{memberId} and l.hotPlace_id = #{hotPlaceId}
-	</select>
+    <delete id="deleteLike">
+        delete
+        from likes
+        where member_id = #{memberId} and hotPlace_id = #{hotPlaceId}
+    </delete>
 
-	<select id="findByHotPlaceIdCount" resultType="int">
-		select count(*)
-		from likes l
-		where l.hotPlace_id = #{hotPlaceId}
-	</select>
+    <select id="findByMemberIdAndHotPlaceId" resultType="likeDto">
+        select like_id as likeId, member_id as memberId, hotPlace_id as hotPlaceId
+        from likes l
+        where l.member_id = #{memberId} and l.hotPlace_id = #{hotPlaceId}
+    </select>
+
+    <select id="findByHotPlaceIdCount" resultType="int">
+        select count(*)
+        from likes l
+        where l.hotPlace_id = #{hotPlaceId}
+    </select>
 </mapper>

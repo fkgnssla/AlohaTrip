@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.ssafy.dao.PlanMapper">
 
-	<!-- getPlanDtoList -->
-	<select id="getPlanDtoList" resultType="planDto">
+    <!-- getPlanDtoList -->
+    <select id="getPlanDtoList" resultType="planDto">
         SELECT member_id as memberId, plan_id as planId, title, start_date as startDate, end_date as endDate
         FROM plan
         WHERE member_id = #{memberId}
     </select>
 
-   <!-- getPlanAttractionDtoList -->
+    <!-- getPlanAttractionDtoList -->
     <select id="getPlanAttractionDtoList" resultType="planAttractionDto">
         SELECT plan_attraction_id as planAttractionId, seq as `order`, memo, plan_id as planId, content_id as contentId
         FROM plan_attraction
@@ -19,74 +19,106 @@
         ORDER BY seq
     </select>
 
-	<!-- getPlanDtoListByPage -->
-	<select id="getPlanDtoListByPage" parameterType="map" resultType="planDto">
+    <!-- getPlanDtoListByPage -->
+    <select id="getPlanDtoListByPage" parameterType="map" resultType="planDto">
         SELECT p.member_id as memberId, plan_id as planId, title, nickname, start_date as startDate, end_date as endDate
-        FROM plan p join memberInfo m on(p.member_id = m.member_id)
-        LIMIT #{rowsPerPage}
+        FROM plan p join memberInfo m on (p.member_id = m.member_id)
+            LIMIT #{rowsPerPage}
         OFFSET #{offset}
     </select>
 
-	<!-- findTotalCount -->
-	<select id="findTotalCount" resultType="int">
+    <!-- findTotalCount -->
+    <select id="findTotalCount" resultType="int">
         SELECT count(*)
         FROM plan;
     </select>
 
     <!-- getPlanAttractionInfoDtoList -->
     <select id="getPlanAttractionInfoDtoList" resultType="planAttractionInfoDto">
-        SELECT pa.plan_attraction_id, a.content_id, a.content_type_id, a.title, a.addr1, a.addr2, a.zipcode, a.tel,
-               a.first_image, a.first_image2, a.readcount, a.sido_code, a.gugun_code,
-               a.latitude, a.longitude, a.mlevel, pa.seq, pa.memo
+        SELECT pa.plan_attraction_id,
+               a.content_id,
+               a.content_type_id,
+               a.title,
+               a.addr1,
+               a.addr2,
+               a.zipcode,
+               a.tel,
+               a.first_image,
+               a.first_image2,
+               a.readcount,
+               a.sido_code,
+               a.gugun_code,
+               a.latitude,
+               a.longitude,
+               a.mlevel,
+               pa.seq,
+               pa.memo
         FROM plan_attraction pa
-        JOIN plan p ON pa.plan_id = p.plan_id
-        JOIN attraction_info a ON a.content_id = pa.content_id
+                 JOIN plan p ON pa.plan_id = p.plan_id
+                 JOIN attraction_info a ON a.content_id = pa.content_id
         WHERE p.plan_id = #{planId}
         ORDER BY pa.seq
     </select>
 
-	<!-- PlanInfoDto를 위한 resultMap 정의 -->
+    <!-- PlanInfoDto를 위한 resultMap 정의 -->
     <resultMap id="PlanInfoResultMap" type="planInfoDto">
-        <result property="planId" column="plan_id" />
-        <result property="title" column="title" />
+        <result property="planId" column="plan_id"/>
+        <result property="title" column="title"/>
         <!-- attractions 필드를 위한 association 매핑 -->
-        <collection property="attractions" ofType="planAttractionInfoDto" 
-                    resultMap="PlanAttractionInfoResultMap" />
+        <collection property="attractions" ofType="planAttractionInfoDto"
+                    resultMap="PlanAttractionInfoResultMap"/>
     </resultMap>
-    
+
     <!-- PlanAttractionInfoDto를 위한 resultMap 정의 -->
     <resultMap id="PlanAttractionInfoResultMap" type="planAttractionInfoDto">
-        <result property="planAttractionId" column="plan_attraction_id" />
-        <result property="order" column="seq" />
-        <result property="memo" column="memo" />
+        <result property="planAttractionId" column="plan_attraction_id"/>
+        <result property="order" column="seq"/>
+        <result property="memo" column="memo"/>
         <association property="attractionDto" javaType="AttractionDto">
-        	<id property="contentId" column="content_id" />
-	        <result property="contentTypeId" column="content_type_id" />
-	        <result property="title" column="attractionTitle" />
-	        <result property="addr1" column="addr1" />
-	        <result property="addr2" column="addr2" />
-	        <result property="zipcode" column="zipcode" />
-	        <result property="tel" column="tel" />
-	        <result property="firstImage" column="first_image" />
-	        <result property="firstImage2" column="first_image2" />
-	        <result property="readCount" column="readcount" />
-	        <result property="sidoCode" column="sido_code" />
-	        <result property="gugunCode" column="gugun_code" />
-	        <result property="latitude" column="latitude" />
-	        <result property="longitude" column="longitude" />
-	        <result property="mlevel" column="mlevel" />
-    	</association>
+            <id property="contentId" column="content_id"/>
+            <result property="contentTypeId" column="content_type_id"/>
+            <result property="title" column="attractionTitle"/>
+            <result property="addr1" column="addr1"/>
+            <result property="addr2" column="addr2"/>
+            <result property="zipcode" column="zipcode"/>
+            <result property="tel" column="tel"/>
+            <result property="firstImage" column="first_image"/>
+            <result property="firstImage2" column="first_image2"/>
+            <result property="readCount" column="readcount"/>
+            <result property="sidoCode" column="sido_code"/>
+            <result property="gugunCode" column="gugun_code"/>
+            <result property="latitude" column="latitude"/>
+            <result property="longitude" column="longitude"/>
+            <result property="mlevel" column="mlevel"/>
+        </association>
     </resultMap>
 
 
     <!-- getPlanInfoDto -->
     <select id="getPlanInfoDto" resultMap="PlanInfoResultMap">
-        SELECT p.plan_id, p.title, pa.plan_attraction_id, a.content_id, a.content_type_id, a.title as attractionTitle, a.addr1, a.addr2, a.zipcode, a.tel,
-               a.first_image, a.first_image2, a.readcount, a.sido_code, a.gugun_code,
-               a.latitude, a.longitude, a.mlevel, pa.seq, pa.memo
+        SELECT p.plan_id,
+               p.title,
+               pa.plan_attraction_id,
+               a.content_id,
+               a.content_type_id,
+               a.title as attractionTitle,
+               a.addr1,
+               a.addr2,
+               a.zipcode,
+               a.tel,
+               a.first_image,
+               a.first_image2,
+               a.readcount,
+               a.sido_code,
+               a.gugun_code,
+               a.latitude,
+               a.longitude,
+               a.mlevel,
+               pa.seq,
+               pa.memo
         FROM plan_attraction pa
-        JOIN plan p ON pa.plan_id = p.plan_id
-        JOIN attraction_info a ON a.content_id = pa.content_id
+                 JOIN plan p ON pa.plan_id = p.plan_id
+                 JOIN attraction_info a ON a.content_id = pa.content_id
         WHERE p.plan_id = #{planId}
         ORDER BY pa.seq
     </select>
@@ -103,7 +135,7 @@
         INSERT INTO plan (title, member_id, start_date, end_date, share_count)
         VALUES (#{title}, #{memberId}, #{startDate}, #{endDate}, 0)
     </insert>
-    
+
     <!-- savePlanAttraction -->
     <insert id="savePlanAttraction" parameterType="planAttractionDto">
         INSERT INTO plan_attraction (plan_id, content_id, seq, memo)
@@ -118,8 +150,8 @@
         </foreach>
     </insert>
 
-	<!-- savePlanAndPlanAttractions -->
-	<insert id="savePlanAndPlanAttractions" parameterType="java.util.Map">
+    <!-- savePlanAndPlanAttractions -->
+    <insert id="savePlanAndPlanAttractions" parameterType="java.util.Map">
         <foreach collection="planAttractionDtos" item="planAttractionDto" index="index" separator=";">
             INSERT INTO plan_attraction (plan_id, content_id, seq, memo)
             VALUES (#{planId}, #{planAttractionDto.contentId}, #{planAttractionDto.order}, #{planAttractionDto.memo})
@@ -128,28 +160,35 @@
 
     <!-- updatePlan -->
     <update id="updatePlan" parameterType="updatePlanDto">
-        update plan set title = #{title}, start_date = #{startDate}, end_date = #{endDate} where plan_id = #{planId}
+        update plan
+        set title      = #{title},
+            start_date = #{startDate},
+            end_date   = #{endDate}
+        where plan_id = #{planId}
     </update>
 
-	<!-- deletePlan -->
+    <!-- deletePlan -->
     <delete id="deletePlan">
-        DELETE FROM plan
+        DELETE
+        FROM plan
         WHERE plan_id = #{planId}
     </delete>
 
-	<!-- deletePlanAttractionByPlanId -->
+    <!-- deletePlanAttractionByPlanId -->
     <delete id="deletePlanAttractionByPlanId">
-        DELETE FROM plan_attraction
+        DELETE
+        FROM plan_attraction
         WHERE plan_id = #{planId}
     </delete>
 
     <!-- deletePlanAttraction -->
     <delete id="deletePlanAttraction">
-        DELETE FROM plan_attraction
+        DELETE
+        FROM plan_attraction
         WHERE plan_attraction_id = #{planAttractionId}
     </delete>
 
-	<update id="update">
+    <update id="update">
         UPDATE plan_attraction
         SET seq = #{order}
         WHERE plan_attraction_id = #{planAttractionId}
@@ -163,7 +202,7 @@
 
     <select id="findTop3ByOrderByShareCountDesc" resultType="planDto">
         SELECT p.member_id as memberId, plan_id as planId, title, nickname, start_date as startDate, end_date as endDate
-        FROM plan p join memberInfo m on(p.member_id = m.member_id)
+        FROM plan p join memberInfo m on (p.member_id = m.member_id)
         order by share_count desc limit 3;
     </select>
 </mapper>
