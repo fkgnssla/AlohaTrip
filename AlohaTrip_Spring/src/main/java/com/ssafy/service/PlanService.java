@@ -104,11 +104,7 @@ public class PlanService {
 			List<PlanAttractionDto> planAttractionDto = getPlanAttractionDtoList(p.getPlanId());
 			
 			if(planAttractionDto.size() != 0) {
-				for(PlanAttractionDto s : planAttractionDto) System.out.println(s);
-				
 				int contentId = planAttractionDto.get(0).getContentId();
-				System.out.println(contentId);
-				System.out.println(attractionMapper.getOne(contentId));
 				p.setImgSrc(attractionMapper.getOne(contentId).getFirstImage());
 			}
 		}
@@ -168,9 +164,7 @@ public class PlanService {
 		planDto.setMemberId(memberId);
 		planDto.setTitle(planInfoDto.getTitle());
 
-		System.out.println("새로운 계획: " + planDto);
 		save(planDto);
-		System.out.println("추가된 Plan 식별자: " + planDto.getPlanId());
 
 		//루트 생성
 		List<PlanAttractionInfoDto> attractions = planInfoDto.getAttractions();

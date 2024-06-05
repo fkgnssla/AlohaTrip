@@ -117,12 +117,10 @@ public class MemberController {
 	public ResponseEntity<?> findById(@PathVariable Long memberId) {
 		return ResponseEntity.ok(memberService.findById(memberId));
 	}
-//
+
 	@Operation(summary = "회원 정보 수정", description = "회원 정보를 수정합니다.")
 	@PutMapping("/update")
 	public ResponseEntity<MemberDto> update(@RequestBody UpdateMemberDto updateMemberDto, HttpServletRequest request, HttpServletResponse response) {
-//		String email = updateMemberDto.getEmailFront() + "@" + updateMemberDto.getEmailBack();
-		System.out.println(updateMemberDto);
 		try {
 			MemberDto member = new MemberDto(updateMemberDto.getMemberId(), updateMemberDto.getName(), updateMemberDto.getId(), 
 					updateMemberDto.getPassword(), updateMemberDto.getNickname(), null, null, null, null);

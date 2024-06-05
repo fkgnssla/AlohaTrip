@@ -75,7 +75,6 @@ public class MemberService {
 	        	 sb.append(String.format("%02x", b));
 	         }
 	         resultPassword = sb.toString();
-			 System.out.println(resultPassword);
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

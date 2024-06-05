@@ -64,7 +64,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         // 소셜 ID 로 사용자를 조회, 없으면 socialId 와 이름으로 사용자 생성
         Optional<MemberDto> bySocialId = memberMapper.findBySocialId(oAuth2UserInfo.getSocialId());
         MemberDto member = bySocialId.orElseGet(() -> saveSocialMember(oAuth2UserInfo.getSocialId(), oAuth2UserInfo.getName(), oAuth2UserInfo.getProfileImage()));
-        System.out.println(member);
+        log.info("소셜 로그인 사용자: {}", member);
 
         return new PrincipalDetail(member, Collections.singleton(new SimpleGrantedAuthority(member.getRole())),
                 attributes);

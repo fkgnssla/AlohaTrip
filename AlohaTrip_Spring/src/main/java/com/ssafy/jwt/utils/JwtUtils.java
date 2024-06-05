@@ -55,7 +55,6 @@ public class JwtUtils {
         String role = (String) claims.get("role");
 
 //        MemberRole memberRole = MemberRole.valueOf(role);
-        System.out.println(id);
         Long longId = (long) id;
         MemberDto member = MemberDto.builder().memberId(longId).name(name).role(role).build();
 

@@ -85,7 +85,6 @@ public class PlanController {
     @GetMapping("/top3")
     public ResponseEntity<List<PlanDto>> updateShareCount() throws Exception {
         List<PlanDto> top3ByOrderByShareCountDesc = planService.findTop3ByOrderByShareCountDesc();
-        System.out.println(top3ByOrderByShareCountDesc);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(top3ByOrderByShareCountDesc);
     }
