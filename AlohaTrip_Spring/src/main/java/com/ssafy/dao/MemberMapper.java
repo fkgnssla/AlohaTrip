@@ -2,7 +2,7 @@ package com.ssafy.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ssafy.dto.MemberDto;
+import com.ssafy.dto.member.MemberDto;
 
 import java.util.Optional;
 

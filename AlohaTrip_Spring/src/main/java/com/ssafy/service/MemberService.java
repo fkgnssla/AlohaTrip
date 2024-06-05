@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.dao.MemberMapper;
-import com.ssafy.dto.MemberDto;
+import com.ssafy.dto.member.MemberDto;
 
 import lombok.RequiredArgsConstructor;
 

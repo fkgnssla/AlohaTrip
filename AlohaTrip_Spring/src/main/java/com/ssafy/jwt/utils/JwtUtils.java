@@ -1,7 +1,6 @@
 package com.ssafy.jwt.utils;
 
-import com.ssafy.dto.MemberDto;
-import com.ssafy.dto.MemberRole;
+import com.ssafy.dto.member.MemberDto;
 import com.ssafy.jwt.exception.CustomExpiredJwtException;
 import com.ssafy.jwt.exception.CustomJwtException;
 import com.ssafy.model.PrincipalDetail;

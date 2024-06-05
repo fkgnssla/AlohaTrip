@@ -8,8 +8,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.dao.BoardMapper;
-import com.ssafy.dto.BoardDto;
-import com.ssafy.dto.FindBoardDto;
+import com.ssafy.dto.board.BoardDto;
+import com.ssafy.dto.board.FindBoardDto;
 
 import lombok.RequiredArgsConstructor;
 

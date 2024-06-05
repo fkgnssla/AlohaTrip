@@ -1,14 +1,15 @@
-package com.ssafy.dto;
+package com.ssafy.dto.board;
+
+
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
 @Data
-public class FindBoardDto {
+public class BoardDto {
 	private Long id;
-
+	
 	private Long memberId;
-
-	private String name;
 	
 	private String title;
 	
@@ -18,6 +19,6 @@ public class FindBoardDto {
 	
 	private int likes;
 	
-	private String createdDate;
+	private LocalDateTime createdDate;
 	
 }

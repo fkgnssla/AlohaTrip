@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.dto.BoardDto;
-import com.ssafy.dto.FindBoardDto;
+import com.ssafy.dto.board.BoardDto;
+import com.ssafy.dto.board.FindBoardDto;
 import com.ssafy.service.BoardService;
 
 import lombok.RequiredArgsConstructor;

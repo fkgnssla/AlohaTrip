@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ssafy.dto.BoardDto;
-import com.ssafy.dto.FindBoardDto;
+import com.ssafy.dto.board.BoardDto;
+import com.ssafy.dto.board.FindBoardDto;
 
 @Mapper
 public interface BoardMapper {

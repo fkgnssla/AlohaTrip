@@ -1,6 +1,6 @@
 package com.ssafy.model;
 
-import com.ssafy.dto.MemberDto;
+import com.ssafy.dto.member.MemberDto;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

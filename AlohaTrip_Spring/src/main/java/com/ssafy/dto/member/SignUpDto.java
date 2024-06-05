@@ -1,4 +1,4 @@
-package com.ssafy.dto;
+package com.ssafy.dto.member;
 
 public class SignUpDto {
 	String name;

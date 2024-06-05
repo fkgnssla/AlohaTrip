@@ -1,8 +1,8 @@
 package com.ssafy.oauth2.service;
 
 import com.ssafy.dao.MemberMapper;
-import com.ssafy.dto.MemberDto;
-import com.ssafy.dto.MemberRole;
+import com.ssafy.dto.member.MemberDto;
+import com.ssafy.dto.member.MemberRole;
 import com.ssafy.model.PrincipalDetail;
 import com.ssafy.oauth2.user.KakaoUserInfo;
 import com.ssafy.oauth2.user.NaverUserInfo;
