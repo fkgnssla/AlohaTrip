@@ -1,9 +1,9 @@
 <h1 align="center"><strong> AlohaTrip </strong></h1>
 
 <div align="center">
-  <strong>SSAFY 관통 프로젝트</strong>
+  <strong>🌈 SSAFY 관통 프로젝트 🌈</strong>
   <br><br>
-  <em>나만의 여행을 계획하는 웹서비스, AlohaTrip</em>
+  <em>나만의 여행을 계획하는 웹서비스, AlohaTrip ✈️</em>
 </div>
 
 ## 🔖 목차
@@ -12,7 +12,6 @@
 - 기술 스택
 - 시스템 구조도
 - 팀원 및 담당 파트
-- 시연 영상
 
 ## 📍 개발 배경 및 목적
 
@@ -91,7 +90,7 @@
                 Language
             </td>
             <td colspan="4">
-                <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=Dart&logoColor=white"> 
+                <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=black">
                 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=openjdk&logoColor=white">
             </td>
         </tr>
@@ -100,7 +99,7 @@
                 Library & Framework
             </td>
             <td colspan="4">
-                <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=Flutter&logoColor=white">
+                <img src="https://img.shields.io/badge/vue.js-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white">
                 <img src="https://img.shields.io/badge/spring boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
                 <img src="https://img.shields.io/badge/spring security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white">
             </td>
@@ -110,17 +109,7 @@
                 API
             </td>
             <td colspan="4">
-                <img src="https://img.shields.io/badge/DATA.go.kr-00529B?style=for-the-badge&logo=D&logoColor=white"> 
-                <img src="https://img.shields.io/badge/Kakao Map Api-FFCD00?style=for-the-badge&logo=kakao&logoColor=black"> 
-                <img src="https://img.shields.io/badge/Kakao Mobility-FFCD00?style=for-the-badge&logo=kakao&logoColor=black"> 
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" align="center">
-                Server
-            </td>
-            <td colspan="4">
-                <img src="https://img.shields.io/badge/amazon ec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"> 
+                <img src="https://img.shields.io/badge/TMap API-DD0700?style=for-the-badge&logoColor=black"> 
             </td>
         </tr>
         <tr>
@@ -128,8 +117,7 @@
                 Database
             </td>
             <td colspan="4">
-                <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
-                <img src="https://img.shields.io/badge/oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white">
+                <img src="https://img.shields.io/badge/MySql-4479A1?style=for-the-badge&logo=MySql&logoColor=white">
             </td>
         </tr>
         <tr>
@@ -161,14 +149,14 @@
 <div sytle="overflow:hidden;">
 <table>
    <tr>
-      <td colspan="2" align="center"><strong>Back-End/Front-End Developer</strong></td>
+      <td colspan="2" align="center"><strong>Front-End/Back-End Developer</strong></td>
    </tr>
   <tr>
      <td align="center">
         <a href="https://github.com/fkgnssla"><img src="https://avatars.githubusercontent.com/u/92067099?v=4" width="150px" alt="김형민"/><br/><sub><b>김형민</b></sub></a>
      </td>
      <td align="center">
-        <a href="https://github.com/fkgnssla"><img src="https://avatars.githubusercontent.com/u/92067099?v=4" width="150px" alt="김형민"/><br/><sub><b>김형민</b></sub></a>
+        <a href="https://github.com/fkgnssla"><img src="https://avatars.githubusercontent.com/u/92067099?v=4" width="150px" alt="최유리"/><br/><sub><b>최유리</b></sub></a>
      </td>
   <tr>
 </table>
