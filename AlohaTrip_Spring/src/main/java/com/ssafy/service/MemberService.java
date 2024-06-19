@@ -3,13 +3,17 @@ package com.ssafy.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.dao.MemberMapper;
 import com.ssafy.dto.member.MemberDto;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class MemberService {
@@ -19,7 +23,8 @@ public class MemberService {
 	public int getGugunNum(String gugunName) throws Exception {
 		return memberMapper.getGugunNum(gugunName);
 	}
-	
+
+	@Transactional
 	public void memberRegister(MemberDto member) throws Exception {
 		memberMapper.memberRegister(member);
 	}
@@ -28,6 +33,7 @@ public class MemberService {
 		return memberMapper.memberLogin(id, password);
 	}
 
+	@Cacheable(value = "memberDto", key = "#memberId")
 	public MemberDto findById(Long memberId) {
 		return memberMapper.findById(memberId);
 	}
@@ -36,8 +42,11 @@ public class MemberService {
 		return memberMapper.getGugunName(gugunNum, sidoNum);
 	}
 
-	public void memberUpdate(MemberDto member) throws Exception {
+	@Transactional
+	@CachePut(value = "memberDto", key = "#member.memberId")
+	public MemberDto memberUpdate(MemberDto member) throws Exception {
 		memberMapper.memberUpdate(member);
+		return findById(member.getMemberId());
 	}
 
 	public void memberWithdrawal(int memberId) throws Exception {
