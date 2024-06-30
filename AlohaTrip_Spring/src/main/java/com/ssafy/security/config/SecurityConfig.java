@@ -4,7 +4,10 @@ import com.ssafy.jwt.filter.JwtVerifyFilter;
 import com.ssafy.oauth2.service.OAuth2UserService;
 import com.ssafy.security.handler.CommonLoginFailHandler;
 import com.ssafy.security.handler.CommonLoginSuccessHandler;
+import com.ssafy.security.handler.CustomAccessDeniedHandler;
+import com.ssafy.security.handler.CustomAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -26,7 +29,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final OAuth2UserService oAuth2UserService;
+
     // 일반 로그인 하고 싶으면 일반 로그인 잡아주는 필터 생성, 시큐리티 설정만 잡아주면 될 듯
     //private final UserDetailsServiceImpl userDetailsService; //일반 로그인 서비스
 
@@ -76,8 +82,14 @@ public class SecurityConfig {
             httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         });
 
-        http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-                authorizationManagerRequestMatcherRegistry.anyRequest().permitAll());
+        http.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/plan/**").hasAnyRole("USER") // 인가 테스트용
+                .anyRequest().permitAll())
+                .exceptionHandling((exceptionConfig) ->  {
+                    exceptionConfig.accessDeniedHandler(customAccessDeniedHandler);
+                    exceptionConfig.authenticationEntryPoint(customAuthenticationEntryPoint);
+                }
+        );
 
         // JwtVerifyFilter -> UsernamePasswordAuthenticationFilter
         http.addFilterBefore(jwtVerifyFilter(), UsernamePasswordAuthenticationFilter.class);
