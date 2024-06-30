@@ -33,7 +33,7 @@ public class MemberService {
 		return memberMapper.memberLogin(id, password);
 	}
 
-	@Cacheable(value = "memberDto", key = "#memberId")
+	@Cacheable(value = "memberDto", key = "#memberId", cacheManager = "redisCacheManager")
 	public MemberDto findById(Long memberId) {
 		return memberMapper.findById(memberId);
 	}
@@ -43,7 +43,7 @@ public class MemberService {
 	}
 
 	@Transactional
-	@CachePut(value = "memberDto", key = "#member.memberId")
+	@CachePut(value = "memberDto", key = "#member.memberId", cacheManager = "localCacheManager")
 	public MemberDto memberUpdate(MemberDto member) throws Exception {
 		memberMapper.memberUpdate(member);
 		return findById(member.getMemberId());
