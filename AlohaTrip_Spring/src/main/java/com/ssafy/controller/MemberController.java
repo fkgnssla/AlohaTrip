@@ -1,5 +1,6 @@
 package com.ssafy.controller;
 
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -107,7 +108,7 @@ public class MemberController {
 //
 	@Operation(summary = "내 정보 보기", description = "자신의 정보를 조회합니다.")
 	@GetMapping("/{memberId}")
-	public ResponseEntity<?> findById(@PathVariable Long memberId) {
+	public ResponseEntity<?> findById(@PathVariable Long memberId) throws NotFoundException {
 		return ResponseEntity.ok(memberService.findById(memberId));
 	}
 

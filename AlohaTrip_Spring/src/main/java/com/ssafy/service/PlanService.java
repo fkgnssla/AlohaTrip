@@ -9,6 +9,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import com.ssafy.dto.plan.*;
+import com.ssafy.exception.plan.PlanNotFoundException;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.dao.AttractionMapper;
@@ -91,7 +93,11 @@ public class PlanService {
 		}
 	}
 
-	public PlanDto getPlanDto(int planId) throws Exception {
+	public PlanDto getPlanDto(int planId) throws NotFoundException {
+		PlanDto planDto = planMapper.getPlanDto(planId);
+
+		if(planDto == null) throw new PlanNotFoundException();
+
 		return planMapper.getPlanDto(planId);
 	}
 

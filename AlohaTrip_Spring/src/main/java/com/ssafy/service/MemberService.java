@@ -3,6 +3,8 @@ package com.ssafy.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.ssafy.exception.member.MemberNotFoundException;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -34,8 +36,13 @@ public class MemberService {
 	}
 
 	@Cacheable(value = "memberDto", key = "#memberId", cacheManager = "redisCacheManager")
-	public MemberDto findById(Long memberId) {
-		return memberMapper.findById(memberId);
+	public MemberDto findById(Long memberId) throws NotFoundException {
+		MemberDto findMemberDto = memberMapper.findById(memberId);
+
+		if(findMemberDto == null) {
+			throw new MemberNotFoundException();
+		}
+		return findMemberDto;
 	}
 	
 	public String getGugunName(int gugunNum, int sidoNum) throws Exception {

@@ -5,10 +5,11 @@ import java.util.Map;
 
 import com.ssafy.dto.plan.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.javassist.NotFoundException;
 
 @Mapper
 public interface PlanMapper {
-	public PlanDto getPlanDto(int planId) throws Exception;
+	public PlanDto getPlanDto(int planId) throws NotFoundException;
 	public List<PlanDto> getPlanDtoList(int memberId) throws Exception;
 	public List<PlanDto> getPlanDtoListByPage(Map<String, Object> params) throws Exception;
 	public int findTotalCount() throws Exception;
