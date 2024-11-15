@@ -156,10 +156,11 @@
         <a href="https://github.com/fkgnssla"><img src="https://avatars.githubusercontent.com/u/92067099?v=4" width="150px" alt="김형민"/><br/><sub><b>김형민</b></sub></a>
      </td>
      <td align="center">
-        <a href="https://github.com/fkgnssla"><img src="https://avatars.githubusercontent.com/u/92067099?v=4" width="150px" alt="최유리"/><br/><sub><b>최유리</b></sub></a>
+        <a href="https://github.com/fkgnssla"><img src="https://avatars.githubusercontent.com/u/78342803?v=4" width="150px" alt="최유리"/><br/><sub><b>최유리</b></sub></a>
      </td>
   <tr>
 </table>
 </div>
 
-> 김형민 : Spring Boot 사용 백엔드 애플리케이션 공동 개발 / Spring Security 사용 토큰 기반 로그인 체계 확립 <br>
+> 김형민 : Spring Boot 백엔드 애플리케이션 개발 / UI 개발 <br>
+> 최유리 : UI 개발 <br>
