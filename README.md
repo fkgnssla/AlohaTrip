@@ -6,16 +6,6 @@
   <em>나만의 여행을 계획하는 웹서비스, AlohaTrip ✈️</em>
 </div>
 
-## 🔖 목차
-- 개발배경 및 목적
-- 주요 기능
-- 기술 스택
-- 시스템 구조도
-- 팀원 및 담당 파트
-
-## 📍 개발 배경 및 목적
-
-
 ## 🎯 주요 기능
 <details>
   <summary><b>메인 페이지</b></summary>
@@ -141,10 +131,6 @@
     </table>
 </div>
 
-## 🖻 시스템 구조도
-<img width="895" alt="image" src="https://github.com/gretea5/findER-frontend/assets/120379834/f94a9594-c195-48fc-bfc4-a8fd02e64f2d">
-
-
 ## 👩‍👩‍👧‍👦 팀원 및 담당 파트
 <div sytle="overflow:hidden;">
 <table>
@@ -162,5 +148,5 @@
 </table>
 </div>
 
-> 김형민 : Spring Boot 백엔드 애플리케이션 개발 / UI 개발 <br>
+> 김형민 : Spring Boot 백엔드 애플리케이션 API 개발 / UI 개발 <br>
 > 최유리 : UI 개발 <br>
